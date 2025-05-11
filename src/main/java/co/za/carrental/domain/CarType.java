@@ -26,6 +26,7 @@ public class CarType {
 
 
 
+
     // Getters
     public String getTypeId() { return typeId; }
     public int getSeatingCapacity() { return seatingCapacity; }

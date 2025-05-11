@@ -12,6 +12,7 @@ public enum Status {
     RESERVED,
     OUT_OF_SERVICE;
 
+
     public static Status fromString(String status) {
         for (Status carStatus : Status.values()) {
             if (carStatus.name().equalsIgnoreCase(status)) {
