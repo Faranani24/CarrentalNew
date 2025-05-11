@@ -5,6 +5,7 @@ Author: Faranani Khangale (230136982)
 Date: 2025-05-11
  */
 
+
 public enum Status {
     AVAILABLE,
     RENTED,

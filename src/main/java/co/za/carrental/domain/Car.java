@@ -1,11 +1,10 @@
-/*
- * Car.java
- * Author: Faranani Mangope Khangale (230136982)
- * Date: 11 May 2025
+package co.za.carrental.domain;
+/* Car class representing a car in the rental system
+Car POJO class with Builder pattern
+Author: Faranani Khangale (230136982)
+Date: 2025-05-11
  */
 
-package co.za.carrental.domain;
-// Car class representing a car in the rental system
 public class Car {
     private String carId;
     private String licensePlate;
@@ -27,17 +26,34 @@ public class Car {
         this.carType = builder.carType;
     }
 
-    public Car() {
 
+    public String getCarId() {
+        return carId;
     }
 
-    public String getCarId() { return carId; }
-    public String getLicensePlate() { return licensePlate; }
-    public String getMake() { return make; }
-    public String getModel() { return model; }
-    public int getYear() { return year; }
-    public Status getStatus() { return status; }
-    public CarType getCarType() { return carType; }
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public CarType getCarType() {
+        return carType;
+    }
 
     public static class Builder {
         private String carId;
