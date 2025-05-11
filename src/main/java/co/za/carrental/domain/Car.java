@@ -15,6 +15,7 @@ public class Car {
     private Status status;
     private CarType carType;  // Composition with CarType
 
+
     private Car(Builder builder) {
         this.carId = builder.carId;
         this.licensePlate = builder.licensePlate;
