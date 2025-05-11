@@ -10,6 +10,7 @@ CarType POJO class with Builder pattern
 Author: Faranani Khangale (230136982)
 Date: 2025-05-11
  */
+
 public class CarType {
     private String typeId;
     private int seatingCapacity;
