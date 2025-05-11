@@ -11,7 +11,7 @@ import java.util.Date;
 public class Booking {
 
     private String bookingId;
-    private final Date startDate;
+    private Date startDate;
     private Date endDate;
     private Float totalCost;
     private Enum status;
