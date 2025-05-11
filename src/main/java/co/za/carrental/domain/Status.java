@@ -1,14 +1,14 @@
 package co.za.carrental.domain;
 
-public enum CarStatus {
+public enum Status {
     AVAILABLE,
     RENTED,
     UNDER_MAINTENANCE,
     RESERVED,
     OUT_OF_SERVICE;
 
-    public static CarStatus fromString(String status) {
-        for (CarStatus carStatus : CarStatus.values()) {
+    public static Status fromString(String status) {
+        for (Status carStatus : Status.values()) {
             if (carStatus.name().equalsIgnoreCase(status)) {
                 return carStatus;
             }

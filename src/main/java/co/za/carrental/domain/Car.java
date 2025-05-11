@@ -7,7 +7,7 @@ public class Car {
         private String make;
         private String model;
         private int year;
-        private CarStatus status;
+        private Status status;
 
         private Car(Builder builder) {
             this.carId = builder.carId;
@@ -39,7 +39,7 @@ public class Car {
             return year;
         }
 
-        public CarStatus getStatus() {
+        public Status getStatus() {
             return status;
         }
 
@@ -50,7 +50,7 @@ public class Car {
             private String make;
             private String model;
             private int year;
-            private CarStatus status;
+            private Status status;
 
             public Builder setCarId(String carId) {
                 this.carId = carId;
@@ -77,7 +77,7 @@ public class Car {
                 return this;
             }
 
-            public Builder setStatus(CarStatus status) {
+            public Builder setStatus(Status status) {
                 this.status = status;
                 return this;
             }
