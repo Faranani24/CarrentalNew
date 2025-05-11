@@ -1,3 +1,9 @@
+/*Service.java
+Service Entity Class
+Author: Thabiso Kama
+Date: 11 May 2025
+ */
+
 package co.za.carrental.domain;
 
 public class Service {
@@ -34,8 +40,4 @@ public class Service {
         }
     }
 }
-/*Service.java
-Service Entity Class
-Author: Thabiso Kama
-Date: 11 May 2025
- */
+
