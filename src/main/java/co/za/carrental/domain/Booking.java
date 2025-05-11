@@ -23,6 +23,11 @@ public class Booking {
         this.totalCost = builder.totalCost;
         this.status = builder.status;
     }
+
+    public Booking() {
+
+    }
+
     public static class Builder {
         private String bookingId;
         private Date startDate;

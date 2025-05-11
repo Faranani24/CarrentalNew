@@ -16,7 +16,9 @@ public class Payment extends Booking{
 
     public enum paymentMethod {Cash,Card,EFT}
 
-    private Payment() {}
+    private Payment() {
+        super();
+    }
 
     private Payment(Builder builder) {
         this.paymentId = builder.paymentId;
