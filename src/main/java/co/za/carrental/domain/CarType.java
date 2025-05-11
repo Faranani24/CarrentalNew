@@ -23,6 +23,7 @@ public class CarType {
         this.lateFeePerHour = builder.lateFeePerHour;
     }
 
+
     // Getters
     public String getTypeId() { return typeId; }
     public int getSeatingCapacity() { return seatingCapacity; }

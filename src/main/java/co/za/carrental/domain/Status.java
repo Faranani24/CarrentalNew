@@ -17,6 +17,7 @@ public enum Status {
                 return carStatus;
             }
         }
+
         throw new IllegalArgumentException("Unknown status: " + status);
     }
 }
