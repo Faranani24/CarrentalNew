@@ -1,3 +1,9 @@
+/*
+ * CarType.java
+ * Author: Faranani Mangope Khangale (230136982)
+ * Date: 11 May 2025
+ */
+
 package co.za.carrental.domain;
 //CarType class representing the type of car in the rental system
 public class CarType {

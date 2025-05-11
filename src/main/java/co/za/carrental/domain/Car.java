@@ -1,3 +1,9 @@
+/*
+ * Car.java
+ * Author: Faranani Mangope Khangale (230136982)
+ * Date: 11 May 2025
+ */
+
 package co.za.carrental.domain;
 // Car class representing a car in the rental system
 public class Car {
