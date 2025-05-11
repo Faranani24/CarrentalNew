@@ -6,7 +6,7 @@ package co.za.carrental.domain;
 
 import java.util.Date;
 
-public class Payment {
+public class Payment extends Booking{
 
     //String paymentId  Float amount    Date paymentDate    Enum paymentMethod
     private String paymentId;
