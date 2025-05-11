@@ -2,7 +2,6 @@ package co.za.carrental.domain;
 
 public class CarType {
     private String typeId;
-
     private int seatingCapacity;
     private Float dailyRate;
     private Float lateFeePerHour;
@@ -14,22 +13,13 @@ public class CarType {
         this.lateFeePerHour = builder.lateFeePerHour;
     }
 
+    // Getters
+    public String getTypeId() { return typeId; }
+    public int getSeatingCapacity() { return seatingCapacity; }
+    public Float getDailyRate() { return dailyRate; }
+    public Float getLateFeePerHour() { return lateFeePerHour; }
 
-    public String getTypeId() {
-        return typeId;
-    }
-
-    public int getSeatingCapacity() {
-        return seatingCapacity;
-    }
-
-    public Float getDailyRate() {
-        return dailyRate;
-    }
-
-    public Float getLateFeePerHour() {
-        return lateFeePerHour;
-    }
+    // Builder
     public static class Builder {
         private String typeId;
         private int seatingCapacity;
@@ -62,7 +52,7 @@ public class CarType {
 
         @Override
         public String toString() {
-            return "Builder{" +
+            return "CarType{" +
                     "typeId='" + typeId + '\'' +
                     ", seatingCapacity=" + seatingCapacity +
                     ", dailyRate=" + dailyRate +
