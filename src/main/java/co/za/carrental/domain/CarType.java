@@ -1,5 +1,5 @@
 package co.za.carrental.domain;
-
+//CarType class representing the type of car in the rental system
 public class CarType {
     private String typeId;
     private int seatingCapacity;
@@ -67,5 +67,6 @@ public class CarType {
                     .setDailyRate(carType.getDailyRate())
                     .setLateFeePerHour(carType.getLateFeePerHour());
         }
+
     }
 }

@@ -1,5 +1,5 @@
 package co.za.carrental.domain;
-
+// Car class representing a car in the rental system
 public class Car {
     private String carId;
     private String licensePlate;

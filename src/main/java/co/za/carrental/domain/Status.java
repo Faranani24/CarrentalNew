@@ -1,5 +1,5 @@
 package co.za.carrental.domain;
-
+// Enum representing the status of a car in the rental system
 public enum Status {
     AVAILABLE,
     RENTED,
