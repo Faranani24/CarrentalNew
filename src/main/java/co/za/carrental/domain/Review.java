@@ -14,7 +14,9 @@ public class Review extends Car{
     private int rating;
     private String comment;
 
-    private Review() {}
+    private Review() {
+        super();
+    }
 
     private Review(Builder builder) {
         this.reviewId = builder.reviewId;

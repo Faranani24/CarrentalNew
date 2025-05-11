@@ -19,6 +19,10 @@ public class Car {
         this.carType = builder.carType;
     }
 
+    public Car() {
+
+    }
+
     public String getCarId() { return carId; }
     public String getLicensePlate() { return licensePlate; }
     public String getMake() { return make; }
