@@ -103,6 +103,7 @@ public class Car {
             return new Car(this);
         }
 
+
         @Override
         public String toString() {
             return "Builder{" +
@@ -115,6 +116,7 @@ public class Car {
                     ", carType=" + carType +
                     '}';
         }
+
 
         public static Builder fromCar(Car car) {
             return new Builder()

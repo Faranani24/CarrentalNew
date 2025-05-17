@@ -28,6 +28,8 @@ class CarFactoryTest {
         assertNotNull(car.getCarType());
         assertEquals("SUV_001", car.getCarType().getTypeId());
 
-        System.out.println("All assertions passed!");  // Added output
+        System.out.println("All assertions passed!");
+
     }
+
 }

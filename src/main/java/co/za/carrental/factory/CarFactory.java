@@ -16,5 +16,6 @@ public class CarFactory {
                 .setStatus(Status.AVAILABLE) // Default status
                 .setCarType(carType)
                 .build();
+
     }
 }

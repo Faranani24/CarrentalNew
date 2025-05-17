@@ -57,6 +57,7 @@ public class CarType {
             return this;
         }
 
+
         public CarType build() {
             return new CarType(this);
         }
@@ -73,6 +74,7 @@ public class CarType {
 
         public static Builder fromCarType(CarType carType) {
             return new Builder()
+
                     .setTypeId(carType.getTypeId())
                     .setSeatingCapacity(carType.getSeatingCapacity())
                     .setDailyRate(carType.getDailyRate())
