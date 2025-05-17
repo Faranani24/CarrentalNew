@@ -28,6 +28,22 @@ public class Booking {
 
     }
 
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
     public static class Builder {
         private String bookingId;
         private Date startDate;
