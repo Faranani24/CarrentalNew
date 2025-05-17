@@ -25,16 +25,12 @@ public class CarType {
         this.lateFeePerHour = builder.lateFeePerHour;
     }
 
-
-
-
-    // Getters
     public String getTypeId() { return typeId; }
     public int getSeatingCapacity() { return seatingCapacity; }
     public Float getDailyRate() { return dailyRate; }
     public Float getLateFeePerHour() { return lateFeePerHour; }
 
-    // Builder
+
     public static class Builder {
         private String typeId;
         private int seatingCapacity;
