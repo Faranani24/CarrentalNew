@@ -1,6 +1,5 @@
 package co.za.carrental.factory;
 
-import co.za.carrental.*;
 import co.za.carrental.domain.Booking;
 
 
