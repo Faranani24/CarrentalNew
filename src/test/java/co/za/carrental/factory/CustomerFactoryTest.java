@@ -1,7 +1,6 @@
-package za.co.carrental.factory;
+package co.za.carrental.factory;
 
 import co.za.carrental.domain.Customer;
-import co.za.carrental.factory.CustomerFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
