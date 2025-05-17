@@ -1,17 +1,17 @@
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Car;
+import co.za.carrental.domain.Status;
 
 public class CarFactory {
-    public static Car createCar(String carNumber, String carBrand, String carModel, String carColour, String carYear) {
-                return new Car.Builder()
-                .setCarId(carNumber)
-                .setLicensePlate(carNumber)
-                .setMake(carBrand)
-                .setModel(carModel)
-                .setYear(Integer.parseInt(carYear))
-                .setStatus(co.za.carrental.domain.Status.AVAILABLE)
-                        .build();
+    public static Car createCar(String carId, String licensePlate, String make, String model, String year) {
+        return new Car.Builder()
+                .setCarId(carId)
+                .setLicensePlate(licensePlate)
+                .setMake(make)
+                .setModel(model)
+                .setYear(Integer.parseInt(year))
+                .setStatus(Status.AVAILABLE)
+                .build();
     }
 }
-
