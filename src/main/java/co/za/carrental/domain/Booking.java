@@ -32,7 +32,7 @@ public class Booking {
         return bookingId;
     }
 
-    public Double getTotalCost() {
+    public Float getTotalCost() {
         return totalCost;
     }
 
