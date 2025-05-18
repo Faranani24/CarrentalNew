@@ -14,7 +14,7 @@ public class Payment extends Booking{
     private Date paymentDate;
     private paymentMethod paymentMethod;
 
-    public enum paymentMethod {Cash,Card,EFT}
+    public enum paymentMethod {Cash,DebitCard,EFT}
 
     private Payment() {
         super();

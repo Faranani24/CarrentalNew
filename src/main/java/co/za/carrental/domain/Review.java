@@ -6,7 +6,7 @@ package co.za.carrental.domain;
 
 
 
-public class Review extends Car{
+public class Review{
 
     //Sting reviewId  int rating(1-5)  String comment
 
@@ -14,9 +14,7 @@ public class Review extends Car{
     private int rating;
     private String comment;
 
-    private Review() {
-        super();
-    }
+    private Review() {}
 
     private Review(Builder builder) {
         this.reviewId = builder.reviewId;
