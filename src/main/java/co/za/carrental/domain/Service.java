@@ -15,15 +15,18 @@ public class Service {
         private String name;
         private float costPerDay;
 
-        public void setServiceId(String serviceId) {
+        public Service setServiceId(String serviceId) {
             this.serviceId = serviceId;
+            return this;
         }
-        public void setName(String name) {
+        public Service setName(String name) {
             this.name = name;
+            return this;
         }
 
-        public void setCostPerDay(float costPerDay) {
+        public Service setCostPerDay(float costPerDay) {
             this.costPerDay = costPerDay;
+            return this;
         }
         public Service build(){
             return new Service(this);
