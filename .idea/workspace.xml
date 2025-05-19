@@ -64,25 +64,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.AdminFactoryTest (1).executor": "Run",
-    "JUnit.AdminFactoryTest.executor": "Run",
-    "JUnit.ServiceFactoryTest.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_directory_selection": "C:/Users/218017421/IdeaProjects/carrental/src/main/java/co/za/carrental/factory",
-    "last_opened_file_path": "C:/Users/218017421/IdeaProjects/carrental/src/main/test/java",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.AdminFactoryTest (1).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AdminFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ServiceFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/218017421/IdeaProjects/carrental/src/main/java/co/za/carrental/factory&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/218017421/IdeaProjects/carrental/src/main/test/java&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\218017421\IdeaProjects\carrental\src\main\test\java" />
@@ -122,6 +122,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PromotionFactoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="carrental" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.za.carrental.factory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="co.za.carrental.factory" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.factory.PromotionFactoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServiceFactoryTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
       <extension name="coverage">
@@ -155,6 +170,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.ServiceFactoryTest (1)" />
+        <item itemvalue="JUnit.PromotionFactoryTest" />
         <item itemvalue="JUnit.AdminFactoryTest (1)" />
         <item itemvalue="JUnit.ServiceFactoryTest" />
         <item itemvalue="JUnit.AdminFactoryTest" />
