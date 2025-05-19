@@ -7,6 +7,11 @@ public class AdminFactory {
                 .setAdminId(adminId)
                 .setEmail(email)
                 .setPassword(password)
-                .buiild();
+                .build();
     }
 }
+/*AdminFactory.java
+Admin Factory
+Thabiso Kama
+18 May 2025
+ */
