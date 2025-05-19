@@ -9,7 +9,7 @@ import co.za.carrental.domain.Promotion;
  * PromotionFactory.java
  * Branch entity class for car rental system
  * Author: Milani Ncana (216269369)
- * Date: [11/05/2025]
+ *
  */
 
 public class PromotionFactory {

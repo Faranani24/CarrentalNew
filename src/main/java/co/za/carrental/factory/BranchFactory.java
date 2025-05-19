@@ -5,10 +5,10 @@ import java.util.UUID;
 import co.za.carrental.domain.Branch;
 
 /**
- * PromotionFactory.java
+ * BranchFactory.java
  * Branch entity class for car rental system
  * Author: Milani Ncana (216269369)
- * Date: [11/05/2025]
+ *
  */
 
 public class BranchFactory {
