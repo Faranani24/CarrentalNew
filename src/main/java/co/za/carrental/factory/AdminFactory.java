@@ -1,4 +1,5 @@
 package co.za.carrental.factory;
+
 import co.za.carrental.domain.Admin;
 
 public class AdminFactory {
@@ -10,8 +11,9 @@ public class AdminFactory {
                 .build();
     }
 }
-/*AdminFactory.java
+/*
+AdminFactory.java
 Admin Factory
 Thabiso Kama
 18 May 2025
- */
+*/

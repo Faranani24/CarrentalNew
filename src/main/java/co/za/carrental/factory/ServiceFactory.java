@@ -1,4 +1,5 @@
 package co.za.carrental.factory;
+
 import co.za.carrental.domain.Service;
 
 public class ServiceFactory {
@@ -10,8 +11,9 @@ public class ServiceFactory {
                 .build();
     }
 }
-/*ServiceFactory.java
-Service Factory
-Thabiso Kama
-18 May 2025
- */
+/*
+ServiceFactory.java  
+Service Factory  
+Thabiso Kama  
+18 May 2025  
+*/

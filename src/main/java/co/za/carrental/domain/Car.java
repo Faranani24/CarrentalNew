@@ -1,19 +1,18 @@
-/*
- * Car.java
- * Author: Faranani Mangope Khangale (230136982)
- * Date: 11 May 2025
- */
-
 package co.za.carrental.domain;
-// Car class representing a car in the rental system
+
+/* Car class representing a car in the rental system
+   Car POJO class with Builder pattern
+   Author: Faranani Khangale (230136982)
+   Date: 2025-05-11
+*/
 public class Car {
-    private String carId;
-    private String licensePlate;
-    private String make;
-    private String model;
-    private int year;
-    private Status status;
-    private CarType carType;  // Composition with CarType
+    private final String carId;
+    private final String licensePlate;
+    private final String make;
+    private final String model;
+    private final int year;
+    private final Status status;
+    private final CarType carType;
 
     private Car(Builder builder) {
         this.carId = builder.carId;
@@ -25,17 +24,34 @@ public class Car {
         this.carType = builder.carType;
     }
 
-    public Car() {
-
+    // Getters
+    public String getCarId() {
+        return carId;
     }
 
-    public String getCarId() { return carId; }
-    public String getLicensePlate() { return licensePlate; }
-    public String getMake() { return make; }
-    public String getModel() { return model; }
-    public int getYear() { return year; }
-    public Status getStatus() { return status; }
-    public CarType getCarType() { return carType; }
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public CarType getCarType() {
+        return carType;
+    }
 
     public static class Builder {
         private String carId;
@@ -45,6 +61,7 @@ public class Car {
         private int year;
         private Status status;
         private CarType carType;
+
 
         public Builder setCarId(String carId) {
             this.carId = carId;
@@ -81,13 +98,15 @@ public class Car {
             return this;
         }
 
+
         public Car build() {
             return new Car(this);
         }
 
+
         @Override
         public String toString() {
-            return "Car{" +
+            return "Builder{" +
                     "carId='" + carId + '\'' +
                     ", licensePlate='" + licensePlate + '\'' +
                     ", make='" + make + '\'' +
@@ -97,6 +116,7 @@ public class Car {
                     ", carType=" + carType +
                     '}';
         }
+
 
         public static Builder fromCar(Car car) {
             return new Builder()

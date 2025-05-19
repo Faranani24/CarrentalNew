@@ -27,6 +27,19 @@ public class Customer {
         this.licenseNumber = builder.licenseNumber;
         this.paymentMethods = builder.paymentMethods;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public List<String> getPaymentMethods() {
+        return paymentMethods;
+    }
+
     public static class Builder {
         private String customerId;
         private String firstName;
