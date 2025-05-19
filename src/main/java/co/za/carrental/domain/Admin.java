@@ -1,3 +1,9 @@
+/*Admin.java
+Admin Entity class
+Author: Thabiso Kama
+Date: 11 May 2025
+ */
+
 package co.za.carrental.domain;
 
 public class Admin {
@@ -64,8 +70,3 @@ public class Admin {
             return "Admin: "+email;
     }
 }
-/*Admin.java
-Admin Entity class
-Author: Thabiso Kama
-Date: 11 May 2025
- */
