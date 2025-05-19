@@ -1,3 +1,9 @@
+/*CustomerFactoryTest.java
+CustomerFactoryTest
+Lance Anthony Franks
+17 May 2025
+ */
+
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Customer;
