@@ -5,6 +5,13 @@ import java.util.UUID;
 
 import co.za.carrental.domain.Promotion;
 
+/**
+ * PromotionFactory.java
+ * Branch entity class for car rental system
+ * Author: Milani Ncana (216269369)
+ * Date: [11/05/2025]
+ */
+
 public class PromotionFactory {
     public static Promotion createPromotion(String code, float discount, Date expiryDate) {
         // Generate a unique promo ID (e.g., UUID or something shorter like "PROMO-001")
