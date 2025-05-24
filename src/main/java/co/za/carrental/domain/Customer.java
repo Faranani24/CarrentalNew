@@ -53,6 +53,9 @@ public class Customer {
         return paymentMethods;
     }
 
+    public Double getTotalCost() {
+    }
+
     public static class Builder {
         private String customerId;
         private String firstName;

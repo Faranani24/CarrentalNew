@@ -58,7 +58,7 @@ public class Booking {
         private Date startDate;
         private Date endDate;
         private Float totalCost;
-        private Enum status;
+        private BookingStatus status;
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
@@ -80,7 +80,7 @@ public class Booking {
             return this;
         }
 
-        public Builder setStatus(Enum status) {
+        public Builder setStatus(BookingStatus status) {
             this.status = status;
             return this;
         }

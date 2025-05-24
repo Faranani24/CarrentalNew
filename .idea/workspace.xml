@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbb6b875-d587-4951-8204-83c008543552" name="Changes" comment="Repository">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +16,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -47,27 +47,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.AdminFactoryTest (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminFactoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PromotionFactoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServiceFactoryTest (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ServiceFactoryTest.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/218017421/IdeaProjects/carrental/src/main/java/co/za/carrental/factory&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/218017421/IdeaProjects/carrental/src/main/test/java&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.AdminFactoryTest (1).executor": "Run",
+    "JUnit.AdminFactoryTest.executor": "Run",
+    "JUnit.CustomerServiceTest.executor": "Run",
+    "JUnit.PromotionFactoryTest.executor": "Run",
+    "JUnit.ServiceFactoryTest (1).executor": "Run",
+    "JUnit.ServiceFactoryTest.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_directory_selection": "C:/Users/218017421/IdeaProjects/carrental/src/main/java/co/za/carrental/factory",
+    "last_opened_file_path": "C:/Users/218017421/IdeaProjects/carrental/src/main/test/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\218017421\IdeaProjects\carrental\src\main\test\java" />
@@ -76,7 +77,7 @@
       <recent name="C:\Users\218017421\IdeaProjects\carrental\src\main\test\java\carrental\factory" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.BookingServiceTest">
     <configuration name="AdminFactoryTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
       <extension name="coverage">
@@ -92,16 +93,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminFactoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookingServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="java.co.za.carrental.factory.*" />
+          <option name="PATTERN" value="co.za.carrental.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="java.co.za.carrental.factory" />
-      <option name="MAIN_CLASS_NAME" value="java.co.za.carrental.factory.AdminFactoryTest" />
+      <option name="PACKAGE_NAME" value="co.za.carrental.service" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.service.BookingServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CustomerServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="carrental" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.za.carrental.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="co.za.carrental.service" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.service.CustomerServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -137,28 +153,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServiceFactoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="carrental" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="java.co.za.carrental.factory.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="java.co.za.carrental.factory" />
-      <option name="MAIN_CLASS_NAME" value="java.co.za.carrental.factory.ServiceFactoryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BookingServiceTest" />
+        <item itemvalue="JUnit.CustomerServiceTest" />
         <item itemvalue="JUnit.ServiceFactoryTest (1)" />
         <item itemvalue="JUnit.PromotionFactoryTest" />
         <item itemvalue="JUnit.AdminFactoryTest (1)" />
-        <item itemvalue="JUnit.ServiceFactoryTest" />
-        <item itemvalue="JUnit.AdminFactoryTest" />
       </list>
     </recent_temporary>
   </component>
@@ -184,7 +185,7 @@
       <workItem from="1747675836478" duration="721000" />
       <workItem from="1747772604896" duration="682000" />
       <workItem from="1747950464982" duration="1694000" />
-      <workItem from="1748072375339" duration="4824000" />
+      <workItem from="1748072375339" duration="5145000" />
     </task>
     <task id="LOCAL-00001" summary="Service and Admin entities">
       <option name="closed" value="true" />
@@ -226,7 +227,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748076020725</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Repository">
+      <option name="closed" value="true" />
+      <created>1748077227323</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748077227323</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Repository">
+      <option name="closed" value="true" />
+      <created>1748077246240</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748077246240</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
