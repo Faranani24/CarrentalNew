@@ -6,8 +6,17 @@
 
 package co.za.carrental.domain;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.List;
+
+@Entity
+@Table(name = "customer")
 public class Customer {
+    @Id
     private String customerId;
     private String firstName;
     private String lastName;
@@ -15,7 +24,10 @@ public class Customer {
     private String password;
     private String phone;
     private String licenseNumber;
+    @ElementCollection
     private List<String> paymentMethods;
+
+    protected Customer() {}
 
     private Customer(Builder builder) {
         this.customerId = builder.customerId;
