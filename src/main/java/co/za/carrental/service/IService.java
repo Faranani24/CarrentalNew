@@ -8,7 +8,7 @@ public interface IService <T, ID>{
 
     T create(T t);
 
-    Optional<Customer> read(ID id);
+    Optional<T> read(ID id);
 
     T update(T t);
 

@@ -25,7 +25,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public Optional<Customer> read(String bookingId) {
+    public Optional<Booking> read(String bookingId) {
         return repository.findById(bookingId);
     }
 

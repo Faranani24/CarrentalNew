@@ -54,6 +54,10 @@ public class Customer {
     }
 
     public Double getTotalCost() {
+
+        return bookings.stream()
+                .mapToDouble(Booking::getTotalCost)
+                .sum();
     }
 
     public static class Builder {
