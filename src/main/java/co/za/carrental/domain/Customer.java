@@ -6,10 +6,7 @@
 
 package co.za.carrental.domain;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -26,6 +23,10 @@ public class Customer {
     private String licenseNumber;
     @ElementCollection
     private List<String> paymentMethods;
+
+    @OneToMany()
+    @JoinColumn(name = "customer_id")
+    private List<Booking> bookings;
 
     protected Customer() {}
 
