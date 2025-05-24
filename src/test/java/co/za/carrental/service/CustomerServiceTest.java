@@ -42,7 +42,7 @@ public class CustomerServiceTest {
         when(repository.findById("CUST1001")).thenReturn(Optional.of(customer));
         Optional<Customer> found = service.read("CUST1001");
         assertTrue(found.isPresent());
-        assertEquals("Franks", found.get().getLastName());
+        assertEquals("Marley", found.get().getLastName());
     }
 
     @Test
