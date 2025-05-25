@@ -1,7 +1,7 @@
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.Customer;
-import co.za.carrental.factory.CustomerFactory;
+import co.za.carrental.factory.CustomerFactory; // Still useful for common creation patterns
 import co.za.carrental.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,16 +40,19 @@ public class CustomerControllerTest {
 
     @BeforeEach
     void setUp() {
-        customer = CustomerFactory.createCustomer(
-                "cust1", "John", "Doe", "john@example.com",
-                "pass123", "0812345678", "LIC001",
-                List.of("Visa", "PayPal")
-        );
-        // Ensure bookings list is not null to avoid serialization errors
-        if (customer.getBookings() != null) {
-            return;
-        }
-        customer.setBookings(new ArrayList<>());
+        // Using the Builder pattern directly for more control and readability in tests
+        customer = new Customer.Builder("cust1", "John", "Doe", "john@example.com")
+                .password("password123")
+                .phoneNumber("0812345678")
+                .licenseNumber("LIC001")
+                .paymentMethods(List.of("Visa", "PayPal"))
+                .bookings(new ArrayList<>()) // Ensure bookings is initialized via builder
+                .build();
+
+        // No need for the null check now if the builder initializes collections
+        // if (customer.getBookings() == null) {
+        //     customer.setBookings(new ArrayList<>());
+        // }
     }
 
     @Test
@@ -58,14 +62,14 @@ public class CustomerControllerTest {
         mockMvc.perform(post("/api/customers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customer)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.customerId").value("cust1"))
                 .andExpect(jsonPath("$.firstName").value("John"));
     }
 
     @Test
     void testGetCustomerById() throws Exception {
-        Mockito.when(customerService.findById("cust1")).thenReturn(customer);
+        Mockito.when(customerService.findById("cust1")).thenReturn(Optional.of(customer));
 
         mockMvc.perform(get("/api/customers/cust1"))
                 .andExpect(status().isOk())
@@ -87,7 +91,45 @@ public class CustomerControllerTest {
         Mockito.doNothing().when(customerService).deleteById("cust1");
 
         mockMvc.perform(delete("/api/customers/cust1"))
-                // Delete endpoint returns 204 No Content
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void testUpdateCustomer() throws Exception {
+        // Using the builder to create an updated customer instance
+        Customer updatedCustomer = new Customer.Builder("cust1", "Jane", "Doe", "jane@example.com")
+                .password("newpass")
+                .phoneNumber("0812345679")
+                .licenseNumber("LIC002")
+                .paymentMethods(List.of("Credit Card"))
+                .bookings(new ArrayList<>()) // Ensure bookings are handled
+                .build();
+
+        Mockito.when(customerService.update(any(Customer.class))).thenReturn(updatedCustomer);
+
+        mockMvc.perform(put("/api/customers/cust1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedCustomer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value("Jane"))
+                .andExpect(jsonPath("$.email").value("jane@example.com")); // Corrected the email
+    }
+
+    @Test
+    void testUpdateCustomer_NotFound() throws Exception {
+        Customer nonExistentCustomer = new Customer.Builder("nonExistent", "Alice", "Smith", "alice@example.com")
+                .password("pass")
+                .phoneNumber("08123")
+                .licenseNumber("LICXYZ")
+                .paymentMethods(List.of("Cash"))
+                .build();
+
+        Mockito.when(customerService.update(any(Customer.class)))
+                .thenThrow(new IllegalArgumentException("Cannot update customer: ID is null or customer does not exist."));
+
+        mockMvc.perform(put("/api/customers/nonExistent")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(nonExistentCustomer)))
+                .andExpect(status().isNotFound());
     }
 }

@@ -7,6 +7,7 @@ Lance Anthony Franks
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Booking;
+import co.za.carrental.domain.BookingStatus; // Make sure this import is present
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -22,11 +23,13 @@ public class BookingFactoryTest {
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() + 86400000); // +1 day
         Float totalCost = 1500.0f;
-        // Replace Enum with actual status type if available, using null for now
-        Enum status = null;
+
+        // --- FIX IS HERE ---
+        // Provide a concrete, non-null BookingStatus enum value
+        BookingStatus status = BookingStatus.PENDING; // Or CONFIRMED, CANCELLED, COMPLETED, depending on your enum values
 
         Booking booking = BookingFactory.createBooking(
-                bookingId, startDate, endDate, totalCost, status
+                bookingId, startDate, endDate, totalCost, status // Pass the concrete status
         );
 
         assertNotNull(booking);
@@ -34,5 +37,6 @@ public class BookingFactoryTest {
         assertEquals(totalCost, booking.getTotalCost());
         assertEquals(startDate, booking.getStartDate());
         assertEquals(endDate, booking.getEndDate());
+        assertEquals(BookingStatus.PENDING, booking.getStatus()); // Add assertion for status
     }
 }
