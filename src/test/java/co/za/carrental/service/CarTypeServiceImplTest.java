@@ -21,6 +21,7 @@ import static org.mockito.Mockito.*;
 
 public class CarTypeServiceImplTest {
 
+
     private CarTypeRepository repository;
     private CarTypeService service;
     private CarType carType;

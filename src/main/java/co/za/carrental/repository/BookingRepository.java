@@ -10,12 +10,6 @@ import java.util.Optional;
 public interface BookingRepository extends JpaRepository<Booking, String> {
 
     Optional<Booking> findByCustomer_CustomerId(String customerId);
-    //Optional<Booking> findByCar_CarId(String carId);
 
-
-
-    //  Optional<Booking> findByCustomerId(String customerId);
-
-   // Optional<Booking> findByCarId(String carId);
 }
 
