@@ -5,16 +5,28 @@ Date: 11 May 2025
  */
 
 package co.za.carrental.domain;
+import jakarta.persistence.*;
+
+@Entity
+@Table
 
 public class Admin {
+    @Id
+    @Column(name = "admin_id", nullable = false)
     private  String adminId;
+    @Column(nullable = false, unique = true)
     private  String email;
+    @Column(nullable = false)
     private  String password;
 
     private Admin(Builder builder) {
         this.adminId = builder.adminId;
         this.email = builder.email;
         this.password = builder.password;
+    }
+
+    public Admin() {
+
     }
 
     public String getAdminId() {
