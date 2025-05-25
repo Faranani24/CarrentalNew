@@ -4,7 +4,7 @@ Author: Thabiso Kama
 Date: 11 May 2025
  */
 
-package co.za.carrental.domain;
+package co.za.carrental.service.impl;
 
 import jakarta.persistence.*;
 import java.util.Objects; // Import Objects for equals and hashCode
@@ -20,7 +20,7 @@ public class CarService {
     @Column(name = "cost_per_day", nullable = false)
     private float costPerDay;
 
-    // Private constructor for the Builder
+
     private CarService(Builder builder) {
         this.serviceId = builder.serviceId;
         this.name = builder.name;
@@ -31,7 +31,7 @@ public class CarService {
     protected CarService() {
     }
 
-    // Getters for all fields
+
     public String getServiceId() {
         return serviceId;
     }
@@ -44,7 +44,7 @@ public class CarService {
         return costPerDay;
     }
 
-    // Setters (if entities are mutable after creation, which is common in JPA)
+
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
     }
@@ -58,7 +58,7 @@ public class CarService {
     }
 
 
-    // --- Crucial Additions for JPA Entities ---
+
     @Override
     public String toString() {
         return "CarService{" +
@@ -81,7 +81,7 @@ public class CarService {
         return Objects.hash(serviceId); // Hash based on ID
     }
 
-    // --- Builder Class ---
+
     public static class Builder {
         private String serviceId;
         private String name;

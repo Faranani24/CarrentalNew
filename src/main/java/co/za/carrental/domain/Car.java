@@ -1,18 +1,33 @@
+//Faranani Khangale
+// Created on 2025/05/25
+// 230136982
+// This code is part of a car rental system,
+
 package co.za.carrental.domain;
 
-/* Car class representing a car in the rental system
-   Car POJO class with Builder pattern
-   Author: Faranani Khangale (230136982)
-   Date: 2025-05-11
-*/
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+
+@Entity
+@Table(name = "car")
 public class Car {
-    private final String carId;
-    private final String licensePlate;
-    private final String make;
-    private final String model;
-    private final int year;
-    private final Status status;
-    private final CarType carType;
+
+    private String carId;
+    private String licensePlate;
+    private String make;
+    private String model;
+    private int year;
+    private Status status;
+    private String carType;  // keep as String for DB storage
+
+    @Id
+    private Long id;
+
+
+    public Car() {
+    }
 
     private Car(Builder builder) {
         this.carId = builder.carId;
@@ -22,36 +37,38 @@ public class Car {
         this.year = builder.year;
         this.status = builder.status;
         this.carType = builder.carType;
+        this.id = builder.id;
     }
 
     // Getters
-    public String getCarId() {
-        return carId;
-    }
+    public String getCarId() { return carId; }
+    public String getLicensePlate() { return licensePlate; }
+    public String getMake() { return make; }
+    public String getModel() { return model; }
+    public int getYear() { return year; }
+    public Status getStatus() { return status; }
 
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
+    // Convert stored String to enum
     public CarType getCarType() {
-        return carType;
+        return carType == null ? null : CarType.valueOf(carType);
     }
+
+    public Long getId() { return id; }
+
+    // Setters
+    public void setCarId(String carId) { this.carId = carId; }
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
+    public void setMake(String make) { this.make = make; }
+    public void setModel(String model) { this.model = model; }
+    public void setYear(int year) { this.year = year; }
+    public void setStatus(Status status) { this.status = status; }
+
+    // Convert enum to String for storage
+    public void setCarType(CarType carType) {
+        this.carType = carType == null ? null : carType.name();
+    }
+
+    public void setId(Long id) { this.id = id; }
 
     public static class Builder {
         private String carId;
@@ -60,15 +77,8 @@ public class Car {
         private String model;
         private int year;
         private Status status;
-        private CarType carType;
-
-        public Builder(String car001, String toyota, String corolla, int i, String sedan, float v) {
-        }
-
-        public Builder() {
-
-        }
-
+        private String carType;  // store as String in builder too
+        private Long id;
 
         public Builder setCarId(String carId) {
             this.carId = carId;
@@ -100,40 +110,33 @@ public class Car {
             return this;
         }
 
+
         public Builder setCarType(CarType carType) {
-            this.carType = carType;
+            this.carType = carType == null ? null : carType.name();
             return this;
         }
 
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public Car build() {
             return new Car(this);
         }
+    }
 
-
-        @Override
-        public String toString() {
-            return "Builder{" +
-                    "carId='" + carId + '\'' +
-                    ", licensePlate='" + licensePlate + '\'' +
-                    ", make='" + make + '\'' +
-                    ", model='" + model + '\'' +
-                    ", year=" + year +
-                    ", status=" + status +
-                    ", carType=" + carType +
-                    '}';
-        }
-
-
-        public static Builder fromCar(Car car) {
-            return new Builder()
-                    .setCarId(car.getCarId())
-                    .setLicensePlate(car.getLicensePlate())
-                    .setMake(car.getMake())
-                    .setModel(car.getModel())
-                    .setYear(car.getYear())
-                    .setStatus(car.getStatus())
-                    .setCarType(car.getCarType());
-        }
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId='" + carId + '\'' +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", status=" + status +
+                ", carType=" + carType +
+                ", id=" + id +
+                '}';
     }
 }
