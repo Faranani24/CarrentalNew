@@ -1,6 +1,6 @@
 package co.za.carrental.service;
 
-import co.za.carrental.service.impl.CarService; // Import the domain object CarService
+import co.za.carrental.domain.CarService; // Import the domain object CarService
 import java.util.List;
 import java.util.Optional;
 

@@ -4,7 +4,7 @@ Author: Thabiso Kama
 Date: 11 May 2025
  */
 
-package co.za.carrental.service.impl;
+package co.za.carrental.domain;
 
 import jakarta.persistence.*;
 import java.util.Objects; // Import Objects for equals and hashCode

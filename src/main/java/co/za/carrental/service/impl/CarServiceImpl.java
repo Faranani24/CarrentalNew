@@ -2,6 +2,7 @@ package co.za.carrental.service.impl;
 
 // Removed unused imports like Booking and Customer to keep it clean,
 // unless they are explicitly used in other methods of this specific class.
+import co.za.carrental.domain.CarService;
 import co.za.carrental.repository.ServiceRepository; // The repository for CarService
 import co.za.carrental.service.ICarService;
 import org.springframework.beans.factory.annotation.Autowired;

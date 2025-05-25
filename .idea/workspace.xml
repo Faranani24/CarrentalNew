@@ -6,12 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b16ca08b-9800-475f-b3cc-399c438fc9ca" name="Changes" comment="commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/BookingFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/BookingFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/BookingFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/BookingFactoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/BookingServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/BookingServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/CarService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CarServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CarServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/CarServiceFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/CarServiceFactoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +67,11 @@
     "JUnit.BookingFactoryTest.executor": "Run",
     "JUnit.BookingServiceTest.executor": "Run",
     "JUnit.BookingServiceTest.testCreateCustomerAndBooking.executor": "Run",
+    "JUnit.CarControllerTest.executor": "Run",
     "JUnit.CarFactoryTest.executor": "Run",
+    "JUnit.CarTypeControllerTest.executor": "Run",
+    "JUnit.CarTypeFactoryTest.executor": "Run",
+    "JUnit.CarTypeServiceImplTest.executor": "Run",
     "JUnit.CustomerControllerTest.executor": "Run",
     "JUnit.CustomerControllerTest.testCreateCustomer.executor": "Run",
     "JUnit.CustomerFactoryTest.executor": "Run",
@@ -110,22 +112,7 @@
       <recent name="C:\Users\218017421\IdeaProjects\carrental\src\main\test\java\carrental\factory" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.BookingFactoryTest">
-    <configuration name="BookingFactoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="carrental" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="co.za.carrental.factory.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="co.za.carrental.factory" />
-      <option name="MAIN_CLASS_NAME" value="co.za.carrental.factory.BookingFactoryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.CustomerFactoryTest">
     <configuration name="BookingServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
       <extension name="coverage">
@@ -141,16 +128,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CustomerControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CarTypeFactoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="co.za.carrental.controller.*" />
+          <option name="PATTERN" value="co.za.carrental.factory.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="co.za.carrental.controller" />
-      <option name="MAIN_CLASS_NAME" value="co.za.carrental.controller.CustomerControllerTest" />
+      <option name="PACKAGE_NAME" value="co.za.carrental.factory" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.factory.CarTypeFactoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CarTypeServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="carrental" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.za.carrental.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="co.za.carrental.service" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.service.CarTypeServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -175,7 +177,7 @@
       <module name="carrental" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="co.za.carrental.service.impl.*" />
+          <option name="PATTERN" value="co.za.carrental.domain.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -186,13 +188,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="carrental" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="co.za.carrental.Main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BookingFactoryTest" />
+        <item itemvalue="JUnit.CustomerFactoryTest" />
+        <item itemvalue="JUnit.CarTypeFactoryTest" />
+        <item itemvalue="JUnit.CarTypeServiceImplTest" />
         <item itemvalue="JUnit.BookingServiceTest" />
         <item itemvalue="JUnit.CustomerServiceTest" />
-        <item itemvalue="JUnit.CustomerFactoryTest" />
-        <item itemvalue="JUnit.CustomerControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -213,7 +222,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748208557799</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="commit">
+      <option name="closed" value="true" />
+      <created>1748214537403</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748214537403</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,7 +253,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Booking.java</url>
-          <line>101</line>
+          <line>107</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
