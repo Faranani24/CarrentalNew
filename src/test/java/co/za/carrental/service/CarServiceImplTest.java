@@ -1,3 +1,10 @@
+
+// Faranani Khangale
+// Created on 2025/05/25
+// 230136982
+// This code is part of a car rental system,
+// specifically the service implementation for managing car entities.
+// It provides methods for creating, reading, updating, and deleting car records,
 package co.za.carrental.service;
 
 import co.za.carrental.domain.Car;

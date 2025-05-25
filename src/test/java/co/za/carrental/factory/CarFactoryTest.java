@@ -1,5 +1,10 @@
+//Faranani Khangale
+// Created on 2025/05/25
+// 230136982
+// This code is part of a car rental system,
+// specifically the factory for creating car objects.
+// It provides a method to create a car with specified attributes and a car type.
 package co.za.carrental.factory;
-
 import co.za.carrental.domain.Car;
 import co.za.carrental.domain.CarType;
 import co.za.carrental.domain.Status;

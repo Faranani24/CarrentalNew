@@ -1,3 +1,8 @@
+//Faranani Khangale
+// Created on 2025/05/25
+// 230136982
+// This code is part of a car rental system,
+// specifically the cartype entity for creating car objects.
 package co.za.carrental.domain;
 
 import jakarta.persistence.Entity;
