@@ -13,9 +13,7 @@ import co.za.carrental.domain.Status;
 import co.za.carrental.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -24,6 +22,7 @@ public class CarServiceImplTest {
     private CarRepository repository;
     private CarService service;
     private Car car;
+
 
     @BeforeEach
     void setUp() {

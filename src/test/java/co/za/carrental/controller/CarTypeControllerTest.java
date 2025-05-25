@@ -22,6 +22,7 @@ import static org.mockito.Mockito.*;
 
 class CarTypeControllerTest {
 
+
     @Mock
     private CarTypeService service;
 

@@ -15,6 +15,7 @@ import java.util.Optional;
 @Repository
 public interface CarTypeRepository extends JpaRepository<CarType, String> {
 
+
     Optional<CarType> findBySeatingCapacity(int seatingCapacity);
 
     List<CarType> findByDailyRateLessThanEqual(Float rate);
