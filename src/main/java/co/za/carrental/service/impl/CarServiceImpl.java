@@ -2,7 +2,6 @@ package co.za.carrental.service.impl;
 
 // Removed unused imports like Booking and Customer to keep it clean,
 // unless they are explicitly used in other methods of this specific class.
-import co.za.carrental.domain.CarService; // Import the domain object CarService
 import co.za.carrental.repository.ServiceRepository; // The repository for CarService
 import co.za.carrental.service.ICarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +38,9 @@ public class CarServiceImpl implements ICarService {
 
     @Override
     public CarService update(CarService carService) {
-        // Implement actual update logic. Check if it exists before saving.
+
         if (carService.getServiceId() == null || !serviceRepo.existsById(carService.getServiceId())) {
-            // Or throw a more specific exception if the entity must exist to be updated
+
             throw new IllegalArgumentException("Cannot update car service: ID is null or service does not exist.");
         }
         return serviceRepo.save(carService); // Saves changes to existing entity
@@ -49,13 +48,13 @@ public class CarServiceImpl implements ICarService {
 
     @Override
     public void delete(String id) { // ID type changed to String
-        // You might want to add a check for existence before deleting
+
         if (serviceRepo.existsById(id)) {
             serviceRepo.deleteById(id);
         } else {
-            // Optional: Log a warning or throw an exception if trying to delete non-existent ID
+
             System.out.println("Attempted to delete non-existent CarService with ID: " + id);
         }
     }
-    // Removed all the redundant and incorrect Object-returning methods.
+
 }

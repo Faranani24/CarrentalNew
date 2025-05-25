@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+
 @Entity
 public class Booking {
     @Id
@@ -15,6 +16,11 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
+
+
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
