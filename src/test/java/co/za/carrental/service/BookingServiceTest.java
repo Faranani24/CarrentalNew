@@ -1,9 +1,9 @@
 package co.za.carrental.service;
 
 import co.za.carrental.domain.Booking;
+import co.za.carrental.domain.Car;
 import co.za.carrental.domain.Customer;
 import co.za.carrental.factory.BookingFactory;
-import co.za.carrental.factory.CustomerFactory;
 import org.junit.jupiter.api.*;
 import co.za.carrental.domain.BookingStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ class BookingServiceTest {
 
     @Test
     @Order(1)
-    void testCreateCustomerAndBooking() {
+    void testCreateCustomerAndBooking(Car car) {
         Customer customer = new Customer.Builder(
                 CUSTOMER_ID, "Alice", "Smith", "alice@example.com")
                 .password("pass123") // Assuming password field
@@ -57,8 +57,8 @@ class BookingServiceTest {
                 new Date(),
                 new Date(System.currentTimeMillis() + 86400000), // 1 day later
                 1200.0f,
-                BookingStatus.CONFIRMED
-        );
+                BookingStatus.CONFIRMED,
+                customer, car);
 
         // Assuming your BookingService also has a 'create' method (or 'save' as per convention)
         Booking created = iBookingService.create(booking); // Or bookingService.save(booking);

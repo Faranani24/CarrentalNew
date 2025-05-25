@@ -1,13 +1,10 @@
-/*BookingFactoryTest.java
-BookingFactoryTest
-Lance Anthony Franks
-17 May 2025
- */
-
+// src/test/java/co/za/carrental/factory/BookingFactoryTest.java
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Booking;
-import co.za.carrental.domain.BookingStatus; // Make sure this import is present
+import co.za.carrental.domain.BookingStatus;
+import co.za.carrental.domain.Customer;
+import co.za.carrental.domain.Car;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -23,13 +20,15 @@ public class BookingFactoryTest {
         Date startDate = new Date();
         Date endDate = new Date(startDate.getTime() + 86400000); // +1 day
         Float totalCost = 1500.0f;
+        BookingStatus status = BookingStatus.PENDING;
 
-        // --- FIX IS HERE ---
-        // Provide a concrete, non-null BookingStatus enum value
-        BookingStatus status = BookingStatus.PENDING; // Or CONFIRMED, CANCELLED, COMPLETED, depending on your enum values
+        // Create dummy Customer and Car objects
+        Customer customer = new Customer.Builder("C001", "John", "Doe", "john@example.com").build();
+        Car car = new Car.Builder("CAR001", "Toyota", "Corolla", 2020).build();
 
+        // Pass arguments in the correct order
         Booking booking = BookingFactory.createBooking(
-                bookingId, startDate, endDate, totalCost, status // Pass the concrete status
+                bookingId, startDate, endDate, totalCost, status, customer, car
         );
 
         assertNotNull(booking);
@@ -37,6 +36,6 @@ public class BookingFactoryTest {
         assertEquals(totalCost, booking.getTotalCost());
         assertEquals(startDate, booking.getStartDate());
         assertEquals(endDate, booking.getEndDate());
-        assertEquals(BookingStatus.PENDING, booking.getStatus()); // Add assertion for status
+        assertEquals(BookingStatus.PENDING, booking.getStatus());
     }
 }

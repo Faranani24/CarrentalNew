@@ -84,6 +84,10 @@ public class Customer {
             this.email = email;
         }
 
+        public Builder() {
+
+        }
+
         // Setter-like methods for optional fields, returning 'this' for chaining
         public Builder password(String password) {
             this.password = password;

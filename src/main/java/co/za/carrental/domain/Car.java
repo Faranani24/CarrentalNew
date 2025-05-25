@@ -53,6 +53,10 @@ public class Car {
         return carType;
     }
 
+    public String getId() {
+        return carId;
+    }
+
     public static class Builder {
         private String carId;
         private String licensePlate;
@@ -67,6 +71,9 @@ public class Car {
 
         public Builder() {
 
+        }
+
+        public Builder(String car001, String toyota, String corolla, int i) {
         }
 
 

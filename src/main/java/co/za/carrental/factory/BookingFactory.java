@@ -1,39 +1,30 @@
+// src/main/java/co/za/carrental/factory/BookingFactory.java
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Booking;
 import co.za.carrental.domain.BookingStatus;
-import co.za.carrental.domain.Car;      // Import Car
-import co.za.carrental.domain.Customer; // Import Customer
+import co.za.carrental.domain.Customer;
+import co.za.carrental.domain.Car;
 
-import java.util.Date; // Or LocalDate
+import java.util.Date;
 
 public class BookingFactory {
 
-    public static Booking createBooking(
-            String bookingId,
-            Customer customer, // Pass Customer object
-            Car car,           // Pass Car object
-            Date startDate, // Or LocalDate
-            Date endDate,   // Or LocalDate
-            Float totalCost, // Or Double
-            BookingStatus status) {
+    public static Booking createBooking(String bookingId, Date startDate, Date endDate, Float totalCost,
+                                        BookingStatus status, Customer customer, Car car) {
+        if (bookingId == null || startDate == null || endDate == null || totalCost == null ||
+                status == null || customer == null || car == null) {
+            throw new IllegalArgumentException("All fields are required and cannot be null.");
+        }
 
-        // Use the constructor for required fields
-        return new Booking.Builder(bookingId, customer, car, startDate, endDate, totalCost)
-                .status(status)
-                .build();
-
-        /*
-        // Or if using individual setters
         return new Booking.Builder()
                 .setBookingId(bookingId)
-                .setCustomer(customer)
-                .setCar(car)
                 .setStartDate(startDate)
                 .setEndDate(endDate)
                 .setTotalCost(totalCost)
                 .setStatus(status)
+                .setCustomer(customer)
+                .setCar(car) // Ensure the car is set
                 .build();
-        */
     }
 }

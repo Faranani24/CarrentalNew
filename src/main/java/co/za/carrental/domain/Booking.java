@@ -59,6 +59,14 @@ public class Booking {
         private String carId; // <--- ADDED THIS FIELD TO BUILDER
         private BookingStatus status;
         private Customer customer;
+        private Car car;
+        private Object id;
+
+        public Builder setCar(Car car) {
+            this.car = car;
+            return this;
+        }//
+        // <--- ADDED CAR FIELD FOR RELATIONSHIP
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
@@ -90,12 +98,12 @@ public class Booking {
         }
 
         public Booking build() {
-            // Basic validation:
-            if (bookingId == null || startDate == null || endDate == null || totalCost == null || carId == null || status == null) { // <--- ADDED carId TO VALIDATION
+            if (this.id == null || this.startDate == null || this.endDate == null || this.customer == null) {
                 throw new IllegalArgumentException("Booking fields cannot be null during build.");
             }
             return new Booking(this);
         }
+
     }
 
     // toString, equals, hashCode (essential for entities)
