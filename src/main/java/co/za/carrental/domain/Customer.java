@@ -6,8 +6,14 @@
 
 package co.za.carrental.domain;
 
+import jakarta.persistence.*;
+
 import java.util.List;
+
+@Entity
+@Table(name = "customer")
 public class Customer {
+    @Id
     private String customerId;
     private String firstName;
     private String lastName;
@@ -15,7 +21,14 @@ public class Customer {
     private String password;
     private String phone;
     private String licenseNumber;
+    @ElementCollection
     private List<String> paymentMethods;
+
+    @OneToMany()
+    @JoinColumn(name = "customer_id")
+    private List<Booking> bookings;
+
+    protected Customer() {}
 
     private Customer(Builder builder) {
         this.customerId = builder.customerId;
@@ -38,6 +51,13 @@ public class Customer {
 
     public List<String> getPaymentMethods() {
         return paymentMethods;
+    }
+
+    public Double getTotalCost() {
+
+        return bookings.stream()
+                .mapToDouble(Booking::getTotalCost)
+                .sum();
     }
 
     public static class Builder {

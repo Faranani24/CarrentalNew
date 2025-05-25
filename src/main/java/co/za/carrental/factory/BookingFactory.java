@@ -1,12 +1,19 @@
+/*BookingFactory.java
+BookingFactory
+Lance Anthony Franks
+17 May 2025
+ */
+
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Booking;
+import co.za.carrental.domain.BookingStatus;
 
 
 import java.util.*;
 
 public class BookingFactory {
-    private static Enum status;
+    private static BookingStatus status;
 
     public static Booking createBooking(String bookingId, Date startDate, Date endDate, Float totalCost, Enum Status) {
 
@@ -17,5 +24,9 @@ public class BookingFactory {
                 .setTotalCost(totalCost)
                 .setStatus(status)
                 .build();
+    }
+
+    public static void setStatus(BookingStatus status) {
+        BookingFactory.status = status;
     }
 }

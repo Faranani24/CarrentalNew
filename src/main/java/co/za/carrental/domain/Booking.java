@@ -6,15 +6,24 @@
 
 package co.za.carrental.domain;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "booking")
 public class Booking {
-
+    @Id
     private String bookingId;
     private Date startDate;
     private Date endDate;
     private Float totalCost;
-    private Enum status;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     private Booking(Builder builder) {
         this.bookingId = builder.bookingId;
@@ -24,7 +33,7 @@ public class Booking {
         this.status = builder.status;
     }
 
-    public Booking() {
+    protected Booking() {
 
     }
 
@@ -49,7 +58,7 @@ public class Booking {
         private Date startDate;
         private Date endDate;
         private Float totalCost;
-        private Enum status;
+        private BookingStatus status;
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
@@ -71,7 +80,7 @@ public class Booking {
             return this;
         }
 
-        public Builder setStatus(Enum status) {
+        public Builder setStatus(BookingStatus status) {
             this.status = status;
             return this;
         }
