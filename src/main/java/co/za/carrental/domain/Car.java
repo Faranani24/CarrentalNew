@@ -1,13 +1,19 @@
 package co.za.carrental.domain;
 
 public class Car {
-    private final String carId;
-    private final String licensePlate;
-    private final String make;
-    private final String model;
-    private final int year;
-    private final Status status;
-    private final CarType carType;
+
+    private String carId;
+    private String licensePlate;
+    private String make;
+    private String model;
+    private int year;
+    private Status status;
+    private CarType carType;
+
+    // Public no-args constructor for Jackson
+    public Car() {
+    }
+
 
     private Car(Builder builder) {
         this.carId = builder.carId;
@@ -19,6 +25,7 @@ public class Car {
         this.carType = builder.carType;
     }
 
+
     public String getCarId() { return carId; }
     public String getLicensePlate() { return licensePlate; }
     public String getMake() { return make; }
@@ -26,6 +33,15 @@ public class Car {
     public int getYear() { return year; }
     public Status getStatus() { return status; }
     public CarType getCarType() { return carType; }
+
+    // Setters for Jackson
+    public void setCarId(String carId) { this.carId = carId; }
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
+    public void setMake(String make) { this.make = make; }
+    public void setModel(String model) { this.model = model; }
+    public void setYear(int year) { this.year = year; }
+    public void setStatus(Status status) { this.status = status; }
+    public void setCarType(CarType carType) { this.carType = carType; }
 
     public static class Builder {
         private String carId;

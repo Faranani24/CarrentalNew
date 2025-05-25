@@ -39,6 +39,7 @@ public class CarServiceImplTest {
         when(repository.save(car)).thenReturn(car);
         Car created = service.create(car);
         assertEquals("CAR101", created.getCarId());
+
     }
 
     @Test

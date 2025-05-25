@@ -13,11 +13,21 @@ public class CarType {
     private Float dailyRate;
     private Float lateFeePerHour;
 
-    private CarType(Builder builder) {
+    public CarType() {
+    }
+
+    public CarType(Builder builder) {
         this.typeId = builder.typeId;
         this.seatingCapacity = builder.seatingCapacity;
         this.dailyRate = builder.dailyRate;
         this.lateFeePerHour = builder.lateFeePerHour;
+    }
+
+    public CarType(String type1, String sedan) {
+        this.typeId = type1;
+        this.seatingCapacity = 5; // Default seating capacity for a sedan
+        this.dailyRate = 150.0f; // Default daily rate for a sedan
+        this.lateFeePerHour = 15.0f; // Default late fee per hour for a sedan
     }
 
     public String getTypeId() { return typeId; }
