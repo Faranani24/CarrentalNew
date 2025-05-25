@@ -4,7 +4,6 @@ import co.za.carrental.domain.Car;
 import co.za.carrental.domain.CarType;
 import co.za.carrental.domain.Status;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CarFactoryTest {
@@ -31,5 +30,6 @@ class CarFactoryTest {
         System.out.println("All assertions passed!");
 
     }
+
 
 }

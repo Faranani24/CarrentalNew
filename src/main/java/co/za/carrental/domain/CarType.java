@@ -1,18 +1,13 @@
-/*
- * CarType.java
- * Author: Faranani Mangope Khangale (230136982)
- * Date: 11 May 2025
- */
-
 package co.za.carrental.domain;
-/*CarType class representing the type of car in the rental system
-CarType POJO class with Builder pattern
-Author: Faranani Khangale (230136982)
-Date: 2025-05-11
- */
 
+/* CarType class representing the type of car in the rental system
+   CarType POJO class with Builder pattern
+   Author: Faranani Khangale (230136982)
+   Date: 2025-05-11
+*/
 
 public class CarType {
+
     private String typeId;
     private int seatingCapacity;
     private Float dailyRate;
@@ -30,6 +25,20 @@ public class CarType {
     public Float getDailyRate() { return dailyRate; }
     public Float getLateFeePerHour() { return lateFeePerHour; }
 
+    // Over here i added the Static predefined CarType instances for common types
+    public static final CarType SEDAN = new CarType.Builder()
+            .setTypeId("SEDAN")
+            .setSeatingCapacity(5)
+            .setDailyRate(150.0f)
+            .setLateFeePerHour(15.0f)
+            .build();
+
+    public static final CarType SUV = new CarType.Builder()
+            .setTypeId("SUV")
+            .setSeatingCapacity(7)
+            .setDailyRate(200.0f)
+            .setLateFeePerHour(20.0f)
+            .build();
 
     public static class Builder {
         private String typeId;
@@ -57,7 +66,6 @@ public class CarType {
             return this;
         }
 
-
         public CarType build() {
             return new CarType(this);
         }
@@ -74,12 +82,10 @@ public class CarType {
 
         public static Builder fromCarType(CarType carType) {
             return new Builder()
-
                     .setTypeId(carType.getTypeId())
                     .setSeatingCapacity(carType.getSeatingCapacity())
                     .setDailyRate(carType.getDailyRate())
                     .setLateFeePerHour(carType.getLateFeePerHour());
         }
-
     }
 }

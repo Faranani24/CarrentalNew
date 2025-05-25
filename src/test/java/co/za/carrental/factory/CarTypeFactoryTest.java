@@ -18,4 +18,5 @@ class CarTypeFactoryTest {
         assertEquals(30.0f, carType.getLateFeePerHour());
     }
 
+
 }

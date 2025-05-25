@@ -1,10 +1,5 @@
 package co.za.carrental.domain;
 
-/* Car class representing a car in the rental system
-   Car POJO class with Builder pattern
-   Author: Faranani Khangale (230136982)
-   Date: 2025-05-11
-*/
 public class Car {
     private final String carId;
     private final String licensePlate;
@@ -24,34 +19,13 @@ public class Car {
         this.carType = builder.carType;
     }
 
-    // Getters
-    public String getCarId() {
-        return carId;
-    }
-
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public CarType getCarType() {
-        return carType;
-    }
+    public String getCarId() { return carId; }
+    public String getLicensePlate() { return licensePlate; }
+    public String getMake() { return make; }
+    public String getModel() { return model; }
+    public int getYear() { return year; }
+    public Status getStatus() { return status; }
+    public CarType getCarType() { return carType; }
 
     public static class Builder {
         private String carId;
@@ -61,7 +35,6 @@ public class Car {
         private int year;
         private Status status;
         private CarType carType;
-
 
         public Builder setCarId(String carId) {
             this.carId = carId;
@@ -98,11 +71,9 @@ public class Car {
             return this;
         }
 
-
         public Car build() {
             return new Car(this);
         }
-
 
         @Override
         public String toString() {
@@ -116,7 +87,6 @@ public class Car {
                     ", carType=" + carType +
                     '}';
         }
-
 
         public static Builder fromCar(Car car) {
             return new Builder()
