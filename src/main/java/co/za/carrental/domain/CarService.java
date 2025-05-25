@@ -1,20 +1,32 @@
-/*Service.java
-Service Entity Class
+/*CarServiceImpl.java
+CarService Entity Class
 Author: Thabiso Kama
 Date: 11 May 2025
  */
 
 package co.za.carrental.domain;
+import jakarta.persistence.*;
 
-public class Service {
-    private String serviceId;
+@Entity
+@Table(name = "car_services")
+
+public class CarService {
+    @Id
+    @Column(name = "service_id", nullable = false)
+    private Integer serviceId;
+    @Column(nullable = false)
     private String name;
+    @Column(name = "cost_per_day", nullable = false)
     private float costPerDay;
 
-    private Service (Builder builder){
+    private CarService(Builder builder){
         this.serviceId = builder.serviceId;
         this.name = builder.name;
         this.costPerDay = builder.costPerDay;
+    }
+
+    public CarService() {
+
     }
 
     public String getServiceId() {
@@ -48,8 +60,8 @@ public class Service {
             return this;
         }
 
-        public Service build(){
-            return new Service(this);
+        public CarService build(){
+            return new CarService(this);
         }
 
         @Override
