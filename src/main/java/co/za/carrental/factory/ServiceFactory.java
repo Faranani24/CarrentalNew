@@ -1,10 +1,10 @@
 package co.za.carrental.factory;
 
-import co.za.carrental.domain.Service;
+import co.za.carrental.domain.CarService;
 
 public class ServiceFactory {
-    public static Service createService(String serviceId, String name, float costPerDay){
-        return new Service.Builder()
+    public static CarService createService(String serviceId, String name, float costPerDay){
+        return new CarService.Builder()
                 .setServiceId(serviceId)
                 .setName(name)
                 .setCostPerDay(costPerDay)
@@ -13,7 +13,7 @@ public class ServiceFactory {
 }
 /*
 ServiceFactory.java  
-Service Factory  
+CarService Factory
 Thabiso Kama  
 18 May 2025  
 */

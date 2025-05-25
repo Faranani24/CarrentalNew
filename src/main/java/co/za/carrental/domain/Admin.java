@@ -25,6 +25,10 @@ public class Admin {
         this.password = builder.password;
     }
 
+    public Admin() {
+
+    }
+
     public String getAdminId() {
         return adminId;
     }
