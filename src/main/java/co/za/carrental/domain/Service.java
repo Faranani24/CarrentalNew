@@ -5,10 +5,18 @@ Date: 11 May 2025
  */
 
 package co.za.carrental.domain;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "services")
 
 public class Service {
+    @Id
+    @Column(name = "service_id", nullable = false)
     private String serviceId;
+    @Column(nullable = false)
     private String name;
+    @Column(name = "cost_per_day", nullable = false)
     private float costPerDay;
 
     private Service (Builder builder){
