@@ -12,6 +12,5 @@ public class Main {
                 System.out.println("Application has started successfully!");
             }
         });
-        app.run(args);
     }
 }
