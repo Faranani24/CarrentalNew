@@ -1,5 +1,11 @@
 package co.za.carrental.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "car")
 public class Car {
 
     private String carId;
@@ -8,12 +14,14 @@ public class Car {
     private String model;
     private int year;
     private Status status;
-    private CarType carType;
+    private String carType;  // keep as String for DB storage
 
-    // Public no-args constructor for Jackson
+    @Id
+    private Long id;
+
+
     public Car() {
     }
-
 
     private Car(Builder builder) {
         this.carId = builder.carId;
@@ -23,25 +31,38 @@ public class Car {
         this.year = builder.year;
         this.status = builder.status;
         this.carType = builder.carType;
+        this.id = builder.id;
     }
 
-
+    // Getters
     public String getCarId() { return carId; }
     public String getLicensePlate() { return licensePlate; }
     public String getMake() { return make; }
     public String getModel() { return model; }
     public int getYear() { return year; }
     public Status getStatus() { return status; }
-    public CarType getCarType() { return carType; }
 
-    // Setters for Jackson
+    // Convert stored String to enum
+    public CarType getCarType() {
+        return carType == null ? null : CarType.valueOf(carType);
+    }
+
+    public Long getId() { return id; }
+
+    // Setters
     public void setCarId(String carId) { this.carId = carId; }
     public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
     public void setMake(String make) { this.make = make; }
     public void setModel(String model) { this.model = model; }
     public void setYear(int year) { this.year = year; }
     public void setStatus(Status status) { this.status = status; }
-    public void setCarType(CarType carType) { this.carType = carType; }
+
+    // Convert enum to String for storage
+    public void setCarType(CarType carType) {
+        this.carType = carType == null ? null : carType.name();
+    }
+
+    public void setId(Long id) { this.id = id; }
 
     public static class Builder {
         private String carId;
@@ -50,7 +71,8 @@ public class Car {
         private String model;
         private int year;
         private Status status;
-        private CarType carType;
+        private String carType;  // store as String in builder too
+        private Long id;
 
         public Builder setCarId(String carId) {
             this.carId = carId;
@@ -82,37 +104,33 @@ public class Car {
             return this;
         }
 
+        // Accept CarType enum but store as String
         public Builder setCarType(CarType carType) {
-            this.carType = carType;
+            this.carType = carType == null ? null : carType.name();
+            return this;
+        }
+
+        public Builder setId(Long id) {
+            this.id = id;
             return this;
         }
 
         public Car build() {
             return new Car(this);
         }
+    }
 
-        @Override
-        public String toString() {
-            return "Builder{" +
-                    "carId='" + carId + '\'' +
-                    ", licensePlate='" + licensePlate + '\'' +
-                    ", make='" + make + '\'' +
-                    ", model='" + model + '\'' +
-                    ", year=" + year +
-                    ", status=" + status +
-                    ", carType=" + carType +
-                    '}';
-        }
-
-        public static Builder fromCar(Car car) {
-            return new Builder()
-                    .setCarId(car.getCarId())
-                    .setLicensePlate(car.getLicensePlate())
-                    .setMake(car.getMake())
-                    .setModel(car.getModel())
-                    .setYear(car.getYear())
-                    .setStatus(car.getStatus())
-                    .setCarType(car.getCarType());
-        }
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId='" + carId + '\'' +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", status=" + status +
+                ", carType=" + carType +
+                ", id=" + id +
+                '}';
     }
 }

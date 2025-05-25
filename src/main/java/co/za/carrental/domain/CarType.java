@@ -1,13 +1,14 @@
 package co.za.carrental.domain;
 
-/* CarType class representing the type of car in the rental system
-   CarType POJO class with Builder pattern
-   Author: Faranani Khangale (230136982)
-   Date: 2025-05-11
-*/
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "car_type")
 public class CarType {
 
+    @Id
     private String typeId;
     private int seatingCapacity;
     private Float dailyRate;
@@ -23,11 +24,23 @@ public class CarType {
         this.lateFeePerHour = builder.lateFeePerHour;
     }
 
+    // Optionally keep or remove this constructor, but better to keep it for convenience
     public CarType(String type1, String sedan) {
         this.typeId = type1;
-        this.seatingCapacity = 5; // Default seating capacity for a sedan
-        this.dailyRate = 150.0f; // Default daily rate for a sedan
-        this.lateFeePerHour = 15.0f; // Default late fee per hour for a sedan
+        this.seatingCapacity = 5;
+        this.dailyRate = 150.0f;
+        this.lateFeePerHour = 15.0f;
+    }
+
+    public static CarType valueOf(String carType) {
+        switch (carType.toUpperCase()) {
+            case "SEDAN":
+                return SEDAN;
+            case "SUV":
+                return SUV;
+            default:
+                throw new IllegalArgumentException("Unknown car type: " + carType);
+        }
     }
 
     public String getTypeId() { return typeId; }
@@ -35,7 +48,6 @@ public class CarType {
     public Float getDailyRate() { return dailyRate; }
     public Float getLateFeePerHour() { return lateFeePerHour; }
 
-    // Over here i added the Static predefined CarType instances for common types
     public static final CarType SEDAN = new CarType.Builder()
             .setTypeId("SEDAN")
             .setSeatingCapacity(5)
@@ -49,6 +61,10 @@ public class CarType {
             .setDailyRate(200.0f)
             .setLateFeePerHour(20.0f)
             .build();
+
+    public String name() {
+        return typeId;
+    }
 
     public static class Builder {
         private String typeId;
