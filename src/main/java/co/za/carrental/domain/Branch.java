@@ -1,11 +1,15 @@
 package co.za.carrental.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 /**
  * Branch.java
  * Branch entity class for car rental system
  * Author: Milani Ncana (216269369)
  * Date: [11/05/2025]
  */
+@Entity
 public class Branch {
     private final String branchId;
     private final String address;
@@ -23,6 +27,7 @@ public class Branch {
         private String address;
         private String phone;
 
+        @Id
         public Builder branchId(String branchId) {
             this.branchId = branchId;
             return this;
