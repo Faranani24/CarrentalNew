@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface CarRepository extends JpaRepository<Car, String> {
 
 
+
     Optional<Car> findByMake(String make);
 
     Optional<Car> findByModel(String model);

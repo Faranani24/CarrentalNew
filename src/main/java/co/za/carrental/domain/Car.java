@@ -110,7 +110,7 @@ public class Car {
             return this;
         }
 
-        // Accept CarType enum but store as String
+
         public Builder setCarType(CarType carType) {
             this.carType = carType == null ? null : carType.name();
             return this;

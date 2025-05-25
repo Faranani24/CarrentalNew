@@ -13,6 +13,7 @@ public class CarTypeServiceImpl implements CarTypeService {
 
     private final CarTypeRepository carTypeRepository;
 
+
     @Autowired
     public CarTypeServiceImpl(CarTypeRepository carTypeRepository) {
         this.carTypeRepository = carTypeRepository;

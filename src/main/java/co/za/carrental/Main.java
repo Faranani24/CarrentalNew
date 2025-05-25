@@ -11,10 +11,10 @@ public class Main {
         app.addListeners(event -> {
             if (event.toString().contains("Started")) {
                 System.out.println("Application has started successfully!");
-
             }
         });
         app.run(args);
+
     }
 }
 

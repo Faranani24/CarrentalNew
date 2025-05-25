@@ -11,6 +11,7 @@ import co.za.carrental.domain.Status;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class CarFactoryTest {
     @Test
     void createCar() {
