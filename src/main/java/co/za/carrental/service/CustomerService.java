@@ -1,6 +1,6 @@
 package co.za.carrental.service;
 
-import co.za.carrental.domain.Customer; // Only Customer is needed for core CustomerService operations
+import co.za.carrental.domain.Customer;
 import co.za.carrental.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

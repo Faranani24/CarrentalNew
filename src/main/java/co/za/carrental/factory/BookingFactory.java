@@ -1,4 +1,4 @@
-// src/main/java/co/za/carrental/factory/BookingFactory.java
+
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Booking;

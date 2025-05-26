@@ -16,7 +16,7 @@ public class CustomerFactory {
                 .build();
     }
 
-    // Optional: Add a more flexible factory method if you don't always need all fields
+
     public static Customer createCustomerWithMinimalDetails(String customerId, String firstName, String lastName, String email) {
         return new Customer.Builder(customerId, firstName, lastName, email).build();
     }
