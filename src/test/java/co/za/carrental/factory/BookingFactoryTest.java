@@ -1,4 +1,4 @@
-// src/test/java/co/za/carrental/factory/BookingFactoryTest.java
+
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Booking;
@@ -22,11 +22,10 @@ public class BookingFactoryTest {
         Float totalCost = 1500.0f;
         BookingStatus status = BookingStatus.PENDING;
 
-        // Create dummy Customer and Car objects
         Customer customer = new Customer.Builder("C001", "John", "Doe", "john@example.com").build();
         Car car = new Car.Builder("CAR001", "Toyota", "Corolla", 2020).build();
 
-        // Pass arguments in the correct order
+
         Booking booking = BookingFactory.createBooking(
                 bookingId, startDate, endDate, totalCost, status, customer, car
         );

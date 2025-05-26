@@ -14,9 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*; // You might still use Mockito for other services,
-// but not for CustomerRepository in this case.
-// If no other mocks, you can remove Mockito imports.
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CustomerServiceTest {
@@ -24,10 +22,8 @@ public class CustomerServiceTest {
     @Autowired
     private CustomerService service;
 
-    // NO @MockBean HERE - Spring will inject the actual CustomerRepository
-    // which will be backed by the H2 in-memory database
-    @Autowired // You might still want to autowire it for setup/teardown if needed,
-    // but not for mocking its behavior in the tests
+
+    @Autowired
     private CustomerRepository repository;
 
 
@@ -35,8 +31,6 @@ public class CustomerServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Ensure the database is clean before each test
-        // This is good practice for integration-style tests
         repository.deleteAll(); // Clear data from previous tests
 
         customer = CustomerFactory.createCustomer(
@@ -47,19 +41,16 @@ public class CustomerServiceTest {
         if (customer.getBookings() == null) {
             customer.setBookings(new java.util.ArrayList<>());
         }
-        // No need to reset mocks here, as the repository is real
+
     }
 
     @Test
     void testSave() {
-        // Now, when service.save() is called, it will use the actual repository
-        // which will save to the H2 database.
         Customer created = service.save(customer);
         assertNotNull(created);
         assertEquals(customer.getCustomerId(), created.getCustomerId());
         assertEquals(customer.getFirstName(), created.getFirstName());
 
-        // You can now verify that the data exists in the "real" (H2) database
         Optional<Customer> foundInDb = repository.findById(customer.getCustomerId());
         assertTrue(foundInDb.isPresent());
         assertEquals(customer.getFirstName(), foundInDb.get().getFirstName());
@@ -67,7 +58,6 @@ public class CustomerServiceTest {
 
     @Test
     void testFindById() {
-        // First, save the customer to the H2 database
         repository.save(customer);
 
         Optional<Customer> found = service.findById("CUST1001");
@@ -77,11 +67,10 @@ public class CustomerServiceTest {
 
     @Test
     void testDeleteById() {
-        repository.save(customer); // Ensure it exists before trying to delete
+        repository.save(customer);
 
         service.deleteById("CUST1001");
 
-        // Verify it's no longer in the H2 database
         assertFalse(repository.findById("CUST1001").isPresent());
     }
 
@@ -96,7 +85,7 @@ public class CustomerServiceTest {
 
     @Test
     void testUpdate() {
-        repository.save(customer); // Save the original customer first
+        repository.save(customer);
 
         Customer updatedCustomer = new Customer.Builder("CUST1001", "Bob", "Marley", "updated@gmail.com")
                 .password("newpass")
@@ -117,7 +106,6 @@ public class CustomerServiceTest {
 
     @Test
     void testUpdate_CustomerNotFound() {
-        // No need to save anything as we're testing the not found scenario
         Customer nonExistentCustomer = new Customer.Builder("NONEXIST", "Non", "Existent", "non@gmail.com")
                 .build();
 
@@ -125,13 +113,11 @@ public class CustomerServiceTest {
             service.update(nonExistentCustomer);
         });
         assertTrue(thrown.getMessage().contains("does not exist"));
-        // Ensure no save happened in the real repository
         assertFalse(repository.findById("NONEXIST").isPresent());
     }
 
     @Test
     void testFindById_NotFound() {
-        // No need to save anything as we're testing the not found scenario
         Optional<Customer> found = service.findById("NONEXIST");
         assertFalse(found.isPresent());
     }

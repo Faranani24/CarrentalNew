@@ -40,19 +40,16 @@ public class CustomerControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Using the Builder pattern directly for more control and readability in tests
+
         customer = new Customer.Builder("cust1", "John", "Doe", "john@example.com")
                 .password("password123")
                 .phoneNumber("0812345678")
                 .licenseNumber("LIC001")
                 .paymentMethods(List.of("Visa", "PayPal"))
-                .bookings(new ArrayList<>()) // Ensure bookings is initialized via builder
+                .bookings(new ArrayList<>())
                 .build();
 
-        // No need for the null check now if the builder initializes collections
-        // if (customer.getBookings() == null) {
-        //     customer.setBookings(new ArrayList<>());
-        // }
+
     }
 
     @Test
@@ -96,7 +93,7 @@ public class CustomerControllerTest {
 
     @Test
     void testUpdateCustomer() throws Exception {
-        // Using the builder to create an updated customer instance
+
         Customer updatedCustomer = new Customer.Builder("cust1", "Jane", "Doe", "jane@example.com")
                 .password("newpass")
                 .phoneNumber("0812345679")

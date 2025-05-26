@@ -1,6 +1,6 @@
 package co.za.carrental.service;
 
-import co.za.carrental.domain.Booking; // Assuming you have a Booking entity/domain class
+import co.za.carrental.domain.Booking;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,5 +18,5 @@ public interface IBookingService {
     List<Booking> getAll();
 
     void delete(String bookingId);
-    // Add any other methods specific to booking business logic
+
 }

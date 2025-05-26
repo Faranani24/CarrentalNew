@@ -10,6 +10,5 @@ public interface ICustomerService {
     Optional<Customer> findById(String customerId);
     List<Customer> findAll();
     void deleteById(String customerId);
-    // You might add specific update logic if different from save, e.g.,
-    // Customer update(Customer customer);
+
 }
