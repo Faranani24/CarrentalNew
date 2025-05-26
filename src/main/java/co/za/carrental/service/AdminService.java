@@ -28,7 +28,7 @@ public class AdminService {
     }
 }
 /*AdminService.java
-Admin CarService class
+Admin Service class
 Thabiso Kama
 25 May 2025
- */
+*/

@@ -2,7 +2,7 @@
 Admin Entity class
 Author: Thabiso Kama
 Date: 11 May 2025
- */
+*/
 
 package co.za.carrental.domain;
 import jakarta.persistence.*;
@@ -13,11 +13,11 @@ import jakarta.persistence.*;
 public class Admin {
     @Id
     @Column(name = "admin_id", nullable = false)
-    private  String adminId;
+    private String adminId;
     @Column(nullable = false, unique = true)
-    private  String email;
+    private String email;
     @Column(nullable = false)
-    private  String password;
+    private String password;
 
     private Admin(Builder builder) {
         this.adminId = builder.adminId;
@@ -65,20 +65,20 @@ public class Admin {
             return new Admin(this);
         }
     }
-        public void addCar(){
-            System.out.println("Car added");
-        }
-        public void updateCar(){
-            System.out.println("Car updated");
-        }
-        public void deleteCar(){
-            System.out.println("Car deleted");
-        }
-        public void manageBookings(){
-            System.out.println("Bookings managed");
-        }
-        @Override
-        public String toString() {
-            return "Admin: "+email;
+    public void addCar(){
+        System.out.println("Car added");
+    }
+    public void updateCar(){
+        System.out.println("Car updated");
+    }
+    public void deleteCar(){
+        System.out.println("Car deleted");
+    }
+    public void manageBookings(){
+        System.out.println("Bookings managed");
+    }
+    @Override
+    public String toString() {
+        return "Admin: "+email;
     }
 }

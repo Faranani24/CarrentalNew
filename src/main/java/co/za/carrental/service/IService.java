@@ -1,6 +1,5 @@
 
-package co.za.carrental.service;
-
+package co.za.carrental.servic
 
 import co.za.carrental.domain.Booking;
 import co.za.carrental.domain.Customer;

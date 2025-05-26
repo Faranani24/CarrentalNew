@@ -1,8 +1,8 @@
-/*CarServiceImpl.java
+/*CarService.java
 CarService Entity Class
 Author: Thabiso Kama
 Date: 11 May 2025
- */
+*/
 
 package co.za.carrental.domain;
 
@@ -32,7 +32,11 @@ public class CarService {
     }
 
 
+    public Integer getServiceId() {
+=======
+
     public String getServiceId() {
+
         return serviceId;
     }
 
@@ -44,6 +48,14 @@ public class CarService {
         return costPerDay;
     }
 
+
+    public static class Builder{
+        private Integer serviceId;
+        private String name;
+        private float costPerDay;
+
+        public Builder setServiceId(Integer serviceId) {
+=======
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
@@ -89,6 +101,7 @@ public class CarService {
 
         // Builder methods for each field
         public Builder setServiceId(String serviceId) {
+
             this.serviceId = serviceId;
             return this;
         }
@@ -119,4 +132,4 @@ public class CarService {
                     '}';
         }
     }
-}
+

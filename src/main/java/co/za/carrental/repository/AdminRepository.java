@@ -10,4 +10,4 @@ public interface AdminRepository extends JpaRepository<Admin, String>{
 Admin Repository
 Thabiso Kama
 25 May 2025
- */
+*/

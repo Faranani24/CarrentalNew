@@ -62,4 +62,4 @@ public class ServiceController {
         carServiceImpl.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content for successful deletion
     }
-}
+

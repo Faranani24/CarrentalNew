@@ -10,7 +10,7 @@ public interface ServiceRepository extends JpaRepository<CarService, String> {
     // JpaRepository provides save(), findById(ID), findAll(), deleteById(ID)
 }
 /*ServiceRepository.java
-CarService Repository
+Service Repository
 Thabiso Kama
 25 May 2025
- */
+*/

@@ -1,7 +1,6 @@
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Admin;
-import co.za.carrental.factory.AdminFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
