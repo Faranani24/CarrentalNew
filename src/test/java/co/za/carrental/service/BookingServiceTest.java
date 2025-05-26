@@ -1,68 +1,108 @@
 package co.za.carrental.service;
 
 import co.za.carrental.domain.Booking;
-import co.za.carrental.domain.BookingStatus;
+import co.za.carrental.domain.Car;
 import co.za.carrental.domain.Customer;
-import co.za.carrental.repository.BookingRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import co.za.carrental.factory.BookingFactory;
+import org.junit.jupiter.api.*;
+import co.za.carrental.domain.BookingStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-public class BookingServiceTest {
+@SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class BookingServiceTest {
 
-    private BookingRepository repository;
-    private BookingService service;
-    private Booking booking;
+    @Autowired
+    private IBookingService iBookingService;
 
-    @BeforeEach
-    void setUp() {
-        repository = mock(BookingRepository.class);
-        service = new BookingService(repository);
+    @Autowired
+    private CustomerService customerService;
 
-        Customer customer = new Customer.Builder()
-                .setCustomerId("CUST1001")
-                .setFirstName("Lance")
+    private static final String BOOKING_ID = "b001";
+    private static final String CUSTOMER_ID = "cust001";
+
+    private static Booking booking;
+
+    @BeforeAll
+    static void setup() {
+
+    }
+
+    @Test
+    @Order(1)
+    void testCreateCustomerAndBooking(Car car) {
+        Customer customer = new Customer.Builder(
+                CUSTOMER_ID, "Alice", "Smith", "alice@example.com")
+                .password("pass123")
+                .phoneNumber("0123456789")
+                .licenseNumber("LIC123")
+                .paymentMethods(List.of("Card", "Cash"))
                 .build();
 
-        booking = new Booking.Builder()
-                .setBookingId("B001")
-                .setStartDate(new Date())
-                .setEndDate(new Date())
+
+        customerService.save(customer);
+
+        booking = BookingFactory.createBooking(
+                BOOKING_ID,
+                new Date(),
+                new Date(System.currentTimeMillis() + 86400000), // 1 day later
+                1200.0f,
+                BookingStatus.CONFIRMED,
+                customer, car);
+
+
+        Booking created = iBookingService.create(booking);
+        assertNotNull(created);
+        assertEquals(BOOKING_ID, created.getBookingId());
+    }
+
+    @Test
+    @Order(2)
+    void testReadBooking() {
+        Optional<Booking> read = iBookingService.read(BOOKING_ID);
+        assertTrue(read.isPresent());
+        assertEquals(BOOKING_ID, read.get().getBookingId());
+    }
+
+    @Test
+    @Order(3)
+    void testUpdateBooking() {
+        Booking updated = new Booking.Builder()
+                .setBookingId(BOOKING_ID)
+                .setStartDate(booking.getStartDate())
+                .setEndDate(new Date(System.currentTimeMillis() + 172800000))
                 .setTotalCost(1500.0f)
-                .setStatus(BookingStatus.CONFIRMED) // Replace with your Enum type
+                .setStatus(BookingStatus.CONFIRMED)
                 .build();
+
+
+        Booking result = iBookingService.update(updated);
+        assertNotNull(result);
+        assertEquals(1500.0f, result.getTotalCost());
+        assertEquals(BookingStatus.CONFIRMED, result.getStatus());
     }
 
     @Test
-    void testCreate() {
-        when(repository.save(booking)).thenReturn(booking);
-        Booking created = service.create(booking);
-        assertEquals("B001", created.getBookingId());
+    @Order(4)
+    void testGetAllBookings() {
+        List<Booking> all = iBookingService.getAll();
+        assertFalse(all.isEmpty());
+
     }
 
     @Test
-    void testRead() {
-        when(repository.findById("B001")).thenReturn(Optional.of(booking));
-        Optional<Booking> result = service.read("B001");
-        assertTrue(result.isPresent());
-        assertEquals(booking.getTotalCost(), result.get().getTotalCost());
-    }
-
-    @Test
-    void testDelete() {
-        service.delete("B001");
-        verify(repository, times(1)).deleteById("B001");
-    }
-
-    @Test
-    void testGetAll() {
-        when(repository.findAll()).thenReturn(List.of(booking));
-        List<Booking> result = service.getAll();
-        assertEquals(1, result.size());
+    @Order(5)
+    void testDeleteBooking() {
+        iBookingService.delete(BOOKING_ID);
+        Optional<Booking> deletedBooking = iBookingService.read(BOOKING_ID);
+        assertFalse(deletedBooking.isPresent());
     }
 }
-

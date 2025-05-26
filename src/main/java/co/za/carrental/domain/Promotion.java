@@ -1,5 +1,8 @@
 package co.za.carrental.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.Date;
 
 /**
@@ -8,13 +11,22 @@ import java.util.Date;
  * Author: Milani Ncana (216269369)
  * Date: [11/05/2025]
  */
-public class Promotion {
-    private final String promoId;
-    private final String code;
-    private final float discount;
-    private final Date expiryDate;
 
-    private Promotion(Builder builder) {
+@Entity
+public class Promotion {
+
+
+    @Id
+    private String promoId;
+
+    private String code;
+    private float discount;
+    private Date expiryDate;
+
+    public Promotion() {
+    }
+
+    public Promotion(Builder builder) {
         this.promoId = builder.promoId;
         this.code = builder.code;
         this.discount = builder.discount;

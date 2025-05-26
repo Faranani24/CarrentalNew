@@ -1,45 +1,48 @@
 package co.za.carrental.service;
 
-import co.za.carrental.repository.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import co.za.carrental.domain.Car;
+import co.za.carrental.repository.CarRepository;
 import org.springframework.stereotype.Service;
-import co.za.carrental.domain.CarService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class CarServiceImpl implements ICarService {
+public class CarServiceImpl implements CarService {
 
-    private final ServiceRepository serviceRepo;
 
-    @Autowired
-    public CarServiceImpl(ServiceRepository serviceRepo) {
-        this.serviceRepo = serviceRepo; }
 
-    @Override
-    public CarService create(CarService carService) {
-        return serviceRepo.save(carService);
+    private final CarRepository carRepository;
+
+    public CarServiceImpl(CarRepository carRepository) {
+        this.carRepository = carRepository;
     }
 
     @Override
-    public List<CarService> getAll() {
-        return serviceRepo.findAll();
+    public Car create(Car car) {
+        return carRepository.save(car);
     }
 
     @Override
-    public CarService read(Integer id) {
-        return serviceRepo.findById(id).orElse(null);
+    public Optional<Car> read(String carId) {
+        return carRepository.findById(carId);
     }
 
-
     @Override
-    public CarService update(CarService carService) {
+    public Car update(Car car) {
+        if (carRepository.existsById(car.getCarId())) {
+            return carRepository.save(car);
+        }
         return null;
     }
 
     @Override
-    public void delete(Integer id) {
-        serviceRepo.deleteById(id);
+    public void delete(String carId) {
+        carRepository.deleteById(carId);
     }
 
+    @Override
+    public List<Car> findAll() {
+        return carRepository.findAll();
+    }
 }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class CarTypeFactoryTest {
     @Test
     void createCarType() {
@@ -17,5 +18,6 @@ class CarTypeFactoryTest {
         assertEquals(300.0f, carType.getDailyRate());
         assertEquals(30.0f, carType.getLateFeePerHour());
     }
+
 
 }

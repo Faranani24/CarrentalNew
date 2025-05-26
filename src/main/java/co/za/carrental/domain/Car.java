@@ -62,6 +62,13 @@ public class Car {
         private Status status;
         private CarType carType;
 
+        public Builder(String car001, String toyota, String corolla, int i, String sedan, float v) {
+        }
+
+        public Builder() {
+
+        }
+
 
         public Builder setCarId(String carId) {
             this.carId = carId;

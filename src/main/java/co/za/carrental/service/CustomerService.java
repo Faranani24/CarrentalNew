@@ -18,24 +18,35 @@ public class CustomerService implements ICustomerService {
         this.repository = repository;
     }
 
-    public Customer create(Customer customer) {
+
+    @Override
+    public Customer save(Customer customer) {
         return repository.save(customer);
     }
 
-    public Optional<Customer> read(String customerId) {
+
+    @Override
+    public Optional<Customer> findById(String customerId) {
         return repository.findById(customerId);
     }
 
-    @Override
-    public Customer update(Customer customer) {
-        return null;
-    }
 
-    public List<Customer> getAll() {
+    @Override
+    public List<Customer> findAll() {
         return repository.findAll();
     }
 
-    public void delete(String customerId) {
+
+    @Override
+    public void deleteById(String customerId) {
         repository.deleteById(customerId);
+    }
+
+
+    public Customer update(Customer customer) {
+        if (customer.getCustomerId() == null || !repository.existsById(customer.getCustomerId())) {
+            throw new IllegalArgumentException("Cannot update customer: ID is null or customer does not exist.");
+        }
+        return repository.save(customer);
     }
 }

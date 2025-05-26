@@ -1,15 +1,24 @@
 package co.za.carrental.domain;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+
 /**
  * Branch.java
  * Branch entity class for car rental system
  * Author: Milani Ncana (216269369)
  * Date: [11/05/2025]
  */
+@Entity
 public class Branch {
-    private final String branchId;
-    private final String address;
-    private final String phone;
+
+    @Id
+    private String branchId = null;
+
+    private String address = null;
+    private String phone = null;
 
     private Branch(Builder builder) {
         this.branchId = builder.branchId;
@@ -17,8 +26,15 @@ public class Branch {
         this.phone = builder.phone;
     }
 
+    public Branch() {
+        // Default constructor for JPA
+        // No-args constructor is required by JPA for entity instantiation
+    }
+
     // Builder Class
     public static class Builder {
+
+
         private String branchId;
         private String address;
         private String phone;
