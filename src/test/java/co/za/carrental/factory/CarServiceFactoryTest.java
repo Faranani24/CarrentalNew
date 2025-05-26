@@ -1,6 +1,5 @@
 package co.za.carrental.factory;
 
-import co.za.carrental.domain.CarService;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
