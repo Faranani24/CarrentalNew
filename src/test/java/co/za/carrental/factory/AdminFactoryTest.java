@@ -1,5 +1,6 @@
 package co.za.carrental.factory;
 
+import co.za.carrental.domain.Admin;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
