@@ -1,108 +1,133 @@
 package co.za.carrental.service;
 
 import co.za.carrental.domain.Booking;
-import co.za.carrental.domain.Car;
-import co.za.carrental.domain.Customer;
-import co.za.carrental.factory.BookingFactory;
-import org.junit.jupiter.api.*;
 import co.za.carrental.domain.BookingStatus;
+import co.za.carrental.domain.Customer; // Import Customer
+// import co.za.carrental.domain.Vehicle; // If you add Vehicle
+import co.za.carrental.factory.BookingFactory;
+import co.za.carrental.factory.CustomerFactory; // Import CustomerFactory
+// import co.za.carrental.factory.VehicleFactory; // If you add VehicleFactory
+import co.za.carrental.repository.CustomerRepository; // Import CustomerRepository
+// import co.za.carrental.repository.VehicleRepository; // If you add VehicleRepository
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
+import java.util.List; // For paymentMethods
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional // Ensures clean transaction for each test method
 class BookingServiceTest {
 
     @Autowired
-    private IBookingService iBookingService;
+    private IBookingService bookingService;
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerRepository customerRepository; // Inject CustomerRepository
 
-    private static final String BOOKING_ID = "b001";
-    private static final String CUSTOMER_ID = "cust001";
+    // @Autowired
+    // private VehicleRepository vehicleRepository; // Inject VehicleRepository, if needed
 
-    private static Booking booking;
+    private Customer testCustomer;
+    // private Vehicle testVehicle; // If you need a test vehicle
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach // This method runs before EACH test method
+    void setUp() {
+        // 1. Create and Save a Customer first
+        testCustomer = CustomerFactory.buildCustomer(
+                "Test",
+                "Customer",
+                "test.customer@example.com",
+                "password123",
+                "0123456789",
+                "LICENSE123",
+                List.of("Credit Card") // Provide some payment methods
+        );
+        testCustomer = customerRepository.save(testCustomer); // Persist the customer
+        assertNotNull(testCustomer.getCustomerId(), "Test Customer ID should not be null after saving");
 
+        // 2. If you also need a Vehicle (uncomment if applicable)
+        /*
+        testVehicle = VehicleFactory.buildVehicle(
+            "ABC 123 GP", // licensePlate
+            "Make",        // make
+            "Model",       // model
+            2020,          // year
+            "Sedan",       // type
+            150000.0f,     // mileage
+            true,          // available
+            100.0f         // rentalRate
+        );
+        testVehicle = vehicleRepository.save(testVehicle); // Persist the vehicle
+        assertNotNull(testVehicle.getVehicleId(), "Test Vehicle ID should not be null after saving");
+        */
     }
 
     @Test
-    @Order(1)
-    void testCreateCustomerAndBooking(Car car) {
-        Customer customer = new Customer.Builder(
-                CUSTOMER_ID, "Alice", "Smith", "alice@example.com")
-                .password("pass123")
-                .phoneNumber("0123456789")
-                .licenseNumber("LIC123")
-                .paymentMethods(List.of("Card", "Cash"))
-                .build();
-
-
-        customerService.save(customer);
-
-        booking = BookingFactory.createBooking(
-                BOOKING_ID,
+    void saveAndFindById_shouldPersistAndRetrieveBooking() {
+        Booking booking = BookingFactory.buildBooking(
                 new Date(),
-                new Date(System.currentTimeMillis() + 86400000), // 1 day later
-                1200.0f,
+                new Date(System.currentTimeMillis() + 86400000),
+                1000.0f,
                 BookingStatus.CONFIRMED,
-                customer, car);
+                testCustomer // Pass the persisted testCustomer
+                // , testVehicle // Pass the persisted testVehicle, if applicable
+        );
+        Booking saved = bookingService.save(booking);
+        assertNotNull(saved, "Saved booking should not be null");
+        assertNotNull(saved.getBookingId(), "Saved Booking ID should not be null");
 
-
-        Booking created = iBookingService.create(booking);
-        assertNotNull(created);
-        assertEquals(BOOKING_ID, created.getBookingId());
+        Optional<Booking> found = bookingService.findById(saved.getBookingId());
+        assertTrue(found.isPresent());
+        assertEquals(saved.getBookingId(), found.get().getBookingId());
+        assertEquals(testCustomer.getCustomerId(), found.get().getCustomer().getCustomerId()); // Verify customer relationship
+        // assertEquals(testVehicle.getVehicleId(), found.get().getVehicle().getVehicleId()); // Verify vehicle, if applicable
     }
 
     @Test
-    @Order(2)
-    void testReadBooking() {
-        Optional<Booking> read = iBookingService.read(BOOKING_ID);
-        assertTrue(read.isPresent());
-        assertEquals(BOOKING_ID, read.get().getBookingId());
+    void update_shouldModifyBooking() {
+        Booking booking = BookingFactory.buildBooking(
+                new Date(),
+                new Date(System.currentTimeMillis() + 86400000),
+                1000.0f,
+                BookingStatus.PENDING,
+                testCustomer // Pass the persisted testCustomer
+                // , testVehicle // Pass the persisted testVehicle, if applicable
+        );
+        Booking saved = bookingService.save(booking);
+        assertNotNull(saved, "Saved booking should not be null for update test");
+        assertNotNull(saved.getBookingId(), "Saved Booking ID should not be null for update test");
+
+        saved.setStatus(BookingStatus.CONFIRMED);
+        Booking updated = bookingService.update(saved);
+        assertNotNull(updated, "Updated booking should not be null");
+        assertEquals(BookingStatus.CONFIRMED, updated.getStatus());
+        assertEquals(saved.getBookingId(), updated.getBookingId());
     }
 
     @Test
-    @Order(3)
-    void testUpdateBooking() {
-        Booking updated = new Booking.Builder()
-                .setBookingId(BOOKING_ID)
-                .setStartDate(booking.getStartDate())
-                .setEndDate(new Date(System.currentTimeMillis() + 172800000))
-                .setTotalCost(1500.0f)
-                .setStatus(BookingStatus.CONFIRMED)
-                .build();
+    void deleteById_shouldRemoveBooking() {
+        Booking booking = BookingFactory.buildBooking(
+                new Date(),
+                new Date(System.currentTimeMillis() + 86400000),
+                1000.0f,
+                BookingStatus.PENDING,
+                testCustomer // Pass the persisted testCustomer
+                // , testVehicle // Pass the persisted testVehicle, if applicable
+        );
+        Booking saved = bookingService.save(booking);
+        assertNotNull(saved, "Saved booking should not be null for delete test");
+        assertNotNull(saved.getBookingId(), "Saved Booking ID should not be null for delete test");
 
-
-        Booking result = iBookingService.update(updated);
-        assertNotNull(result);
-        assertEquals(1500.0f, result.getTotalCost());
-        assertEquals(BookingStatus.CONFIRMED, result.getStatus());
-    }
-
-    @Test
-    @Order(4)
-    void testGetAllBookings() {
-        List<Booking> all = iBookingService.getAll();
-        assertFalse(all.isEmpty());
-
-    }
-
-    @Test
-    @Order(5)
-    void testDeleteBooking() {
-        iBookingService.delete(BOOKING_ID);
-        Optional<Booking> deletedBooking = iBookingService.read(BOOKING_ID);
-        assertFalse(deletedBooking.isPresent());
+        bookingService.deleteById(saved.getBookingId());
+        Optional<Booking> found = bookingService.findById(saved.getBookingId());
+        assertFalse(found.isPresent());
     }
 }
