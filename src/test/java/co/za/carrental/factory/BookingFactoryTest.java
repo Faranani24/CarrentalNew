@@ -1,40 +1,108 @@
-
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Booking;
 import co.za.carrental.domain.BookingStatus;
 import co.za.carrental.domain.Customer;
-import co.za.carrental.domain.Car;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BookingFactoryTest {
+class BookingFactoryTest {
 
     @Test
-    void createBooking() {
-        String bookingId = "B001";
+    void buildBooking_shouldCreateBookingWithGivenValues() {
+        Customer dummyCustomer = new Customer.Builder()
+                .setCustomerId(UUID.randomUUID().toString())
+                .setFirstName("Factory")
+                .setLastName("User")
+                .setEmail("factory@example.com")
+                .setPhone("1234567890")
+                .setLicenseNumber("FCTRY123")
+                .setPassword("dummyPass")
+                .setPaymentMethods(List.of("Card"))
+                .build();
+
         Date startDate = new Date();
-        Date endDate = new Date(startDate.getTime() + 86400000); // +1 day
-        Float totalCost = 1500.0f;
+        Date endDate = new Date(System.currentTimeMillis() + 86400000);
+        float totalCost = 500.0f;
         BookingStatus status = BookingStatus.PENDING;
 
-        Customer customer = new Customer.Builder("C001", "John", "Doe", "john@example.com").build();
-        Car car = new Car.Builder("CAR001", "Toyota", "Corolla", 2020).build();
-
-
-        Booking booking = BookingFactory.createBooking(
-                bookingId, startDate, endDate, totalCost, status, customer, car
+        Booking booking = BookingFactory.buildBooking(
+                startDate,
+                endDate,
+                totalCost,
+                status,
+                dummyCustomer
         );
 
         assertNotNull(booking);
-        assertEquals(bookingId, booking.getBookingId());
-        assertEquals(totalCost, booking.getTotalCost());
+        assertNotNull(booking.getBookingId());
         assertEquals(startDate, booking.getStartDate());
         assertEquals(endDate, booking.getEndDate());
-        assertEquals(BookingStatus.PENDING, booking.getStatus());
+        assertEquals(totalCost, booking.getTotalCost());
+        assertEquals(status, booking.getStatus());
+        assertNotNull(booking.getCustomer());
+        assertEquals(dummyCustomer.getCustomerId(), booking.getCustomer().getCustomerId());
+    }
+
+    @Test
+    void buildBooking_shouldThrowExceptionForNullStartDate() {
+        Customer dummyCustomer = new Customer.Builder()
+                .setCustomerId(UUID.randomUUID().toString())
+                .setFirstName("Test")
+                .setLastName("User")
+                .setEmail("test@example.com")
+                .setPhone("1234567890")
+                .setLicenseNumber("TEST123")
+                .setPassword("pass")
+                .setPaymentMethods(List.of("cash"))
+                .build();
+
+        Date endDate = new Date(System.currentTimeMillis() + 86400000);
+        float totalCost = 500.0f;
+        BookingStatus status = BookingStatus.PENDING;
+
+        assertThrows(IllegalArgumentException.class, () ->
+                BookingFactory.buildBooking(
+                        null,
+                        endDate,
+                        totalCost,
+                        status,
+                        dummyCustomer
+                )
+        );
+    }
+
+    @Test
+    void buildBooking_shouldThrowExceptionForEndDateBeforeStartDate() {
+        Customer dummyCustomer = new Customer.Builder()
+                .setCustomerId(UUID.randomUUID().toString())
+                .setFirstName("Test")
+                .setLastName("User")
+                .setEmail("test@example.com")
+                .setPhone("1234567890")
+                .setLicenseNumber("TEST123")
+                .setPassword("pass")
+                .setPaymentMethods(List.of("cash"))
+                .build();
+
+        Date startDate = new Date(System.currentTimeMillis() + 86400000);
+        Date endDate = new Date();
+        float totalCost = 500.0f;
+        BookingStatus status = BookingStatus.PENDING;
+
+        assertThrows(IllegalArgumentException.class, () ->
+                BookingFactory.buildBooking(
+                        startDate,
+                        endDate,
+                        totalCost,
+                        status,
+                        dummyCustomer
+                )
+        );
     }
 }
