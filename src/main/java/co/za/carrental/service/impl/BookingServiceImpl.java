@@ -14,7 +14,6 @@ public class BookingServiceImpl implements IBookingService {
 
     private final BookingRepository bookingRepository;
 
-
     @Autowired
     public BookingServiceImpl(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
@@ -37,45 +36,36 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public Booking update(Booking booking) {
-        Optional<Booking> existingBookingOpt = bookingRepository.findById(booking.getBookingId());
-        if (existingBookingOpt.isPresent()) {
-            Booking existingBooking = existingBookingOpt.get();
-            existingBooking.setStartDate(booking.getStartDate());
-            existingBooking.setEndDate(booking.getEndDate());
-            existingBooking.setStatus(booking.getStatus());
-            existingBooking.setTotalCost(booking.getTotalCost());
-            return bookingRepository.save(existingBooking);
-        } else {
-            throw new IllegalArgumentException("Booking with ID " + booking.getBookingId() + " does not exist.");
-        }
+        return bookingRepository.save(booking);
     }
 
     @Override
     public void deleteById(String bookingId) {
-        if (bookingRepository.existsById(bookingId)) {
-            bookingRepository.deleteById(bookingId);
-        } else {
-            throw new IllegalArgumentException("Booking with ID " + bookingId + " not found for deletion.");
-        }
+        bookingRepository.deleteById(bookingId);
     }
 
     @Override
     public Booking create(Booking booking) {
-        return null;
+        return bookingRepository.save(booking);
     }
 
     @Override
     public Optional<Booking> read(String bookingId) {
-        return Optional.empty();
+        return bookingRepository.findById(bookingId);
     }
 
     @Override
     public List<Booking> getAll() {
-        return List.of();
+        return bookingRepository.findAll();
     }
 
     @Override
     public void delete(String bookingId) {
+        bookingRepository.deleteById(bookingId);
+    }
+
+    @Override
+    public void customBookingLogic() {
 
     }
 }
