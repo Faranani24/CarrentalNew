@@ -1,29 +1,18 @@
-
 package co.za.carrental.service;
 
-
-import co.za.carrental.domain.Booking;
-import co.za.carrental.domain.Customer;
-
+import java.util.List;
 import java.util.Optional;
 
-public interface IService <T, ID>{
-
-    T create(T t);
-
-
-    Optional<Booking> read(ID id);
-
-
-    T update(T t);
-
+public interface IService<T, ID> {
+    T create(T entity);
+    Optional<T> read(ID id);
+    T update(T entity);
     void delete(ID id);
+    List<T> getAll();
 
-    Object save(Customer any);
+    T save(T entity);
 
-    Object findById(String cust1);
+    Optional<T> findById(ID id);
 
-    Object findAll();
-
-    void deleteById(String cust1);
+    void deleteById(ID id);
 }

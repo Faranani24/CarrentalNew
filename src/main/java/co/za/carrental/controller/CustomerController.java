@@ -1,7 +1,7 @@
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.Customer;
-import co.za.carrental.service.CustomerService;
+import co.za.carrental.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,54 +11,45 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/customers") // Base mapping
 public class CustomerController {
 
-    private final CustomerService service;
+    private final ICustomerService customerService;
 
     @Autowired
-    public CustomerController(CustomerService service) {
-        this.service = service;
+    public CustomerController(ICustomerService customerService) {
+        this.customerService = customerService;
     }
 
-    @PostMapping // For creating a new customer
-    public ResponseEntity<Customer> create(@RequestBody Customer customer) {
-        Customer createdCustomer = service.save(customer);
-        return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
+    @PostMapping // Corrected: No "/api/customers" here
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+        Customer created = customerService.create(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Customer> read(@PathVariable String id) {
-        return service.findById(id) // Use findById as per your service
-                .map(ResponseEntity::ok)
+        Optional<Customer> customer = customerService.read(id);
+        return customer.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping //
-    public ResponseEntity<List<Customer>> getAll() {
-        List<Customer> customers = service.findAll();
-        return ResponseEntity.ok(customers);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> update(@PathVariable String id, @RequestBody Customer customer) {
-
-        if (!id.equals(customer.getCustomerId())) {
-            throw new IllegalArgumentException("Customer ID in path must match customer ID in request body.");
-        }
-        try {
-            Customer updatedCustomer = service.update(customer);
-            return ResponseEntity.ok(updatedCustomer);
-        } catch (IllegalArgumentException e) {
-
-            return ResponseEntity.notFound().build();
-        }
+        customer.setCustomerId(id);
+        Customer updated = customerService.update(customer);
+        return ResponseEntity.ok(updated);
     }
 
-
-    @DeleteMapping("/{id}") // For deleting a customer by ID
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
-        service.deleteById(id); // Use deleteById as per your service
-        return ResponseEntity.noContent().build(); // Return 204 No Content for successful deletion
+        customerService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Customer>> getAll() {
+        List<Customer> customers = customerService.getAll();
+        return ResponseEntity.ok(customers);
     }
 }
