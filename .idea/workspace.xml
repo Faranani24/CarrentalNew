@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b16ca08b-9800-475f-b3cc-399c438fc9ca" name="Changes" comment="few updates" />
+    <list default="true" id="b16ca08b-9800-475f-b3cc-399c438fc9ca" name="Changes" comment="few updates">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,9 +17,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -31,8 +34,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/InamJim/carrental&quot;,
-    &quot;accountId&quot;: &quot;654a81f9-8e9b-4d36-9595-8a132b323f9d&quot;
+    &quot;url&quot;: &quot;https://github.com/TerryKama/carrental.git&quot;,
+    &quot;accountId&quot;: &quot;ea997a67-619b-43d2-a00f-24d787c12efa&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -223,8 +226,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.23892.409" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-IU-252.23892.409" />
       </set>
     </attachedChunks>
   </component>
@@ -272,6 +275,8 @@
       <workItem from="1754510755394" duration="12339000" />
       <workItem from="1754510755394" duration="13417000" />
       <workItem from="1754510755394" duration="11753000" />
+      <workItem from="1754749101770" duration="2947000" />
+      <workItem from="1754917016806" duration="423000" />
     </task>
     <task id="LOCAL-00004" summary="commit">
       <option name="closed" value="true" />
@@ -318,6 +323,13 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Service and Admin entities" />
