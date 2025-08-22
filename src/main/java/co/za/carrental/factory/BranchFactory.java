@@ -49,4 +49,5 @@ public class BranchFactory {
         throw new UnsupportedOperationException(
                 "This method is deprecated for persistence. Use buildBranch(address, phone) instead.");
     }
+
 }
