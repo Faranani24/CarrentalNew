@@ -1,3 +1,9 @@
+/*
+ *
+ * Author: Milani Ncana (216269369)
+ * Date: 11 May 2025
+ */
+
 package co.za.carrental.repository;
 
 import co.za.carrental.domain.Branch;
@@ -9,7 +15,7 @@ import java.util.List;
 @Repository
 public interface BranchRepository extends JpaRepository<Branch, String> {
 
-    // Find branches whose address contains the given keyword (case-insensitive)
+    // Find branches whose address contains the given keyword (case-insensitive).
     List<Branch> findByAddressContainingIgnoreCase(String keyword);
 
     // Find branches by exact phone number

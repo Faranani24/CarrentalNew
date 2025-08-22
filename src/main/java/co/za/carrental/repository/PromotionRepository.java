@@ -1,3 +1,9 @@
+/*
+ *
+ * Author: Milani Ncana (216269369)
+ * Date: 11 May 2025
+ */
+
 package co.za.carrental.repository;
 
 import co.za.carrental.domain.Promotion;

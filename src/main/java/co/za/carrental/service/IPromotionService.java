@@ -1,3 +1,9 @@
+/*
+ *
+ * Author: Milani Ncana (216269369)
+ * Date: 11 May 2025
+ */
+
 package co.za.carrental.service;
 
 import co.za.carrental.domain.Promotion;
@@ -8,7 +14,7 @@ import java.util.Optional;
 
 public interface IPromotionService extends IService<Promotion, String> {
 
-    // Custom business logic placeholder
+    // Custom business logic placeholder/s
     void customPromotionLogic();
 
     // CRUD and useful queries

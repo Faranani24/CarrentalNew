@@ -1,3 +1,9 @@
+/*
+ *
+ * Author: Milani Ncana (216269369)
+ * Date: 11 May 2025
+ */
+
 package co.za.carrental.service.impl;
 
 import co.za.carrental.domain.Promotion;
@@ -68,7 +74,7 @@ public class PromotionServiceImpl implements IPromotionService {
 
     @Override
     public void customPromotionLogic() {
-        // Add domain-specific promotion logic here if needed.
+        // Add domain-specific promotion logic here if needed here.
     }
 
     @Override
