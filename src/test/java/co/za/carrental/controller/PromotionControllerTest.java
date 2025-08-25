@@ -1,22 +1,17 @@
-/*
- *
- * Author: Milani Ncana (216269369)
- * Date: 11 May 2025
- *
- */
-
+// src/test/java/co/za/carrental/controller/PromotionControllerTest.java
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.Promotion;
 import co.za.carrental.factory.PromotionFactory;
-import co.za.carrental.service.IPromotionService;
+import co.za.carrental.repository.PromotionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,57 +24,92 @@ class PromotionControllerTest {
     private PromotionController promotionController;
 
     @Autowired
-    private IPromotionService promotionService;
+    private PromotionRepository promotionRepository;
 
     private Promotion testPromotion;
 
+    private Date futureDate(int daysAhead) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, daysAhead);
+        return cal.getTime();
+    }
+
     @BeforeEach
     void setUp() {
-        testPromotion = PromotionFactory.createPromotion(
-                "P001", "Winter Special", 20.0,
-                LocalDate.of(2025, 6, 1),
-                LocalDate.of(2025, 6, 30)
-        );
-        testPromotion = promotionService.create(testPromotion);
+        promotionRepository.deleteAll();
+        testPromotion = PromotionFactory.buildPromotion("WELCOME10", 10.0f, futureDate(10));
+        promotionRepository.save(testPromotion);
     }
 
     @Test
     void create_shouldCreatePromotion() {
-        Promotion newPromotion = PromotionFactory.createPromotion(
-                "P002", "Spring Deal", 15.0,
-                LocalDate.of(2025, 9, 1),
-                LocalDate.of(2025, 9, 30)
-        );
-        ResponseEntity<Promotion> response = promotionController.create(newPromotion);
+        Promotion newPromo = PromotionFactory.buildPromotion("SUMMER20", 20.0f, futureDate(20));
+        ResponseEntity<Promotion> response = promotionController.create(newPromo);
+
         assertNotNull(response.getBody());
-        assertEquals("Spring Deal", response.getBody().getDescription());
-    }
-
-    @Test
-    void read_shouldReturnPromotion() {
-        ResponseEntity<Promotion> response = promotionController.read(testPromotion.getPromotionId());
-        assertTrue(response.getStatusCode().is2xxSuccessful());
-        assertEquals("Winter Special", response.getBody().getDescription());
-    }
-
-    @Test
-    void update_shouldUpdatePromotion() {
-        testPromotion.setDescription("Updated Winter Special");
-        ResponseEntity<Promotion> response = promotionController.update(testPromotion.getPromotionId(), testPromotion);
-        assertNotNull(response.getBody());
-        assertEquals("Updated Winter Special", response.getBody().getDescription());
-    }
-
-    @Test
-    void delete_shouldRemovePromotion() {
-        promotionController.delete(testPromotion.getPromotionId());
-        Optional<Promotion> found = promotionService.read(testPromotion.getPromotionId());
-        assertFalse(found.isPresent());
+        assertEquals("SUMMER20", response.getBody().getCode());
+        assertEquals(2, promotionRepository.count());
     }
 
     @Test
     void getAll_shouldReturnAllPromotions() {
         ResponseEntity<List<Promotion>> response = promotionController.getAll();
+
+        assertNotNull(response.getBody());
         assertFalse(response.getBody().isEmpty());
+        assertEquals(1, response.getBody().size());
+    }
+
+    @Test
+    void read_shouldReturnPromotionById() {
+        ResponseEntity<Promotion> response = promotionController.read(testPromotion.getPromoId());
+
+        assertNotNull(response.getBody());
+        assertEquals("WELCOME10", response.getBody().getCode());
+    }
+
+    @Test
+    void update_shouldUpdatePromotion() {
+        testPromotion.setDiscount(15.0f);
+        ResponseEntity<Promotion> response = promotionController.update(testPromotion.getPromoId(), testPromotion);
+
+        assertNotNull(response.getBody());
+        assertEquals(15.0f, response.getBody().getDiscount());
+    }
+
+    @Test
+    void delete_shouldDeletePromotion() {
+        promotionController.delete(testPromotion.getPromoId());
+        assertEquals(0, promotionRepository.count());
+    }
+
+    @Test
+    void search_byCode_shouldReturnPromotion() {
+        ResponseEntity<?> response = promotionController.search("WELCOME10", null, null);
+
+        assertTrue(response.getBody() instanceof Promotion);
+        Promotion promo = (Promotion) response.getBody();
+        assertEquals("WELCOME10", promo.getCode());
+    }
+
+    @Test
+    void search_byMinDiscount_shouldReturnPromotions() {
+        Promotion promo2 = PromotionFactory.buildPromotion("BIGSALE", 25.0f, futureDate(15));
+        promotionRepository.save(promo2);
+
+        ResponseEntity<?> response = promotionController.search(null, 15.0f, null);
+
+        assertTrue(response.getBody() instanceof List);
+        List<?> promos = (List<?>) response.getBody();
+        assertEquals(1, promos.size());
+    }
+
+    @Test
+    void search_byValid_shouldReturnValidPromotions() {
+        ResponseEntity<?> response = promotionController.search(null, null, true);
+
+        assertTrue(response.getBody() instanceof List);
+        List<?> promos = (List<?>) response.getBody();
+        assertFalse(promos.isEmpty());
     }
 }
