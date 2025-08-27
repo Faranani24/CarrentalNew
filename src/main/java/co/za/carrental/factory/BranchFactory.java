@@ -33,6 +33,24 @@ public class BranchFactory {
                 .build();
     }
 
+//    public createBranch(String address, String phone){
+//        if (address == null || address.trim().isEmpty()) {
+//            throw new IllegalArgumentException("Address is required.");
+//        }
+//        if (phone == null || phone.trim().isEmpty()) {
+//            throw new IllegalArgumentException("Phone number is required.");
+//        }
+//
+//        String branchId = "BR-" + UUID.randomUUID().toString();
+//
+//        return new Branch.Builder()
+//                .setBranchId(branchId)
+//                .setAddress(address.trim())
+//                .setPhone(phone.trim())
+//                .build();
+//
+//    }
+
 
     public static Branch buildBranch(String address) {
         throw new UnsupportedOperationException(

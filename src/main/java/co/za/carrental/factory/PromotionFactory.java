@@ -8,6 +8,7 @@ package co.za.carrental.factory;
 
 import co.za.carrental.domain.Promotion;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public class PromotionFactory {
         if (expiryDate == null) {
             throw new IllegalArgumentException("Expiry date is required.");
         }
+
         // Optional: ensure expiry is not in the past
         Date now = new Date();
         if (expiryDate.before(now)) {
@@ -48,4 +50,8 @@ public class PromotionFactory {
         throw new UnsupportedOperationException(
                 "This method is deprecated for persistence. Use buildPromotion(code, discount, expiryDate) instead.");
     }
+
+    //Create createPromotions() method to fix error in Controller test
+
+
 }
