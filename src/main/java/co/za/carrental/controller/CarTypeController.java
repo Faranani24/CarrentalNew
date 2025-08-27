@@ -1,54 +1,74 @@
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.CarType;
-import co.za.carrental.service.ICarTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import co.za.carrental.repository.CarTypeRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cartypes")
 public class CarTypeController {
 
-    private final ICarTypeService carTypeService;
+    private final CarTypeRepository repository;
 
-    @Autowired
-    public CarTypeController(ICarTypeService carTypeService) {
-        this.carTypeService = carTypeService;
+    public CarTypeController(CarTypeRepository repository) {
+        this.repository = repository;
     }
 
-    @PostMapping
-    public ResponseEntity<CarType> create(@RequestBody CarType carType) {
-        CarType created = carTypeService.create(carType);
-        return ResponseEntity.ok(created);
+    @GetMapping
+    public List<CarType> all() {
+        return repository.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CarType> read(@PathVariable String id) {
-        Optional<CarType> carType = carTypeService.read(id);
-        return carType.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public CarType one(@PathVariable String id) {
+        return repository.findById(id).orElseThrow(() -> new CarTypeNotFoundException(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<CarType> create(@Valid @RequestBody CarType carType) {
+        if (repository.existsById(carType.getTypeId())) {
+            throw new IllegalArgumentException("CarType already exists: " + carType.getTypeId());
+        }
+        CarType saved = repository.save(carType);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(saved.getTypeId())
+                .toUri();
+        return ResponseEntity.created(location).body(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CarType> update(@PathVariable String id, @RequestBody CarType carType) {
-        carType.setTypeId(id);
-        CarType updated = carTypeService.update(carType);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<CarType> update(@PathVariable String id, @Valid @RequestBody CarType carType) {
+        if (!id.equals(carType.getTypeId())) {
+            throw new IllegalArgumentException("Path id and body id mismatch");
+        }
+        if (!repository.existsById(id)) {
+            throw new CarTypeNotFoundException(id);
+        }
+        CarType saved = repository.save(carType);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
-        carTypeService.delete(id);
+        if (!repository.existsById(id)) {
+            throw new CarTypeNotFoundException(id);
+        }
+        repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    public ResponseEntity<CarType> read(String id) {
+        return ResponseEntity.ok(one(id));
+    }
+
     public ResponseEntity<List<CarType>> getAll() {
-        List<CarType> carTypes = carTypeService.getAll();
-        return ResponseEntity.ok(carTypes);
+        return ResponseEntity.ok(all());
     }
 }

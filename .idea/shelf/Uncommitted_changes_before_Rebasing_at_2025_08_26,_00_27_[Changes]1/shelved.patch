@@ -1,0 +1,564 @@
+Index: src/main/java/co/za/carrental/controller/CarTypeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.controller;\n\nimport co.za.carrental.domain.CarType;\nimport co.za.carrental.service.ICarTypeService;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.http.ResponseEntity;\nimport org.springframework.web.bind.annotation.*;\n\nimport java.util.List;\nimport java.util.Optional;\n\n@RestController\n@RequestMapping(\"/api/cartypes\")\npublic class CarTypeController {\n\n    private final ICarTypeService carTypeService;\n\n    @Autowired\n    public CarTypeController(ICarTypeService carTypeService) {\n        this.carTypeService = carTypeService;\n    }\n\n    @PostMapping\n    public ResponseEntity<CarType> create(@RequestBody CarType carType) {\n        CarType created = carTypeService.create(carType);\n        return ResponseEntity.ok(created);\n    }\n\n    @GetMapping(\"/{id}\")\n    public ResponseEntity<CarType> read(@PathVariable String id) {\n        Optional<CarType> carType = carTypeService.read(id);\n        return carType.map(ResponseEntity::ok)\n                .orElse(ResponseEntity.notFound().build());\n    }\n\n    @PutMapping(\"/{id}\")\n    public ResponseEntity<CarType> update(@PathVariable String id, @RequestBody CarType carType) {\n        carType.setTypeId(id);\n        CarType updated = carTypeService.update(carType);\n        return ResponseEntity.ok(updated);\n    }\n\n    @DeleteMapping(\"/{id}\")\n    public ResponseEntity<Void> delete(@PathVariable String id) {\n        carTypeService.delete(id);\n        return ResponseEntity.noContent().build();\n    }\n\n    @GetMapping\n    public ResponseEntity<List<CarType>> getAll() {\n        List<CarType> carTypes = carTypeService.getAll();\n        return ResponseEntity.ok(carTypes);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/co/za/carrental/controller/CarTypeController.java b/src/main/java/co/za/carrental/controller/CarTypeController.java
+--- a/src/main/java/co/za/carrental/controller/CarTypeController.java	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ b/src/main/java/co/za/carrental/controller/CarTypeController.java	(date 1755779675856)
+@@ -1,54 +1,74 @@
+ package co.za.carrental.controller;
+ 
+ import co.za.carrental.domain.CarType;
+-import co.za.carrental.service.ICarTypeService;
+-import org.springframework.beans.factory.annotation.Autowired;
++import co.za.carrental.repository.CarTypeRepository;
++import jakarta.validation.Valid;
+ import org.springframework.http.ResponseEntity;
+ import org.springframework.web.bind.annotation.*;
++import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+ 
++import java.net.URI;
+ import java.util.List;
+-import java.util.Optional;
+ 
+ @RestController
+ @RequestMapping("/api/cartypes")
+ public class CarTypeController {
+ 
+-    private final ICarTypeService carTypeService;
++    private final CarTypeRepository repository;
+ 
+-    @Autowired
+-    public CarTypeController(ICarTypeService carTypeService) {
+-        this.carTypeService = carTypeService;
++    public CarTypeController(CarTypeRepository repository) {
++        this.repository = repository;
+     }
+ 
+-    @PostMapping
+-    public ResponseEntity<CarType> create(@RequestBody CarType carType) {
+-        CarType created = carTypeService.create(carType);
+-        return ResponseEntity.ok(created);
++    @GetMapping
++    public List<CarType> all() {
++        return repository.findAll();
+     }
+ 
+     @GetMapping("/{id}")
+-    public ResponseEntity<CarType> read(@PathVariable String id) {
+-        Optional<CarType> carType = carTypeService.read(id);
+-        return carType.map(ResponseEntity::ok)
+-                .orElse(ResponseEntity.notFound().build());
++    public CarType one(@PathVariable String id) {
++        return repository.findById(id).orElseThrow(() -> new CarTypeNotFoundException(id));
++    }
++
++    @PostMapping
++    public ResponseEntity<CarType> create(@Valid @RequestBody CarType carType) {
++        if (repository.existsById(carType.getTypeId())) {
++            throw new IllegalArgumentException("CarType already exists: " + carType.getTypeId());
++        }
++        CarType saved = repository.save(carType);
++        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
++                .path("/{id}")
++                .buildAndExpand(saved.getTypeId())
++                .toUri();
++        return ResponseEntity.created(location).body(saved);
+     }
+ 
+     @PutMapping("/{id}")
+-    public ResponseEntity<CarType> update(@PathVariable String id, @RequestBody CarType carType) {
+-        carType.setTypeId(id);
+-        CarType updated = carTypeService.update(carType);
+-        return ResponseEntity.ok(updated);
++    public ResponseEntity<CarType> update(@PathVariable String id, @Valid @RequestBody CarType carType) {
++        if (!id.equals(carType.getTypeId())) {
++            throw new IllegalArgumentException("Path id and body id mismatch");
++        }
++        if (!repository.existsById(id)) {
++            throw new CarTypeNotFoundException(id);
++        }
++        CarType saved = repository.save(carType);
++        return ResponseEntity.ok(saved);
+     }
+ 
+     @DeleteMapping("/{id}")
+     public ResponseEntity<Void> delete(@PathVariable String id) {
+-        carTypeService.delete(id);
++        if (!repository.existsById(id)) {
++            throw new CarTypeNotFoundException(id);
++        }
++        repository.deleteById(id);
+         return ResponseEntity.noContent().build();
+     }
+ 
+-    @GetMapping
++    public ResponseEntity<CarType> read(String id) {
++        return ResponseEntity.ok(one(id));
++    }
++
+     public ResponseEntity<List<CarType>> getAll() {
+-        List<CarType> carTypes = carTypeService.getAll();
+-        return ResponseEntity.ok(carTypes);
++        return ResponseEntity.ok(all());
+     }
+ }
+\ No newline at end of file
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.url=jdbc:mysql://localhost:3306/carrental?useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC\nspring.datasource.username=root\nspring.datasource.password=password\n\nspring.jpa.hibernate.ddl-auto=update\nspring.jpa.show-sql=true\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect\nspring.jpa.properties.hibernate.type.preferred_uuid_jdbc_type=CHAR\n\n\n\n\ndebug=true
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ b/src/main/resources/application.properties	(date 1755952384848)
+@@ -1,13 +1,62 @@
+-spring.datasource.url=jdbc:mysql://localhost:3306/carrental?useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=false&serverTimezone=UTC
+-spring.datasource.username=root
+-spring.datasource.password=password
++# ==== Server ====
++server.port=8081
++
++# ==== Datasource (env overrides) ====
++spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/carrental?serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true}
++spring.datasource.username=${DB_USER:root}
++spring.datasource.password=${DB_PASS:password}
++spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+ 
++# Hikari (sane dev defaults; override via env in prod)
++spring.datasource.hikari.maximum-pool-size=${DB_POOL_MAX:10}
++spring.datasource.hikari.minimum-idle=${DB_POOL_MIN:2}
++spring.datasource.hikari.idle-timeout=60000
++spring.datasource.hikari.connection-timeout=30000
++spring.datasource.hikari.validation-timeout=5000
++
++# ==== JPA / Hibernate ====
+ spring.jpa.hibernate.ddl-auto=update
+ spring.jpa.show-sql=true
+-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
++spring.jpa.properties.hibernate.format_sql=true
++spring.jpa.open-in-view=false
++# (Optional) Keep if you really need to force dialect:
++# spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+ spring.jpa.properties.hibernate.type.preferred_uuid_jdbc_type=CHAR
+ 
++# ==== Actuator ====
++management.endpoint.health.show-details=always
++management.endpoints.web.exposure.include=health,info,metrics
++# Info contributors
++management.info.env.enabled=true
++management.info.git.mode=full
++
++management.endpoint.health.roles=ADMIN
++management.endpoints.web.base-path=/actuator
+ 
++# ==== CORS (custom list; comma-separated) ====
++app.cors.allowed-origins=${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
++app.cors.allowed-methods=GET,POST,PUT,DELETE,OPTIONS
++app.cors.allowed-headers=Content-Type,Authorization
++app.cors.allow-credentials=true
++# Basic build info (then curl /actuator/info)
++info.app.name=Car Rental API
++info.app.version=1.0.0
++info.app.description=Car rental service
++# ==== Logging ====
++logging.level.root=INFO
++logging.level.co.za.carrental=DEBUG
++logging.level.org.hibernate.SQL=DEBUG
++logging.level.org.hibernate.orm.jdbc.bind=TRACE
++# logging.pattern.console=%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n
+ 
++# ==== Graceful Shutdown ====
++spring.lifecycle.timeout-per-shutdown-phase=20s
+ 
+-debug=true
+\ No newline at end of file
++# ==== JSON ====
++spring.mvc.converters.preferred-json-mapper=jackson
++
++# ==== Future Profiles Hint ====
++# For prod create `application-prod.properties` overriding:
++# spring.jpa.hibernate.ddl-auto=none
++# logging.level.org.hibernate.SQL=INFO
++# and add Flyway.
+\ No newline at end of file
+Index: src/main/java/co/za/carrental/factory/CarTypeFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.factory;\n\nimport co.za.carrental.domain.CarType;\n\npublic class CarTypeFactory {\n    public static CarType createCarType(String typeId, String name, float dailyRate, float lateFeePerHour, int seatingCapacity) {\n        return CarType.builder()\n                .typeId(typeId)\n                .name(name)\n                .dailyRate(dailyRate)\n                .lateFeePerHour(lateFeePerHour)\n                .seatingCapacity(seatingCapacity)\n                .build();\n    }\n\n    public static CarType createDefaultCarType() {\n        return CarType.builder()\n                .typeId(\"default-type-id\")\n                .name(\"Default Car Type\")\n                .dailyRate(100.0f)\n                .lateFeePerHour(20.0f)\n                .seatingCapacity(4)\n                .build();\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/co/za/carrental/factory/CarTypeFactory.java b/src/main/java/co/za/carrental/factory/CarTypeFactory.java
+--- a/src/main/java/co/za/carrental/factory/CarTypeFactory.java	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ b/src/main/java/co/za/carrental/factory/CarTypeFactory.java	(date 1755780331065)
+@@ -3,7 +3,10 @@
+ import co.za.carrental.domain.CarType;
+ 
+ public class CarTypeFactory {
+-    public static CarType createCarType(String typeId, String name, float dailyRate, float lateFeePerHour, int seatingCapacity) {
++
++    public static CarType createCarType(String typeId, String name,
++                                        float dailyRate, float lateFeePerHour,
++                                        int seatingCapacity) {
+         return CarType.builder()
+                 .typeId(typeId)
+                 .name(name)
+Index: src/main/java/co/za/carrental/domain/CarType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.domain;\n\nimport jakarta.persistence.Entity;\nimport jakarta.persistence.Id;\n\n@Entity\npublic class CarType {\n    @Id\n    private String typeId;\n    private String name;\n    private float dailyRate;\n    private float lateFeePerHour;\n    private int seatingCapacity;\n\n    public CarType() {}\n\n    private CarType(Builder builder) {\n        this.typeId = builder.typeId;\n        this.name = builder.name;\n        this.dailyRate = builder.dailyRate;\n        this.lateFeePerHour = builder.lateFeePerHour;\n        this.seatingCapacity = builder.seatingCapacity;\n    }\n\n    public static Builder builder() {\n        return new Builder();\n    }\n\n    public static class Builder {\n        private String typeId;\n        private String name;\n        private float dailyRate;\n        private float lateFeePerHour;\n        private int seatingCapacity;\n\n        public Builder typeId(String typeId) {\n            this.typeId = typeId;\n            return this;\n        }\n\n        public Builder name(String name) {\n            this.name = name;\n            return this;\n        }\n\n        public Builder dailyRate(float dailyRate) {\n            this.dailyRate = dailyRate;\n            return this;\n        }\n\n        public Builder lateFeePerHour(float lateFeePerHour) {\n            this.lateFeePerHour = lateFeePerHour;\n            return this;\n        }\n\n        public Builder seatingCapacity(int seatingCapacity) {\n            this.seatingCapacity = seatingCapacity;\n            return this;\n        }\n\n        public CarType build() {\n            return new CarType(this);\n        }\n    }\n\n    // Getters\n    public String getTypeId() {\n        return typeId;\n    }\n\n    public void setTypeId(String typeId) {\n        this.typeId = typeId;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public float getDailyRate() {\n        return dailyRate;\n    }\n\n    public void setDailyRate(float dailyRate) {\n        this.dailyRate = dailyRate;\n    }\n\n    public float getLateFeePerHour() {\n        return lateFeePerHour;\n    }\n\n    public int getSeatingCapacity() {\n        return seatingCapacity;\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/co/za/carrental/domain/CarType.java b/src/main/java/co/za/carrental/domain/CarType.java
+--- a/src/main/java/co/za/carrental/domain/CarType.java	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ b/src/main/java/co/za/carrental/domain/CarType.java	(date 1755780331076)
+@@ -2,14 +2,36 @@
+ 
+ import jakarta.persistence.Entity;
+ import jakarta.persistence.Id;
++import jakarta.validation.constraints.Min;
++import jakarta.validation.constraints.NotBlank;
++import jakarta.validation.constraints.Positive;
++import jakarta.validation.constraints.PositiveOrZero;
++import jakarta.validation.constraints.Size;
++import jakarta.validation.constraints.Pattern;
++import java.util.Objects;
+ 
+ @Entity
+ public class CarType {
+     @Id
++    @NotBlank
++    @Size(max = 50)
++    @Pattern(
++            regexp = "^(T\\d{3}|CT\\d{3}|default-type-id)$",
++            message = "typeId must be T###, CT###, or default-type-id"
++    )
+     private String typeId;
++
++    @NotBlank
++    @Size(max = 100)
+     private String name;
++
++    @Positive
+     private float dailyRate;
++
++    @PositiveOrZero
+     private float lateFeePerHour;
++
++    @Min(1)
+     private int seatingCapacity;
+ 
+     public CarType() {}
+@@ -22,9 +44,7 @@
+         this.seatingCapacity = builder.seatingCapacity;
+     }
+ 
+-    public static Builder builder() {
+-        return new Builder();
+-    }
++    public static Builder builder() { return new Builder(); }
+ 
+     public static class Builder {
+         private String typeId;
+@@ -33,66 +53,46 @@
+         private float lateFeePerHour;
+         private int seatingCapacity;
+ 
+-        public Builder typeId(String typeId) {
+-            this.typeId = typeId;
+-            return this;
+-        }
+-
+-        public Builder name(String name) {
+-            this.name = name;
+-            return this;
+-        }
+-
+-        public Builder dailyRate(float dailyRate) {
+-            this.dailyRate = dailyRate;
+-            return this;
+-        }
+-
+-        public Builder lateFeePerHour(float lateFeePerHour) {
+-            this.lateFeePerHour = lateFeePerHour;
+-            return this;
+-        }
+-
+-        public Builder seatingCapacity(int seatingCapacity) {
+-            this.seatingCapacity = seatingCapacity;
+-            return this;
+-        }
+-
+-        public CarType build() {
+-            return new CarType(this);
+-        }
+-    }
+-
+-    // Getters
+-    public String getTypeId() {
+-        return typeId;
+-    }
+-
+-    public void setTypeId(String typeId) {
+-        this.typeId = typeId;
++        public Builder typeId(String typeId) { this.typeId = typeId; return this; }
++        public Builder name(String name) { this.name = name; return this; }
++        public Builder dailyRate(float dailyRate) { this.dailyRate = dailyRate; return this; }
++        public Builder lateFeePerHour(float lateFeePerHour) { this.lateFeePerHour = lateFeePerHour; return this; }
++        public Builder seatingCapacity(int seatingCapacity) { this.seatingCapacity = seatingCapacity; return this; }
++        public CarType build() { return new CarType(this); }
+     }
+ 
+-    public String getName() {
+-        return name;
+-    }
++    public String getTypeId() { return typeId; }
++    public void setTypeId(String typeId) { this.typeId = typeId; }
++    public String getName() { return name; }
++    public void setName(String name) { this.name = name; }
++    public float getDailyRate() { return dailyRate; }
++    public void setDailyRate(float dailyRate) { this.dailyRate = dailyRate; }
++    public float getLateFeePerHour() { return lateFeePerHour; }
++    public void setLateFeePerHour(float lateFeePerHour) { this.lateFeePerHour = lateFeePerHour; }
++    public int getSeatingCapacity() { return seatingCapacity; }
++    public void setSeatingCapacity(int seatingCapacity) { this.seatingCapacity = seatingCapacity; }
+ 
+-    public void setName(String name) {
+-        this.name = name;
++    @Override
++    public boolean equals(Object o) {
++        if (this == o) return true;
++        if (!(o instanceof CarType)) return false;
++        CarType carType = (CarType) o;
++        return Objects.equals(typeId, carType.typeId);
+     }
+ 
+-    public float getDailyRate() {
+-        return dailyRate;
++    @Override
++    public int hashCode() {
++        return Objects.hash(typeId);
+     }
+ 
+-    public void setDailyRate(float dailyRate) {
+-        this.dailyRate = dailyRate;
+-    }
+-
+-    public float getLateFeePerHour() {
+-        return lateFeePerHour;
+-    }
+-
+-    public int getSeatingCapacity() {
+-        return seatingCapacity;
++    @Override
++    public String toString() {
++        return "CarType{" +
++                "typeId='" + typeId + '\'' +
++                ", name='" + name + '\'' +
++                ", dailyRate=" + dailyRate +
++                ", lateFeePerHour=" + lateFeePerHour +
++                ", seatingCapacity=" + seatingCapacity +
++                '}';
+     }
+ }
+\ No newline at end of file
+Index: src/main/java/co/za/carrental/repository/CarTypeRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.repository;\n\nimport co.za.carrental.domain.CarType;\nimport org.springframework.data.jpa.repository.JpaRepository;\nimport org.springframework.stereotype.Repository;\n\n@Repository\npublic interface CarTypeRepository extends JpaRepository<CarType, String> {\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/co/za/carrental/repository/CarTypeRepository.java b/src/main/java/co/za/carrental/repository/CarTypeRepository.java
+--- a/src/main/java/co/za/carrental/repository/CarTypeRepository.java	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ b/src/main/java/co/za/carrental/repository/CarTypeRepository.java	(date 1755778724466)
+@@ -2,8 +2,6 @@
+ 
+ import co.za.carrental.domain.CarType;
+ import org.springframework.data.jpa.repository.JpaRepository;
+-import org.springframework.stereotype.Repository;
+ 
+-@Repository
+ public interface CarTypeRepository extends JpaRepository<CarType, String> {
+ }
+\ No newline at end of file
+Index: .idea/modules.xml
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+--- a/.idea/modules.xml	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ /dev/null	(revision bbd1788183acb4020cedb1823f8627828085a3df)
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/carrental.iml" filepath="$PROJECT_DIR$/carrental.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: src/main/java/co/za/carrental/domain/Status.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.domain;\n\npublic enum Status {\n    AVAILABLE,\n    RENTED,\n    MAINTENANCE\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/co/za/carrental/domain/Status.java b/src/main/java/co/za/carrental/domain/Status.java
+--- a/src/main/java/co/za/carrental/domain/Status.java	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ b/src/main/java/co/za/carrental/domain/Status.java	(date 1755773248379)
+@@ -3,5 +3,7 @@
+ public enum Status {
+     AVAILABLE,
+     RENTED,
+-    MAINTENANCE
++    MAINTENANCE,
++    RETIRED,
++
+ }
+\ No newline at end of file
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>za.co.carrental</groupId>\n    <artifactId>carrental</artifactId>\n    <version>1.0-SNAPSHOT</version>\n\n    <parent>\n        <groupId>org.springframework.boot</groupId>\n        <artifactId>spring-boot-starter-parent</artifactId>\n        <version>3.2.5</version>\n        <relativePath/> <!-- Lookup parent from repository -->\n    </parent>\n\n    <properties>\n        <java.version>21</java.version>\n        <maven.compiler.source>21</maven.compiler.source>\n        <maven.compiler.target>21</maven.compiler.target>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n    </properties>\n\n    <dependencies>\n\n        <!-- Spring Boot Starter Web -->\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-web</artifactId>\n        </dependency>\n\n        <!-- Spring Boot Starter Data JPA -->\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-data-jpa</artifactId>\n        </dependency>\n\n        <!-- MySQL Connector -->\n        <dependency>\n            <groupId>com.mysql</groupId>\n            <artifactId>mysql-connector-j</artifactId>\n            <scope>runtime</scope>\n        </dependency>\n\n        <dependency>\n            <groupId>mysql</groupId>\n            <artifactId>mysql-connector-java</artifactId>\n            <version>8.0.33</version>\n        </dependency>\n\n        <!-- JUnit 5 -->\n        <dependency>\n            <groupId>org.junit.jupiter</groupId>\n            <artifactId>junit-jupiter</artifactId>\n            <version>5.10.0</version>\n            <scope>test</scope>\n        </dependency>\n\n        <dependency>\n            <groupId>org.mockito</groupId>\n            <artifactId>mockito-core</artifactId>\n            <version>5.12.0</version>\n            <scope>test</scope>\n        </dependency>\n\n        <!-- Spring Boot Test -->\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter-test</artifactId>\n            <scope>test</scope>\n        </dependency>\n        <dependency>\n            <groupId>org.springframework.boot</groupId>\n            <artifactId>spring-boot-starter</artifactId>\n            <exclusions>\n                <exclusion>\n                    <groupId>org.crac</groupId>\n                    <artifactId>crac</artifactId>\n                </exclusion>\n            </exclusions>\n        </dependency>\n\n\n        <dependency>\n            <groupId>com.h2database</groupId>\n            <artifactId>h2</artifactId>\n            <scope>test</scope>\n        </dependency>\n\n    </dependencies>\n\n    <build>\n        <plugins>\n            <!-- Spring Boot Maven Plugin -->\n            <plugin>\n                <groupId>org.springframework.boot</groupId>\n                <artifactId>spring-boot-maven-plugin</artifactId>\n            </plugin>\n\n            <!-- JUnit 5 support -->\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-surefire-plugin</artifactId>\n                <version>3.1.2</version>\n                <configuration>\n                    <useModulePath>false</useModulePath>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n\n\n</project>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision bbd1788183acb4020cedb1823f8627828085a3df)
++++ b/pom.xml	(date 1755777205839)
+@@ -3,7 +3,6 @@
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+-
+     <groupId>za.co.carrental</groupId>
+     <artifactId>carrental</artifactId>
+     <version>1.0-SNAPSHOT</version>
+@@ -12,93 +11,62 @@
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-parent</artifactId>
+         <version>3.2.5</version>
+-        <relativePath/> <!-- Lookup parent from repository -->
++        <relativePath/>
+     </parent>
+ 
+     <properties>
+         <java.version>21</java.version>
+-        <maven.compiler.source>21</maven.compiler.source>
+-        <maven.compiler.target>21</maven.compiler.target>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ 
+     <dependencies>
+-
+-        <!-- Spring Boot Starter Web -->
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-web</artifactId>
+         </dependency>
+-
+-        <!-- Spring Boot Starter Data JPA -->
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-data-jpa</artifactId>
+         </dependency>
+-
+-        <!-- MySQL Connector -->
+         <dependency>
+-            <groupId>com.mysql</groupId>
+-            <artifactId>mysql-connector-j</artifactId>
+-            <scope>runtime</scope>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-actuator</artifactId>
+         </dependency>
+-
++        <!-- Validation (needed for @Valid and constraint annotations) -->
+         <dependency>
+-            <groupId>mysql</groupId>
+-            <artifactId>mysql-connector-java</artifactId>
+-            <version>8.0.33</version>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-validation</artifactId>
+         </dependency>
+-
+-        <!-- JUnit 5 -->
+         <dependency>
+-            <groupId>org.junit.jupiter</groupId>
+-            <artifactId>junit-jupiter</artifactId>
+-            <version>5.10.0</version>
+-            <scope>test</scope>
+-        </dependency>
+-
+-        <dependency>
+-            <groupId>org.mockito</groupId>
+-            <artifactId>mockito-core</artifactId>
+-            <version>5.12.0</version>
+-            <scope>test</scope>
++            <groupId>com.mysql</groupId>
++            <artifactId>mysql-connector-j</artifactId>
++            <scope>runtime</scope>
+         </dependency>
+-
+-        <!-- Spring Boot Test -->
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-test</artifactId>
+             <scope>test</scope>
+         </dependency>
+-        <dependency>
+-            <groupId>org.springframework.boot</groupId>
+-            <artifactId>spring-boot-starter</artifactId>
+-            <exclusions>
+-                <exclusion>
+-                    <groupId>org.crac</groupId>
+-                    <artifactId>crac</artifactId>
+-                </exclusion>
+-            </exclusions>
+-        </dependency>
+-
+-
+         <dependency>
+             <groupId>com.h2database</groupId>
+             <artifactId>h2</artifactId>
+             <scope>test</scope>
+         </dependency>
+-
+     </dependencies>
+ 
+     <build>
+         <plugins>
+-            <!-- Spring Boot Maven Plugin -->
+             <plugin>
+                 <groupId>org.springframework.boot</groupId>
+                 <artifactId>spring-boot-maven-plugin</artifactId>
++                <executions>
++                    <execution>
++                        <goals>
++                            <goal>build-info</goal>
++                        </goals>
++                    </execution>
++                </executions>
+             </plugin>
+-
+-            <!-- JUnit 5 support -->
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-surefire-plugin</artifactId>
+@@ -109,6 +77,4 @@
+             </plugin>
+         </plugins>
+     </build>
+-
+-
+-</project>
++</project>
+\ No newline at end of file

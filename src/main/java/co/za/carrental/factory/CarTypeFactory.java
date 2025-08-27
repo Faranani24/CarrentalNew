@@ -3,7 +3,10 @@ package co.za.carrental.factory;
 import co.za.carrental.domain.CarType;
 
 public class CarTypeFactory {
-    public static CarType createCarType(String typeId, String name, float dailyRate, float lateFeePerHour, int seatingCapacity) {
+
+    public static CarType createCarType(String typeId, String name,
+                                        float dailyRate, float lateFeePerHour,
+                                        int seatingCapacity) {
         return CarType.builder()
                 .typeId(typeId)
                 .name(name)

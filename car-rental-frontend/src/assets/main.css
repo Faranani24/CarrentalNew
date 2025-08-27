@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom theme variables & utilities */
+@import './theme.css';
+
+/* Optional: form sizing overrides */
+.form-field-lg {
+  height: 3.5rem;
+  border-radius: 1rem;
+  padding: 0 1.25rem;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}

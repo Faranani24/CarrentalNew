@@ -1,0 +1,263 @@
+Index: src/main/java/co/za/carrental/domain/Car.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>//Faranani Khangale\n// Created on 2025/05/25\n// 230136982\n// This code is part of a car rental system,\n\npackage co.za.carrental.domain;\n\nimport jakarta.persistence.Entity;\nimport jakarta.persistence.Id;\nimport jakarta.persistence.Table;\n\n\n@Entity\n@Table(name = \"car\")\npublic class Car {\n\n    private String carId;\n    private String licensePlate;\n    private String make;\n    private String model;\n    private int year;\n    private Status status;\n    private String carType;  // keep as String for DB storage\n\n    @Id\n    private Long id;\n\n\n    public Car() {\n    }\n\n    private Car(Builder builder) {\n        this.carId = builder.carId;\n        this.licensePlate = builder.licensePlate;\n        this.make = builder.make;\n        this.model = builder.model;\n        this.year = builder.year;\n        this.status = builder.status;\n        this.carType = builder.carType;\n        this.id = builder.id;\n    }\n\n    // Getters\n    public String getCarId() { return carId; }\n    public String getLicensePlate() { return licensePlate; }\n    public String getMake() { return make; }\n    public String getModel() { return model; }\n    public int getYear() { return year; }\n    public Status getStatus() { return status; }\n\n    // Convert stored String to enum\n    public CarType getCarType() {\n        return carType == null ? null : CarType.valueOf(carType);\n    }\n\n    public Long getId() { return id; }\n\n    // Setters\n    public void setCarId(String carId) { this.carId = carId; }\n    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }\n    public void setMake(String make) { this.make = make; }\n    public void setModel(String model) { this.model = model; }\n    public void setYear(int year) { this.year = year; }\n    public void setStatus(Status status) { this.status = status; }\n\n    // Convert enum to String for storage\n    public void setCarType(CarType carType) {\n        this.carType = carType == null ? null : carType.name();\n    }\n\n    public void setId(Long id) { this.id = id; }\n\n    public static class Builder {\n        private String carId;\n        private String licensePlate;\n        private String make;\n        private String model;\n        private int year;\n        private Status status;\n        private String carType;  // store as String in builder too\n        private Long id;\n\n        public Builder setCarId(String carId) {\n            this.carId = carId;\n            return this;\n        }\n\n        public Builder setLicensePlate(String licensePlate) {\n            this.licensePlate = licensePlate;\n            return this;\n        }\n\n        public Builder setMake(String make) {\n            this.make = make;\n            return this;\n        }\n\n        public Builder setModel(String model) {\n            this.model = model;\n            return this;\n        }\n\n        public Builder setYear(int year) {\n            this.year = year;\n            return this;\n        }\n\n        public Builder setStatus(Status status) {\n            this.status = status;\n            return this;\n        }\n\n\n        public Builder setCarType(CarType carType) {\n            this.carType = carType == null ? null : carType.name();\n            return this;\n        }\n\n        public Builder setId(Long id) {\n            this.id = id;\n            return this;\n        }\n\n        public Car build() {\n            return new Car(this);\n        }\n    }\n\n    @Override\n    public String toString() {\n        return \"Car{\" +\n                \"carId='\" + carId + '\\'' +\n                \", licensePlate='\" + licensePlate + '\\'' +\n                \", make='\" + make + '\\'' +\n                \", model='\" + model + '\\'' +\n                \", year=\" + year +\n                \", status=\" + status +\n                \", carType=\" + carType +\n                \", id=\" + id +\n                '}';\n    }\n}\n
+===================================================================
+diff --git a/src/main/java/co/za/carrental/domain/Car.java b/src/main/java/co/za/carrental/domain/Car.java
+--- a/src/main/java/co/za/carrental/domain/Car.java	(revision a93e072e544efa81f103f8428f1e01cc97f89276)
++++ b/src/main/java/co/za/carrental/domain/Car.java	(date 1748241255226)
+@@ -1,35 +1,30 @@
+-//Faranani Khangale
+-// Created on 2025/05/25
+-// 230136982
+-// This code is part of a car rental system,
+-
+ package co.za.carrental.domain;
+ 
+-import jakarta.persistence.Entity;
+-import jakarta.persistence.Id;
+-import jakarta.persistence.Table;
+-
++import jakarta.persistence.*;
+ 
+ @Entity
+ @Table(name = "car")
+ public class Car {
+ 
++    @Id
++    @GeneratedValue(strategy = GenerationType.IDENTITY)
++    private Long id;
++
+     private String carId;
+     private String licensePlate;
+     private String make;
+     private String model;
+     private int year;
++
++    @Enumerated(EnumType.STRING)
+     private Status status;
+-    private String carType;  // keep as String for DB storage
+ 
+-    @Id
+-    private Long id;
++    private String carType; // Store the CarType's typeId string for DB
+ 
+-
+-    public Car() {
+-    }
++    public Car() {}
+ 
+     private Car(Builder builder) {
++        this.id = builder.id;
+         this.carId = builder.carId;
+         this.licensePlate = builder.licensePlate;
+         this.make = builder.make;
+@@ -37,10 +32,9 @@
+         this.year = builder.year;
+         this.status = builder.status;
+         this.carType = builder.carType;
+-        this.id = builder.id;
+     }
+ 
+-    // Getters
++    public Long getId() { return id; }
+     public String getCarId() { return carId; }
+     public String getLicensePlate() { return licensePlate; }
+     public String getMake() { return make; }
+@@ -48,14 +42,17 @@
+     public int getYear() { return year; }
+     public Status getStatus() { return status; }
+ 
+-    // Convert stored String to enum
++    // Convert stored string to CarType object
+     public CarType getCarType() {
+         return carType == null ? null : CarType.valueOf(carType);
+     }
+ 
+-    public Long getId() { return id; }
++    // Set CarType by storing its typeId string
++    public void setCarType(CarType carType) {
++        this.carType = carType == null ? null : carType.name();
++    }
+ 
+-    // Setters
++    public void setId(Long id) { this.id = id; }
+     public void setCarId(String carId) { this.carId = carId; }
+     public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
+     public void setMake(String make) { this.make = make; }
+@@ -63,64 +60,30 @@
+     public void setYear(int year) { this.year = year; }
+     public void setStatus(Status status) { this.status = status; }
+ 
+-    // Convert enum to String for storage
+-    public void setCarType(CarType carType) {
+-        this.carType = carType == null ? null : carType.name();
+-    }
+-
+-    public void setId(Long id) { this.id = id; }
+-
+     public static class Builder {
++        private Long id;
+         private String carId;
+         private String licensePlate;
+         private String make;
+         private String model;
+         private int year;
+         private Status status;
+-        private String carType;  // store as String in builder too
+-        private Long id;
+-
+-        public Builder setCarId(String carId) {
+-            this.carId = carId;
+-            return this;
+-        }
+-
+-        public Builder setLicensePlate(String licensePlate) {
+-            this.licensePlate = licensePlate;
+-            return this;
+-        }
+-
+-        public Builder setMake(String make) {
+-            this.make = make;
+-            return this;
+-        }
+-
+-        public Builder setModel(String model) {
+-            this.model = model;
+-            return this;
+-        }
++        private String carType;
+ 
+-        public Builder setYear(int year) {
+-            this.year = year;
+-            return this;
+-        }
++        public Builder setId(Long id) { this.id = id; return this; }
++        public Builder setCarId(String carId) { this.carId = carId; return this; }
++        public Builder setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; return this; }
++        public Builder setMake(String make) { this.make = make; return this; }
++        public Builder setModel(String model) { this.model = model; return this; }
++        public Builder setYear(int year) { this.year = year; return this; }
++        public Builder setStatus(Status status) { this.status = status; return this; }
+ 
+-        public Builder setStatus(Status status) {
+-            this.status = status;
+-            return this;
+-        }
+-
+-
++        // Accept a CarType and store its typeId string
+         public Builder setCarType(CarType carType) {
+             this.carType = carType == null ? null : carType.name();
+             return this;
+         }
+ 
+-        public Builder setId(Long id) {
+-            this.id = id;
+-            return this;
+-        }
+-
+         public Car build() {
+             return new Car(this);
+         }
+@@ -129,14 +92,14 @@
+     @Override
+     public String toString() {
+         return "Car{" +
+-                "carId='" + carId + '\'' +
++                "id=" + id +
++                ", carId='" + carId + '\'' +
+                 ", licensePlate='" + licensePlate + '\'' +
+                 ", make='" + make + '\'' +
+                 ", model='" + model + '\'' +
+                 ", year=" + year +
+                 ", status=" + status +
+-                ", carType=" + carType +
+-                ", id=" + id +
++                ", carType='" + carType + '\'' +
+                 '}';
+     }
+ }
+Index: src/main/java/co/za/carrental/domain/Status.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.domain;\n/* Enum representing the status of a car in the rental system\nEnum Class.\nAuthor: Faranani Khangale (230136982)\nDate: 2025-05-11\n */\n\n\npublic enum Status {\n    AVAILABLE,\n    RENTED,\n    UNDER_MAINTENANCE,\n    RESERVED,\n    OUT_OF_SERVICE;\n\n\n    public static Status fromString(String status) {\n        for (Status carStatus : Status.values()) {\n            if (carStatus.name().equalsIgnoreCase(status)) {\n                return carStatus;\n            }\n        }\n\n        throw new IllegalArgumentException(\"Unknown status: \" + status);\n    }\n\n}\n
+===================================================================
+diff --git a/src/main/java/co/za/carrental/domain/Status.java b/src/main/java/co/za/carrental/domain/Status.java
+--- a/src/main/java/co/za/carrental/domain/Status.java	(revision a93e072e544efa81f103f8428f1e01cc97f89276)
++++ b/src/main/java/co/za/carrental/domain/Status.java	(date 1748241156352)
+@@ -6,22 +6,12 @@
+  */
+ 
+ 
++
++
+ public enum Status {
+     AVAILABLE,
+     RENTED,
+-    UNDER_MAINTENANCE,
+-    RESERVED,
+-    OUT_OF_SERVICE;
+-
+-
+-    public static Status fromString(String status) {
+-        for (Status carStatus : Status.values()) {
+-            if (carStatus.name().equalsIgnoreCase(status)) {
+-                return carStatus;
+-            }
+-        }
++    MAINTENANCE
++}
+ 
+-        throw new IllegalArgumentException("Unknown status: " + status);
+-    }
+ 
+-}
+Index: src/main/java/co/za/carrental/repository/ServiceRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.repository;\n\nimport co.za.carrental.domain.CarService; // Import the domain object CarService\nimport org.springframework.data.jpa.repository.JpaRepository;\nimport org.springframework.stereotype.Repository;\n\n@Repository\n// Crucial: Changed Integer to String for the ID type\npublic interface ServiceRepository extends JpaRepository<CarService, String> {\n    // JpaRepository provides save(), findById(ID), findAll(), deleteById(ID)\n}\n/*ServiceRepository.java\nCarService Repository\nThabiso Kama\n25 May 2025\n */
+===================================================================
+diff --git a/src/main/java/co/za/carrental/repository/ServiceRepository.java b/src/main/java/co/za/carrental/repository/ServiceRepository.java
+--- a/src/main/java/co/za/carrental/repository/ServiceRepository.java	(revision a93e072e544efa81f103f8428f1e01cc97f89276)
++++ b/src/main/java/co/za/carrental/repository/ServiceRepository.java	(date 1748213331125)
+@@ -1,6 +1,6 @@
+ package co.za.carrental.repository;
+ 
+-import co.za.carrental.domain.CarService; // Import the domain object CarService
++import co.za.carrental.service.impl.CarService; // Import the domain object CarService
+ import org.springframework.data.jpa.repository.JpaRepository;
+ import org.springframework.stereotype.Repository;
+ 
+Index: src/main/java/co/za/carrental/factory/ServiceFactory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.factory;\n\nimport co.za.carrental.domain.CarService;\n\npublic class ServiceFactory {\n    public static CarService createService(String serviceId, String name, float costPerDay){\n        return new CarService.Builder()\n                .setServiceId(serviceId)\n                .setName(name)\n                .setCostPerDay(costPerDay)\n                .build();\n    }\n}\n/*\nServiceFactory.java  \nCarService Factory\nThabiso Kama  \n18 May 2025  \n*/\n
+===================================================================
+diff --git a/src/main/java/co/za/carrental/factory/ServiceFactory.java b/src/main/java/co/za/carrental/factory/ServiceFactory.java
+--- a/src/main/java/co/za/carrental/factory/ServiceFactory.java	(revision a93e072e544efa81f103f8428f1e01cc97f89276)
++++ b/src/main/java/co/za/carrental/factory/ServiceFactory.java	(date 1748213331142)
+@@ -1,6 +1,6 @@
+ package co.za.carrental.factory;
+ 
+-import co.za.carrental.domain.CarService;
++import co.za.carrental.service.impl.CarService;
+ 
+ public class ServiceFactory {
+     public static CarService createService(String serviceId, String name, float costPerDay){
+Index: src/main/java/co/za/carrental/controller/ServiceController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.za.carrental.controller;\n\nimport co.za.carrental.domain.CarService;\nimport co.za.carrental.service.impl.CarServiceImpl; // Assuming this is your service implementation\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.http.HttpStatus; // Import HttpStatus\nimport org.springframework.http.ResponseEntity; // Import ResponseEntity\nimport org.springframework.web.bind.annotation.*;\n\nimport java.util.List;\nimport java.util.Optional; // Import Optional if using read/findById\n\n@RestController\n@RequestMapping(\"/api/services\")\npublic class ServiceController {\n\n    private final CarServiceImpl carServiceImpl; // Use 'final' and inject via constructor\n\n    @Autowired // Spring automatically injects\n    public ServiceController(CarServiceImpl carServiceImpl) {\n        this.carServiceImpl = carServiceImpl;\n    }\n\n    @PostMapping(\"/create\")\n    public ResponseEntity<CarService> create(@RequestBody CarService carService) {\n        CarService createdService = this.carServiceImpl.create(carService);\n        return new ResponseEntity<>(createdService, HttpStatus.CREATED); // Use 201 Created for new resources\n    }\n\n    @GetMapping(\"/getAll\")\n    public ResponseEntity<List<CarService>> getAllServices() {\n        List<CarService> services = carServiceImpl.getAll();\n        return new ResponseEntity<>(services, HttpStatus.OK); // Return 200 OK\n    }\n\n    // New: Get by ID method (Good practice for RESTful API)\n    @GetMapping(\"/{id}\") // Path variable 'id'\n    public ResponseEntity<CarService> getServiceById(@PathVariable String id) { // ID is String now\n        Optional<CarService> serviceOptional = carServiceImpl.read(id); // Use the 'read' method\n        return serviceOptional.map(service -> new ResponseEntity<>(service, HttpStatus.OK))\n                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)); // Return 404 if not found\n    }\n\n    @PutMapping(\"/update/{id}\") // Changed to @PutMapping for updates and included @PathVariable\n    public ResponseEntity<CarService> update(@PathVariable String id, @RequestBody CarService carService) {\n        // Ensure the ID in the path matches the ID in the request body for consistency\n        if (!id.equals(carService.getServiceId())) {\n            // It's good practice to handle mismatches\n            throw new IllegalArgumentException(\"Service ID in path must match service ID in request body.\");\n        }\n        try {\n            CarService updatedService = carServiceImpl.update(carService);\n            return new ResponseEntity<>(updatedService, HttpStatus.OK); // Return 200 OK\n        } catch (IllegalArgumentException e) {\n            // Catch the exception thrown by your service if the entity doesn't exist for update\n            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Return 404 if not found\n        }\n    }\n\n    @DeleteMapping(\"/delete/{id}\") // Your original method\n    public ResponseEntity<Void> delete(@PathVariable String id) { // FIX: Changed Integer to String\n        carServiceImpl.delete(id);\n        return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content for successful deletion\n    }\n}
+===================================================================
+diff --git a/src/main/java/co/za/carrental/controller/ServiceController.java b/src/main/java/co/za/carrental/controller/ServiceController.java
+--- a/src/main/java/co/za/carrental/controller/ServiceController.java	(revision a93e072e544efa81f103f8428f1e01cc97f89276)
++++ b/src/main/java/co/za/carrental/controller/ServiceController.java	(date 1748213331131)
+@@ -1,6 +1,6 @@
+ package co.za.carrental.controller;
+ 
+-import co.za.carrental.domain.CarService;
++import co.za.carrental.service.impl.CarService;
+ import co.za.carrental.service.impl.CarServiceImpl; // Assuming this is your service implementation
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.http.HttpStatus; // Import HttpStatus

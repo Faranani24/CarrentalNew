@@ -1,0 +1,141 @@
+/* File: src/assets/theme.css */
+
+/* Light theme (default) */
+:root {
+  --c-bg:#f5f7fa;
+  --c-surface:#ffffff;
+  --c-surface-alt:#eef2f6;
+  --c-border:rgba(0,0,0,0.08);
+  --c-border-strong:rgba(0,0,0,0.16);
+  --c-text:#1f242b;
+  --c-text-dim:#616b76;
+  --c-accent:linear-gradient(90deg,#f59e0b,#fb923c,#fbbf24);
+  --c-accent-solid:#f59e0b;
+
+  --radius-sm:6px;
+  --radius:14px;
+  --radius-lg:22px;
+  --shadow-soft:0 4px 18px -4px rgba(0,0,0,0.35);
+  --blur-lg:28px;
+  --speed-fast:.18s;
+  --speed:.35s;
+  --font-stack:system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;
+  --gradient-glow:
+          radial-gradient(circle at 25% 15%,rgba(255,255,255,0.12),transparent 60%),
+          radial-gradient(circle at 80% 70%,rgba(255,180,80,0.15),transparent 65%);
+}
+
+/* Dark theme override */
+:root.dark {
+  --c-bg:#0c0d10;
+  --c-surface:#14161b;
+  --c-surface-alt:#1c1f25;
+  --c-border:rgba(255,255,255,0.08);
+  --c-border-strong:rgba(255,255,255,0.16);
+  --c-text:#f5f7fa;
+  --c-text-dim:#9ca3af;
+  --c-accent:linear-gradient(90deg,#fbbf24,#fb923c,#f59e0b);
+  --c-accent-solid:#fbbf24;
+}
+
+/* Global resets */
+* { box-sizing:border-box; }
+html,body {
+  padding:0; margin:0;
+  font-family:var(--font-stack);
+  background:var(--c-bg);
+  color:var(--c-text);
+  -webkit-font-smoothing:antialiased;
+}
+::selection { background:#fbbf24; color:#222; }
+
+/* Scrollbar (WebKit) */
+::-webkit-scrollbar { width:10px; }
+::-webkit-scrollbar-track { background:#f1f5f9; }
+::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:40px; border:2px solid #f1f5f9; }
+::-webkit-scrollbar-thumb:hover { background:#94a3b8; }
+
+/* Page entrance */
+.animate-page-in { animation: pageIn .8s cubic-bezier(.16,.8,.43,1) both; }
+@keyframes pageIn {
+  0% { opacity:0; transform:translateY(24px) scale(.97); }
+  100% { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* Glass surfaces */
+.surface-glass {
+  background:linear-gradient(145deg,rgba(255,255,255,0.09),rgba(255,255,255,0.04));
+  border:1px solid var(--c-border);
+  backdrop-filter:saturate(180%) blur(20px);
+}
+
+/* Accent border ring */
+.accent-ring { position:relative; }
+.accent-ring::after {
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  transition:opacity var(--speed);
+  opacity:.45;
+  background:linear-gradient(var(--c-bg),var(--c-bg)) padding-box,
+  linear-gradient(120deg,#fbbf24,#fb923c,#f59e0b) border-box;
+  border:1px solid transparent;
+}
+.accent-ring:hover::after { opacity:.9; }
+
+/* Interactive tilt */
+.interactive { transform-style:preserve-3d; will-change:transform;
+  transition:transform .8s cubic-bezier(.16,.8,.43,1), border-color var(--speed); }
+.interactive:hover { transform:perspective(1100px) rotateX(6deg) rotateY(-6deg) translateY(-4px); }
+.interactive:active { transform:none; }
+
+/* Subtle float */
+.float-y { animation: floatY 6s ease-in-out infinite; }
+@keyframes floatY {
+  0%,100% { transform:translateY(-2px); }
+  50% { transform:translateY(4px); }
+}
+
+/* Ripple button */
+.btn-ripple { position:relative; overflow:hidden; isolation:isolate; }
+.btn-ripple::after {
+  content:""; position:absolute; left:50%; top:50%;
+  width:10px; height:10px; background:rgba(255,255,255,0.45);
+  border-radius:50%; transform:translate(-50%,-50%) scale(0); opacity:0;
+  transition:transform .6s ease, opacity .6s ease;
+}
+.btn-ripple:active::after {
+  transform:translate(-50%,-50%) scale(30);
+  opacity:0; transition:transform .75s ease, opacity .9s ease;
+}
+
+/* Focus ring */
+.focusable:focus-visible {
+  box-shadow:0 0 0 2px #111, 0 0 0 4px #fbbf24;
+  border-radius:inherit;
+}
+
+/* Skeleton shimmer */
+.skeleton-shimmer { position:relative; overflow:hidden; }
+.skeleton-shimmer::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,0.08) 45%,rgba(255,255,255,0.18) 50%,rgba(255,255,255,0.08) 55%,transparent 100%);
+  animation: shimmer 1.6s ease-in-out infinite;
+  mix-blend-mode:overlay;
+}
+@keyframes shimmer {
+  0% { transform:translateX(-100%); }
+  100% { transform:translateX(100%); }
+}
+
+/* Gradient text utility */
+.text-accent-gradient {
+  background:var(--c-accent);
+  background-size:180% 100%;
+  -webkit-background-clip:text;
+  color:transparent;
+  animation: accentShift 7s linear infinite;
+}
+@keyframes accentShift {
+  0% { background-position:0% 50%; }
+  50% { background-position:100% 50%; }
+  100% { background-position:0% 50%; }
+}
