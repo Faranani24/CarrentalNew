@@ -11,7 +11,6 @@ import co.za.carrental.domain.Promotion;
 import co.za.carrental.factory.PromotionFactory;
 import co.za.carrental.service.IPromotionService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,49 +33,47 @@ class PromotionControllerTest {
 
     private Promotion testPromotion;
 
+    @BeforeEach
+    void setUp() {
+        testPromotion = PromotionFactory.createPromotion(
+                "P001", "Winter Special", 20.0,
+                LocalDate.of(2025, 6, 1),
+                LocalDate.of(2025, 6, 30)
+        );
+        testPromotion = promotionService.create(testPromotion);
+    }
 
-//    @BeforeEach
-//    void setUp() {
-//        testPromotion = PromotionFactory.createPromotion(
-//                "P001", "WinterSpecialPromo", 20.0,
-//                LocalDate.of(2025, 6, 1),
-//                LocalDate.of(2025, 6, 30)
-//        );
-//        testPromotion = promotionService.create(testPromotion);
-//    }
-//
-//    @Test
-//    void create_shouldCreatePromotion() {
-//        Promotion newPromotion = PromotionFactory.createPromotion(
-//                "P002", "SpringDealPromo", 15.0,
-//                LocalDate.of(2025, 9, 1),
-//                LocalDate.of(2025, 9, 30)
-//        );
-//        ResponseEntity<Promotion> response = promotionController.create(newPromotion);
-//        assertNotNull(response.getBody());
-//        assertEquals("P002", response.getBody().getPromoId());
-//    }
+    @Test
+    void create_shouldCreatePromotion() {
+        Promotion newPromotion = PromotionFactory.createPromotion(
+                "P002", "Spring Deal", 15.0,
+                LocalDate.of(2025, 9, 1),
+                LocalDate.of(2025, 9, 30)
+        );
+        ResponseEntity<Promotion> response = promotionController.create(newPromotion);
+        assertNotNull(response.getBody());
+        assertEquals("Spring Deal", response.getBody().getDescription());
+    }
 
     @Test
     void read_shouldReturnPromotion() {
-        ResponseEntity<Promotion> response = promotionController.read(testPromotion.getPromoId());
+        ResponseEntity<Promotion> response = promotionController.read(testPromotion.getPromotionId());
         assertTrue(response.getStatusCode().is2xxSuccessful());
-        assertEquals("WinterSpecialPromo", response.getBody().getCode());
+        assertEquals("Winter Special", response.getBody().getDescription());
     }
 
     @Test
     void update_shouldUpdatePromotion() {
-        testPromotion.setCode("NewWinterSpecialPromo");
-        ResponseEntity<Promotion> response = promotionController.update(testPromotion.getPromoId(), testPromotion);
+        testPromotion.setDescription("Updated Winter Special");
+        ResponseEntity<Promotion> response = promotionController.update(testPromotion.getPromotionId(), testPromotion);
         assertNotNull(response.getBody());
-        assertEquals("NewWinterSpecialPromo", response.getBody().getCode());
+        assertEquals("Updated Winter Special", response.getBody().getDescription());
     }
 
     @Test
-    @Disabled
     void delete_shouldRemovePromotion() {
-        promotionController.delete(testPromotion.getPromoId());
-        Optional<Promotion> found = promotionService.read(testPromotion.getPromoId());
+        promotionController.delete(testPromotion.getPromotionId());
+        Optional<Promotion> found = promotionService.read(testPromotion.getPromotionId());
         assertFalse(found.isPresent());
     }
 
