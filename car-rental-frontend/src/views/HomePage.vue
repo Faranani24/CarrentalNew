@@ -1,8 +1,9 @@
-<!-- src/views/HomePage.vue -->
 <script setup>
 import { ref, computed, onMounted, nextTick, onBeforeUnmount } from 'vue'
 import { fetchCars } from '@/services/carService'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const cars = ref([])
 const loading = ref(false)
 const error = ref('')
@@ -103,7 +104,6 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
       </div>
     </nav>
 
-    <!-- Hero centered -->
     <section class="hero relative flex items-center">
       <div class="absolute inset-0">
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1650&q=60')] bg-cover bg-center animate-pan opacity-50"></div>
@@ -123,7 +123,6 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
             </p>
           </div>
 
-          <!-- Centered search card -->
           <form @submit="submitSearch"
                 class="mx-auto max-w-3xl backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 md:p-8 grid gap-4 md:grid-cols-5 animate-fade-up"
                 novalidate
@@ -166,7 +165,6 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
       <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-neutral-100"></div>
     </section>
 
-    <!-- Main content centered -->
     <main class="relative z-10 flex-1 w-full">
       <div class="mx-auto max-w-5xl px-6 py-12">
         <div class="flex flex-col items-center gap-4 mb-10 text-center">
@@ -233,14 +231,14 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
                   </span>
                   <span class="text-xs font-medium text-neutral-500"> /day</span>
                 </p>
-                <button type="button"
-                        class="relative w-full overflow-hidden px-4 py-2.5 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-gray-900 shadow group hover:shadow-amber-500/40 hover:scale-[1.015] active:scale-[0.97] transition">
+                <router-link :to="{ name: 'booking', params: { id: c.id || c.carId }, query: search }"
+                             class="relative w-full overflow-hidden px-4 py-2.5 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-gray-900 shadow group hover:shadow-amber-500/40 hover:scale-[1.015] active:scale-[0.97] transition">
                   <span class="relative z-10 flex items-center justify-center gap-1">
                     <span class="text-sm">Rent Now</span>
                     <span class="opacity-0 group-hover:opacity-100 translate-x-[-4px] group-hover:translate-x-0 transition-all text-base">→</span>
                   </span>
                   <span class="absolute inset-0 bg-gradient-to-r from-yellow-200/0 via-white/50 to-yellow-200/0 opacity-0 group-hover:opacity-30 transition"></span>
-                </button>
+                </router-link>
               </div>
             </div>
           </div>

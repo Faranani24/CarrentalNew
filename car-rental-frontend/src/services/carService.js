@@ -1,43 +1,46 @@
-// Service for Car API calls.
-// Assumes `api` is a preconfigured Axios instance (base URL or proxy set in Vite).
 import { api } from './api';
 
 // Get all cars
 export function fetchCars() {
-    return api.get('/api/cars').then(res => res.data);
+    return api.get('/cars').then(res => res.data);
 }
 
-// Get a single car by its numeric `id`
+// Get car by ID
 export function fetchCarById(id) {
-    return api.get(`/api/cars/${id}`).then(res => res.data);
+    return api.get(`/cars/${id}`).then(res => res.data);
 }
 
-// (If backend supports) Get by business carId (string)
+// Get by carId (string)
 export function fetchCarByCarId(carId) {
-    return api.get(`/api/cars/carId/${encodeURIComponent(carId)}`).then(res => res.data);
+    return api.get(`/cars/carId/${encodeURIComponent(carId)}`).then(res => res.data);
 }
 
-// Create a new car (payload matches backend CarDto / entity fields)
+// Create car
 export function createCar(car) {
-    return api.post('/api/cars', car).then(res => res.data);
+    return api.post('/cars', car).then(res => res.data);
 }
 
-// Update car by id (partial or full depending on backend controller)
+// Update car
 export function updateCar(id, updates) {
-    return api.put(`/api/cars/${id}`, updates).then(res => res.data);
+    return api.put(`/cars/${id}`, updates).then(res => res.data);
 }
 
-// Delete by id
+// Delete by ID
 export function deleteCar(id) {
-    return api.delete(`/api/cars/${id}`).then(res => res.data);
+    return api.delete(`/cars/${id}`).then(res => res.data);
 }
 
-// Delete by business carId (if endpoint exists)
+// Delete by carId
 export function deleteCarByCarId(carId) {
-    return api.delete(`/api/cars/carId/${encodeURIComponent(carId)}`).then(res => res.data);
+    return api.delete(`/cars/carId/${encodeURIComponent(carId)}`).then(res => res.data);
 }
 
-// Update only status (if PATCH supported)
+// Update status
 export function updateCarStatus(id, status) {
-    return api.patch(`/api/cars/${id}/status`, { status }).then(res => res.data);
+    return api.patch(`/cars/${id}/status`, { status }).then(res => res.data);
+}
+
+// Create booking
+export function createBooking(bookingDetails) {
+    return api.post('/bookings', bookingDetails).then(res => res.data);
 }
