@@ -1,34 +1,3 @@
-<!-- File: src/components/CarList.vue -->
-<script setup>
-import { ref, onMounted } from 'vue'
-import { fetchCars } from '../services/carService'
-
-const cars = ref([])
-const loading = ref(false)
-const error = ref('')
-
-function formatRate(val) {
-  if (val == null) return ''
-  return Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(val)
-}
-
-async function load() {
-  error.value = ''
-  loading.value = true
-  try {
-    const data = await fetchCars()
-    cars.value = Array.isArray(data) ? data : []
-  } catch (e) {
-    cars.value = []
-    error.value = e?.message || 'Failed to load cars'
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(load)
-</script>
-
 <template>
   <section class="car-list" :aria-busy="loading ? 'true' : 'false'">
     <header class="toolbar">
@@ -43,6 +12,7 @@ onMounted(load)
     <table v-if="cars.length && !error">
       <thead>
       <tr>
+        <th>Picture</th>
         <th>ID</th>
         <th>Car ID</th>
         <th>Make</th>
@@ -56,6 +26,13 @@ onMounted(load)
       </thead>
       <tbody>
       <tr v-for="c in cars" :key="c.id ?? c.carId">
+        <td>
+          <img
+              :src="c.imageUrl || c.image_url || 'https://via.placeholder.com/100x60?text=No+Image'"
+              alt="Car image"
+              style="width: 100px; height: 60px; object-fit: cover; border-radius: 6px;"
+          />
+        </td>
         <td>{{ c.id }}</td>
         <td>{{ c.carId }}</td>
         <td>{{ c.make }}</td>
@@ -72,12 +49,3 @@ onMounted(load)
     <p v-else-if="!loading && !error">No cars found.</p>
   </section>
 </template>
-
-<style scoped>
-.car-list { margin-top: 0.5rem; }
-.toolbar { display: flex; align-items: center; gap: 1rem; }
-.err { color: red; }
-table { border-collapse: collapse; margin-top: 0.75rem; width: 100%; }
-th, td { border: 1px solid #ccc; padding: 4px 8px; font-size: 14px; text-align: left; }
-button { padding: 4px 10px; font-size: 14px; }
-</style>

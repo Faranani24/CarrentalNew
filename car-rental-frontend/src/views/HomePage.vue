@@ -48,6 +48,7 @@ async function load(isSearch = false) {
 
     const data = await fetchCars(params, { signal: abortRef.value.signal })
     cars.value = Array.isArray(data) ? data : []
+    console.log(cars.value) // Add this line to log the car data
     await nextTick()
   } catch (e) {
     if (e.name === 'AbortError') return
@@ -210,7 +211,7 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
                :key="c.id || c.carId || i"
                class="group relative rounded-xl overflow-hidden border border-amber-200 bg-white shadow-sm hover:shadow-lg transition flex flex-col">
             <div class="relative h-44 overflow-hidden">
-              <img :src="`https://source.unsplash.com/collection/190727/${300+i}`"
+              <img :src="c.imageUrl || c.image_url || 'https://via.placeholder.com/400x200?text=No+Image'"
                    class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 ease-out"
                    :alt="`${c.make} ${c.model}`"
                    loading="lazy" />

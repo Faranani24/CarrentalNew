@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @Entity
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate the ID
-    private Long id; // Change to Long for auto-generation compatibility
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String carId;
     private String make;
     private String model;
@@ -23,8 +23,10 @@ public class Car {
     @ManyToOne
     private CarType carType;
 
-    @Column(nullable = false, precision = 10, scale = 2) // Ensure precision and scale
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal dailyRate;
+
+    private String imageUrl; // <-- Add this line
 
     public Car() {}
 
@@ -37,6 +39,7 @@ public class Car {
         this.status = builder.status;
         this.carType = builder.carType;
         this.dailyRate = builder.dailyRate;
+        this.imageUrl = builder.imageUrl; // <-- Add this line
     }
 
     public static Builder builder() {
@@ -52,6 +55,7 @@ public class Car {
         private String status;
         private CarType carType;
         private BigDecimal dailyRate;
+        private String imageUrl; // <-- Add this line
 
         public Builder carId(String carId) {
             this.carId = carId;
@@ -90,6 +94,11 @@ public class Car {
 
         public Builder dailyRate(BigDecimal dailyRate) {
             this.dailyRate = dailyRate;
+            return this;
+        }
+
+        public Builder imageUrl(String imageUrl) { // <-- Add this method
+            this.imageUrl = imageUrl;
             return this;
         }
 
@@ -169,5 +178,13 @@ public class Car {
 
     public void setDailyRate(BigDecimal dailyRate) {
         this.dailyRate = dailyRate;
+    }
+
+    public String getImageUrl() { // <-- Add this getter
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) { // <-- Add this setter
+        this.imageUrl = imageUrl;
     }
 }

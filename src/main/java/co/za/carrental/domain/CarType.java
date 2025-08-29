@@ -36,6 +36,14 @@ public class CarType {
 
     public CarType() {}
 
+    public CarType(String typeId, String name, float dailyRate, float lateFeePerHour, int seatingCapacity) {
+        this.typeId = typeId;
+        this.name = name;
+        this.dailyRate = dailyRate;
+        this.lateFeePerHour = lateFeePerHour;
+        this.seatingCapacity = seatingCapacity;
+    }
+
     private CarType(Builder builder) {
         this.typeId = builder.typeId;
         this.name = builder.name;
