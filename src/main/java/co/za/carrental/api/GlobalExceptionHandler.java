@@ -1,5 +1,6 @@
-package co.za.carrental.controller;
+package co.za.carrental.api;
 
+import co.za.carrental.controller.CarTypeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
