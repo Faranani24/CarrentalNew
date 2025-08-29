@@ -1,4 +1,4 @@
-package com.example.carrental.config;
+package co.za.carrental.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
-
-    @Value("${app.cors.allowed-origins:http://localhost:5177}")
+    @Value("${app.cors.allowed-origins:http://localhost:5173}")
     private String originsRaw;
 
     @Value("${app.cors.allowed-methods:GET,POST,PUT,DELETE,PATCH,OPTIONS}")
