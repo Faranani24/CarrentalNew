@@ -4,30 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b16ca08b-9800-475f-b3cc-399c438fc9ca" name="Changes" comment="Fixed network error.">
+    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Front end commite">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/postcss.config.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/postcss.config.cjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/assets/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/assets/theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/assets/theme.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/CarDetailsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/CarDetailsPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/ConfirmationPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/ConfirmationPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-ui/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-ui/vite.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/CreateCarRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/CreateCarRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/CarType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/CarType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,34 +20,30 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Vue Composition API Component" />
-        <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Faranani24&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Lance1103"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Faranani24/carrental.git&quot;,
-    &quot;accountId&quot;: &quot;598a8c61-077e-469c-a8e0-292fc7173987&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Lance1103/carrental.git",
+    "accountId": "de4a3c96-9e97-4be5-9f28-14b08c62232e"
   }
-}</component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
-}</component>
-  <component name="ProjectId" id="31t2t0SI5B1DJk9n51GyF6hPb4z" />
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="320fPrDhY42KhdOp8jtBSroKYNI" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
@@ -74,22 +53,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "JUnit.BranchControllerTest.executor": "Run",
-    "JUnit.PromotionControllerTest.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
+    "Node.js.format.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.Main.executor": "Run",
-    "git-widget-placeholder": "car-type-updates",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2025.1.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -98,37 +72,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.Main">
-    <configuration name="BranchControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="carrental" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="co.za.carrental.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="co.za.carrental.controller" />
-      <option name="MAIN_CLASS_NAME" value="co.za.carrental.controller.BranchControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PromotionControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="carrental" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="co.za.carrental.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="co.za.carrental.controller" />
-      <option name="MAIN_CLASS_NAME" value="co.za.carrental.controller.PromotionControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="co.za.carrental.Main" />
@@ -145,67 +89,29 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.Main" />
-        <item itemvalue="JUnit.PromotionControllerTest" />
-        <item itemvalue="JUnit.BranchControllerTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
-        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
       </set>
     </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b16ca08b-9800-475f-b3cc-399c438fc9ca" name="Changes" comment="Commits that run on my side, should it not work..accept my code because your code works fine on mine, then the team will sync this one." />
-      <created>1756329259094</created>
+      <changelist id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Front end commite" />
+      <created>1756562390768</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1756329259094</updated>
-      <workItem from="1756329260636" duration="14308000" />
-      <workItem from="1756454549893" duration="12133000" />
-      <workItem from="1756454549893" duration="1070000" />
-      <workItem from="1756477040615" duration="17193000" />
+      <updated>1756562390768</updated>
+      <workItem from="1756562392827" duration="5878000" />
     </task>
-    <task id="LOCAL-00001" summary="Car rental Front end and backend">
-      <option name="closed" value="true" />
-      <created>1756330183221</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1756330183222</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Fixed network error.">
-      <option name="closed" value="true" />
-      <created>1756454724457</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1756454724457</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Car rental Front end and backend" />
-    <MESSAGE value="Fixed network error." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed network error." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java</url>
-          <line>8</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

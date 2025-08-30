@@ -92,7 +92,7 @@ async function submitBooking(e) {
 
 function formatRate(val) {
   if (val == null) return ''
-  return Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(val)
+  return Intl.NumberFormat(undefined, { style: 'currency', currency: 'ZAR' }).format(val)
 }
 
 onMounted(() => {
@@ -137,7 +137,7 @@ onMounted(() => {
           <div>
             <div class="rounded-xl overflow-hidden border border-amber-200 shadow-sm">
               <div class="relative h-56 overflow-hidden">
-                <img :src="`https://source.unsplash.com/collection/190727/${300}`" class="w-full h-full object-cover" :alt="`${car.make} ${car.model}`" />
+                <img :src="car.imageUrl" class="w-full h-full object-cover" :alt="`${car.make} ${car.model}`" />
               </div>
               <div class="p-4 bg-white">
                 <h4 class="font-semibold text-xl tracking-tight mb-1 text-neutral-900">

@@ -1,0 +1,19 @@
+/* src/assets/shared.css */
+.gradient-text-light {
+    background: linear-gradient(to right, #f59e0b, #f97316, #f43f5e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.loader.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #f59e0b;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

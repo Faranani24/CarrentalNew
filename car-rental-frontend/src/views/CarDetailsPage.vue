@@ -28,6 +28,11 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+function formatRate(val) {
+  if (val == null) return '';
+  return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val);
+}
 </script>
 
 <template>
@@ -67,7 +72,7 @@ onMounted(async () => {
               <p class="text-lg text-neutral-600">{{ car.description }}</p>
               <div class="flex items-center gap-2 text-neutral-700 font-semibold">
                 <span class="text-3xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
-                  {{ `$${car.dailyRate.toFixed(2)}` }}
+                  {{ formatRate(car.dailyRate) }}
                 </span>
                 <span class="text-sm font-medium text-neutral-500">/ day</span>
               </div>

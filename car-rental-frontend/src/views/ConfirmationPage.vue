@@ -61,6 +61,3 @@ const bookingId = computed(() => route.params.bookingId)
   </div>
 </template>
 
-<style scoped>
-@import './HomePage.vue';
-</style>
