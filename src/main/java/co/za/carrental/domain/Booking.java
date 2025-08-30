@@ -7,42 +7,34 @@
 package co.za.carrental.domain;
 
 import jakarta.persistence.*;
-import java.time.LocalDate; // Preferred for date-only fields
-import java.util.Date; // Keep if specifically needed for existing methods/data
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "booking")
 public class Booking {
 
     @Id
-    // Since you are generating UUIDs in the factory, you don't use @GeneratedValue
-    // If the DB auto-generates UUIDs, you'd use: @GeneratedValue(strategy = GenerationType.UUID)
     private String bookingId;
 
-    // It's generally better to use java.time.LocalDate for dates without time components in JPA
-    // This avoids time zone issues and makes date comparisons simpler.
-    // If you stick with java.util.Date, ensure consistent handling of timezones.
-    private Date startDate; // Keep original as is for now, but LocalDate is preferred.
-    private Date endDate;   // Keep original as is for now, but LocalDate is preferred.
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
 
     private Float totalCost;
 
-    @Enumerated(EnumType.STRING) // Store enum as String in DB for readability
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id") // Specifies the foreign key column in the 'booking' table
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    // **** POTENTIAL ADDITION: If Booking also requires a Vehicle ****
-    // If a Booking must always be associated with a Vehicle, add this:
-    /*
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id", nullable = false)
-    private Vehicle vehicle; // You would need a Vehicle entity and repository
-    */
-    // ***************************************************************
-
+    // Add vehicle ID to link to your car data
+    @Column(name = "car_id")
+    private String carId; // This will store the car ID from your mock data
 
     // Constructor for the Builder pattern
     private Booking(Builder builder) {
@@ -52,23 +44,23 @@ public class Booking {
         this.totalCost = builder.totalCost;
         this.status = builder.status;
         this.customer = builder.customer;
-        // if (builder.vehicle != null) this.vehicle = builder.vehicle; // For Vehicle
+        this.carId = builder.vehicleId;
     }
 
     // Default constructor required by JPA
     public Booking() {
     }
 
-    // --- Setters (adjust for LocalDate if you switch) ---
+    // --- Setters ---
     public void setBookingId(String bookingId) {
         this.bookingId = bookingId;
     }
 
-    public void setStartDate(Date startDate) { // Or LocalDate startDate
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {     // Or LocalDate endDate
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -84,22 +76,20 @@ public class Booking {
         this.customer = customer;
     }
 
-    /*
-    public void setVehicle(Vehicle vehicle) { // For Vehicle
-        this.vehicle = vehicle;
+    public void setCarIdId(String vehicleId) {
+        this.carId = vehicleId;
     }
-    */
 
     // --- Getters ---
     public String getBookingId() {
         return bookingId;
     }
 
-    public Date getStartDate() { // Or LocalDate
+    public Date getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() { // Or LocalDate
+    public Date getEndDate() {
         return endDate;
     }
 
@@ -115,11 +105,9 @@ public class Booking {
         return customer;
     }
 
-    /*
-    public Vehicle getVehicle() { // For Vehicle
-        return vehicle;
+    public String getCarId() {
+        return carId;
     }
-    */
 
     @Override
     public String toString() {
@@ -130,11 +118,11 @@ public class Booking {
                 ", totalCost=" + totalCost +
                 ", status=" + status +
                 ", customerId=" + (customer != null ? customer.getCustomerId() : "null") +
-                // ", vehicleId=" + (vehicle != null ? vehicle.getVehicleId() : "null") + // For Vehicle
+                ", vehicleId='" + carId + '\'' +
                 '}';
     }
 
-    // --- Builder Class (update to include customer and potentially vehicle) ---
+    // --- Builder Class ---
     public static class Builder {
         private String bookingId;
         private Date startDate;
@@ -142,19 +130,19 @@ public class Booking {
         private Float totalCost;
         private BookingStatus status;
         private Customer customer;
-        // private Vehicle vehicle; // For Vehicle
+        private String vehicleId;
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
             return this;
         }
 
-        public Builder setStartDate(Date startDate) { // Or LocalDate
+        public Builder setStartDate(Date startDate) {
             this.startDate = startDate;
             return this;
         }
 
-        public Builder setEndDate(Date endDate) {     // Or LocalDate
+        public Builder setEndDate(Date endDate) {
             this.endDate = endDate;
             return this;
         }
@@ -174,12 +162,10 @@ public class Booking {
             return this;
         }
 
-        /*
-        public Builder setVehicle(Vehicle vehicle) { // For Vehicle
-            this.vehicle = vehicle;
+        public Builder setVehicleId(String vehicleId) {
+            this.vehicleId = vehicleId;
             return this;
         }
-        */
 
         public Booking build() {
             return new Booking(this);

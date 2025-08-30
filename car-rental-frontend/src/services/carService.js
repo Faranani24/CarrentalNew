@@ -12,7 +12,7 @@ const MOCK_CARS = [
         description: 'A luxurious and high-performance SUV with a twin-turbo V8 engine and cutting-edge technology.',
         features: ['All-wheel drive', 'Heated seats', 'Panoramic sunroof', 'GPS Navigation'],
         status: 'AVAILABLE',
-        location: 'Johannesburg Airport' // <-- Added location property
+        location: 'Johannesburg Airport'
     },
     {
         id: '2',
@@ -25,7 +25,7 @@ const MOCK_CARS = [
         description: 'The Toyota Corolla is a reliable and fuel-efficient compact car, perfect for city travel.',
         features: ['Fuel-efficient engine', 'Bluetooth connectivity', 'Backup camera'],
         status: 'AVAILABLE',
-        location: 'Cape Town City' // <-- Added location property
+        location: 'Cape Town City'
     },
     {
         id: '3',
@@ -38,7 +38,7 @@ const MOCK_CARS = [
         description: 'A stylish and practical sedan known for its smooth ride and spacious interior.',
         features: ['Apple CarPlay', 'Lane departure warning', 'Adaptive cruise control'],
         status: 'AVAILABLE',
-        location: 'Johannesburg Airport' // <-- Added location property
+        location: 'Johannesburg Airport'
     }
 ];
 
@@ -51,13 +51,10 @@ export async function fetchCars(params, config) {
     if (params) {
         if (params.location) {
             const searchTerm = params.location.toLowerCase();
-            // Now we correctly filter the cars by their location property
             filteredCars = filteredCars.filter(car =>
                 car.location.toLowerCase().includes(searchTerm)
             );
         }
-
-        // We can add date-based filtering here if needed.
     }
 
     return filteredCars;
@@ -98,16 +95,52 @@ export function updateCarStatus(id, status) {
 }
 
 /**
- * MOCK implementation of the booking function.
- * This function is now correctly named `bookCar` and exported.
+ * REAL API implementation - calls your Spring Boot backend
+ * Replaces the previous mock implementation
  */
 export async function bookCar(bookingDetails) {
-    console.log('Creating mock booking with details:', bookingDetails);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // Simulate a successful booking with a unique ID
-    return {
-        bookingId: `mock-booking-${Date.now()}`,
-        status: 'confirmed',
-        ...bookingDetails
-    };
+    console.log('Creating real booking with details:', bookingDetails);
+
+    try {
+        // Transform the Vue form data to match your BookingRequest DTO
+        const bookingData = {
+            carId: bookingDetails.carId,
+            from: bookingDetails.from,    // Keep as string - backend will parse
+            to: bookingDetails.to,        // Keep as string - backend will parse
+            fullName: bookingDetails.fullName,
+            email: bookingDetails.email,
+            phone: bookingDetails.phone || null
+        };
+
+        const response = await api.post('/bookings', bookingData);
+
+        // Transform the response to match what your Vue app expects
+        return {
+            bookingId: response.data.bookingId,
+            status: response.data.status,
+            totalCost: response.data.totalCost,
+            startDate: response.data.startDate,
+            endDate: response.data.endDate,
+            customer: response.data.customer,
+            vehicleId: response.data.vehicleId
+        };
+
+    } catch (error) {
+        console.error('Booking API call failed:', error);
+
+        // Handle different types of errors
+        if (error.response) {
+            // Server responded with error status
+            const message = error.response.data?.message ||
+                error.response.data ||
+                `Server error: ${error.response.status}`;
+            throw new Error(message);
+        } else if (error.request) {
+            // Network error
+            throw new Error('Unable to connect to booking service. Please check your connection.');
+        } else {
+            // Other error
+            throw new Error(error.message || 'An unexpected error occurred during booking.');
+        }
+    }
 }

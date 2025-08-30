@@ -7,14 +7,16 @@
 package co.za.carrental.domain;
 
 import java.util.List;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "customer")
 public class Customer {
-
+    @ElementCollection
+    @CollectionTable(name = "customer_payment_methods", joinColumns = @JoinColumn(name = "customer_id"))
+    @Column(name = "payment_method")
+    private List<String> paymentMethods;
     @Id
     private String customerId;
     private String firstName;
@@ -23,7 +25,7 @@ public class Customer {
     private String password;
     private String phone;
     private String licenseNumber;
-    private List<String> paymentMethods;
+
 
 
     private Customer(Builder builder) {

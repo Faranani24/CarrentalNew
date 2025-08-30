@@ -9,6 +9,14 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, String> {
 
-    // Changed from findByPhoneNumber to findByPhone to match the 'phone' field in Customer entity
-    Optional<Customer> findByPhone(String phoneNumber);
+    /**
+     * Find customer by email address
+     * Used to check if customer already exists before creating a new one
+     */
+    Optional<Customer> findByEmail(String email);
+
+    /**
+     * Check if customer exists by email
+     */
+    boolean existsByEmail(String email);
 }
