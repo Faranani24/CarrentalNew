@@ -48,8 +48,8 @@ async function load(isSearch = false) {
         : undefined
 
     const data = await fetchCars(params, { signal: abortRef.value.signal })
+    console.log('Fetched cars:', data)
     cars.value = Array.isArray(data) ? data : []
-    console.log(cars.value) // Add this line to log the car data
     await nextTick()
   } catch (e) {
     if (e.name === 'AbortError') return
@@ -111,7 +111,6 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
         <div class="absolute inset-0 mix-blend-overlay bg-[radial-gradient(circle_at_30%_30%,rgba(255,180,60,0.20),transparent_60%)]"></div>
         <div class="absolute inset-0 animated-grid pointer-events-none opacity-40"></div>
       </div>
-
       <div class="relative z-10 w-full">
         <div class="mx-auto max-w-5xl px-6">
           <div class="text-center space-y-6 animate-fade-down mb-10">
@@ -122,7 +121,6 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
               Premium vehicles. Transparent pricing. Effortless booking.
             </p>
           </div>
-
           <form @submit="submitSearch"
                 class="mx-auto max-w-3xl backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 md:p-8 grid gap-4 md:grid-cols-5 animate-fade-up"
                 novalidate
@@ -161,7 +159,6 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
           </form>
         </div>
       </div>
-
       <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-neutral-100"></div>
     </section>
 
@@ -175,10 +172,11 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
             <span class="gradient-text-light">Available Cars</span>
           </h3>
           <button @click="retry" :disabled="loading"
-                  class="relative overflow-hidden px-5 py-2.5 rounded-lg font-medium border border-amber-200 bg-white hover:bg-amber-50 transition disabled:opacity-50"
+                  class="group relative overflow-hidden px-6 py-3 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-gray-900 shadow-lg hover:scale-[1.02] active:scale-[0.98] transition disabled:opacity-60"
                   aria-label="Refresh car list">
             <span v-if="loading" class="loader spinner mr-2" aria-hidden="true"></span>
             {{ loading ? 'Loading...' : 'Refresh' }}
+            <span class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-yellow-200 via-white/60 to-yellow-200 mix-blend-overlay transition"></span>
           </button>
         </div>
 
@@ -231,13 +229,12 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
                   </span>
                   <span class="text-xs font-medium text-neutral-500"> /day</span>
                 </p>
-                <router-link :to="{ name: 'booking', params: { id: c.id || c.carId }, query: search }"
-                             class="relative w-full overflow-hidden px-4 py-2.5 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-gray-900 shadow group hover:shadow-amber-500/40 hover:scale-[1.015] active:scale-[0.97] transition">
+                <router-link :to="{ name: 'carDetails', params: { id: c.id || c.carId } }"
+                             class="card-view-details">
                   <span class="relative z-10 flex items-center justify-center gap-1">
-                    <span class="text-sm">Rent Now</span>
-                    <span class="opacity-0 group-hover:opacity-100 translate-x-[-4px] group-hover:translate-x-0 transition-all text-base">→</span>
+                    <span class="text-sm">View Details</span>
+                    <span class="arrow text-base">→</span>
                   </span>
-                  <span class="absolute inset-0 bg-gradient-to-r from-yellow-200/0 via-white/50 to-yellow-200/0 opacity-0 group-hover:opacity-30 transition"></span>
                 </router-link>
               </div>
             </div>
@@ -296,11 +293,11 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
 .card-leave-active { transition: all .35s ease; }
 .card-enter-to { opacity: 1; transform: translateY(0) scale(1); }
 .animate-fade-down { animation: fadeDown .9s cubic-bezier(.16,.8,.43,1) both; }
-.animate-fade-up { animation: fadeUp 1s cubic-bezier(.16,.8,.43,1) both; }
 @keyframes fadeDown {
   0% { opacity:0; transform:translateY(-24px) scale(.97); }
   100% { opacity:1; transform:translateY(0) scale(1); }
 }
+.animate-fade-up { animation: fadeUp 1s cubic-bezier(.16,.8,.43,1) both; }
 @keyframes fadeUp {
   0% { opacity:0; transform:translateY(30px) scale(.96); }
   100% { opacity:1; transform:translateY(0) scale(1); }
@@ -326,7 +323,6 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
   background-size: 300% 100%;
   animation: gradientShift 8s ease infinite;
 }
-
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -334,5 +330,41 @@ const skeletonItems = computed(() => Array.from({ length: 6 }, (_, i) => i))
 }
 @media (max-width: 640px) {
   .hero { min-height: 64vh; }
+}
+
+/* Boxed style for View Details button */
+.card-view-details {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 0.75rem;
+  border: 2px solid #fbbf24;
+  background: linear-gradient(90deg, #fbbf24 0%, #fde68a 50%, #fb923c 100%);
+  color: #1a202c;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 2px 8px 0 rgba(251,191,36,0.10);
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+.card-view-details:hover,
+.card-view-details:focus {
+  border-color: #fb923c;
+  box-shadow: 0 4px 16px 0 rgba(251,146,60,0.18);
+  transform: scale(1.03);
+  outline: none;
+}
+.card-view-details .arrow {
+  margin-left: 0.25rem;
+  transition: opacity 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: translateX(-4px);
+}
+.card-view-details:hover .arrow,
+.card-view-details:focus .arrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 </style>

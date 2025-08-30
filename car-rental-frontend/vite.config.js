@@ -5,9 +5,12 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  const devPort = Number(env.FRONTEND_PORT || 5173)
-  const backendHost = env.BACKEND_URL || `http://localhost:${env.BACKEND_PORT || 8081}`
+  // Only VITE_* env vars are exposed to client by default
+  const env = loadEnv(mode, process.cwd())
+  const devPort = Number(env.VITE_FRONTEND_PORT) || 5173
+  const backendPort = env.VITE_BACKEND_PORT || 8082
+  const backendHost = env.VITE_BACKEND_URL || `http://localhost:${backendPort}`
+
   return {
     base: './',
     plugins: [vue(), vueDevTools()],

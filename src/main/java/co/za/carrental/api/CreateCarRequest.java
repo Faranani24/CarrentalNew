@@ -1,4 +1,4 @@
-package co.za.carrental.api.request;
+package co.za.carrental.api;
 
 import co.za.carrental.domain.Status;
 import java.math.BigDecimal;

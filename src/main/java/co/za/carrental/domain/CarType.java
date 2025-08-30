@@ -69,6 +69,8 @@ public class CarType {
         public CarType build() { return new CarType(this); }
     }
 
+    // Getters and setters...
+
     public String getTypeId() { return typeId; }
     public void setTypeId(String typeId) { this.typeId = typeId; }
     public String getName() { return name; }

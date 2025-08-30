@@ -1,9 +1,7 @@
+@import './theme.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Custom theme variables & utilities */
-@import './theme.css';
 
 /* Optional: form sizing overrides */
 .form-field-lg {

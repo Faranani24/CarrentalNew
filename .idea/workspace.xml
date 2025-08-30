@@ -7,7 +7,26 @@
     <list default="true" id="b16ca08b-9800-475f-b3cc-399c438fc9ca" name="Changes" comment="Fixed network error.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/postcss.config.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/postcss.config.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/assets/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/assets/theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/assets/theme.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-ui/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-ui/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/CreateCarRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/CreateCarRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/CarType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/CarType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +38,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Vue Composition API Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -63,13 +84,18 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.Main.executor": "Run",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "car-type-updates",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
+    ]
   }
 }]]></component>
   <component name="RunManager" selected="Spring Boot.Main">
@@ -140,7 +166,9 @@
       <option name="presentableId" value="Default" />
       <updated>1756329259094</updated>
       <workItem from="1756329260636" duration="14308000" />
+      <workItem from="1756454549893" duration="12133000" />
       <workItem from="1756454549893" duration="1070000" />
+      <workItem from="1756477040615" duration="17193000" />
     </task>
     <task id="LOCAL-00001" summary="Car rental Front end and backend">
       <option name="closed" value="true" />
@@ -172,11 +200,10 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue</url>
-          <line>10</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="4" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -7,7 +7,7 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "dev": "vite --port 5177",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "start": "npm run dev"
@@ -24,5 +24,4 @@
     "vite": "^7.0.6",
     "vite-plugin-vue-devtools": "^8.0.0"
   }
-
 }

@@ -49,3 +49,64 @@
     <p v-else-if="!loading && !error">No cars found.</p>
   </section>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const loading = ref(false)
+const error = ref('')
+const cars = ref([])
+
+function formatRate(rate) {
+  return rate ? `R${rate}` : ''
+}
+
+async function load() {
+  loading.value = true
+  error.value = ''
+  try {
+    // Replace the URL below with your actual API endpoint
+    const response = await fetch('/api/cars')
+    if (!response.ok) throw new Error('Failed to fetch cars')
+    cars.value = await response.json()
+  } catch (e) {
+    error.value = e.message || 'Failed to load cars'
+    cars.value = []
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(load)
+</script>
+
+<style scoped>
+.car-list {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.err {
+  color: #c00;
+  margin-bottom: 1rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+th {
+  background: #f5f5f5;
+}
+</style>

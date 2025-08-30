@@ -226,7 +226,7 @@ onMounted(() => {
                   <span v-if="bookingLoading" class="loader spinner size-4" aria-hidden="true"></span>
                   {{ bookingLoading ? 'Booking...' : `Book for ${formatRate(totalCost)}` }}
                 </span>
-                <span class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-yellow-200 via-white/60 to-yellow-200 mix-blend-overlay transition"></span>
+                <span class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-yellow-200 via-white/50 to-yellow-200 mix-blend-overlay transition"></span>
               </button>
             </form>
           </div>
@@ -244,5 +244,82 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import './HomePage.vue'; /* Import styles from the homepage */
+/*
+  The CSS from HomePage.vue should be copied and pasted here,
+  as you cannot import a Vue file directly as a stylesheet.
+*/
+.hero { min-height: 70vh; }
+.hero-title-gradient-light {
+  background: linear-gradient(90deg,#fbbf24 0%,#f59e0b 30%,#fb923c 60%,#f97316 80%,#fbbf24 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: shine 8s linear infinite;
+}
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: -200% 50%; }
+}
+.animate-pan { animation: pan 40s linear infinite; }
+@keyframes pan {
+  0% { transform: scale(1.15) translate(0,0); }
+  50% { transform: scale(1.18) translate(-2%, -2%); }
+  100% { transform: scale(1.15) translate(0,0); }
+}
+.animated-grid {
+  background:
+      linear-gradient(rgba(255,180,60,0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,180,60,0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+  animation: grid-move 25s linear infinite;
+}
+@keyframes grid-move {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 40px, 40px 0; }
+}
+.card-enter-from,
+.card-leave-to { opacity: 0; transform: translateY(18px) scale(.96); }
+.card-enter-active { transition: all .60s cubic-bezier(.16,.8,.43,1.01); }
+.card-leave-active { transition: all .35s ease; }
+.card-enter-to { opacity: 1; transform: translateY(0) scale(1); }
+.animate-fade-down { animation: fadeDown .9s cubic-bezier(.16,.8,.43,1) both; }
+.animate-fade-up { animation: fadeUp 1s cubic-bezier(.16,.8,.43,1) both; }
+@keyframes fadeDown {
+  0% { opacity:0; transform:translateY(-24px) scale(.97); }
+  100% { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes fadeUp {
+  0% { opacity:0; transform:translateY(30px) scale(.96); }
+  100% { opacity:1; transform:translateY(0) scale(1); }
+}
+.animate-pop { animation: pop .8s .25s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes pop {
+  0% { opacity:0; transform:scale(.4) rotate(-8deg); }
+  100% { opacity:1; transform:scale(1) rotate(0); }
+}
+.loader.spinner {
+  border: 3px solid rgba(0,0,0,0.15);
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.gradient-text-light {
+  background: linear-gradient(90deg,#f59e0b,#fb923c,#f97316,#fbbf24);
+  -webkit-background-clip: text;
+  color: transparent;
+  background-size: 300% 100%;
+  animation: gradientShift 8s ease infinite;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@media (max-width: 640px) {
+  .hero { min-height: 64vh; }
+}
 </style>
