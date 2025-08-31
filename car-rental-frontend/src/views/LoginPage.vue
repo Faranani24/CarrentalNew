@@ -1,7 +1,20 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-neutral-100">
+  <div class="flex items-center justify-center min-h-screen bg-gradient-to-b from-amber-50 via-white to-neutral-100">
     <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
-      <h2 class="text-3xl font-bold text-center text-neutral-900">Log in</h2>
+      <!-- Logo and Brand -->
+      <div class="flex flex-col items-center space-y-4">
+        <router-link to="/">
+          <div class="flex items-center gap-3">
+            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg flex items-center justify-center font-black text-gray-900 tracking-tighter" aria-label="CarRental logo">
+              CR
+            </div>
+            <h1 class="text-2xl font-bold tracking-tight">
+              <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-400 bg-clip-text text-transparent drop-shadow-sm">CarRental</span>
+            </h1>
+          </div>
+        </router-link>
+        <h2 class="text-3xl font-bold text-center text-neutral-900">Log in</h2>
+      </div>
       <form @submit.prevent="handleLogin" class="space-y-6">
         <div>
           <label for="email" class="sr-only">Email address</label>
@@ -19,11 +32,24 @@
                  placeholder="Password"
           />
         </div>
-        <button type="submit"
-                class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-          Log in
+
+        <!-- Error message -->
+        <div v-if="error" class="text-center text-red-600 text-sm">
+          {{ error }}
+        </div>
+
+        <button type="submit" :disabled="loading"
+                class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed">
+          {{ loading ? 'Logging in...' : 'Log in' }}
         </button>
       </form>
+
+      <p class="text-center text-sm text-neutral-600">
+        Don't have an account?
+        <router-link to="/signup" class="text-amber-600 hover:text-amber-700 font-medium">
+          Sign up
+        </router-link>
+      </p>
     </div>
   </div>
 </template>
@@ -31,22 +57,45 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { AuthService } from '@/services/auth.js';
 
 const email = ref('');
 const password = ref('');
+const loading = ref(false);
+const error = ref('');
 const router = useRouter();
+const authService = new AuthService();
 
 const handleLogin = async () => {
+  loading.value = true;
+  error.value = '';
+
   try {
-    const response = await axios.post('http://localhost:8082/api/auth/login', {
-      email: email.value,
-      password: password.value,
-    });
-    console.log('Login successful:', response.data);
-    router.push({ name: 'home' }); // Redirect to home page on successful login
-  } catch (error) {
-    console.error('Login failed:', error);
+    // Get all users from local storage
+    const users = authService.getAllUsers();
+
+    // Find user with matching email
+    const user = users.find(u =>
+        u.email.toLowerCase() === email.value.toLowerCase()
+    );
+
+    if (user && user.password === password.value) {
+      // Login successful - store user session
+      const loginSuccess = authService.login(user);
+      if (loginSuccess) {
+        console.log('Login successful:', user);
+        router.push({ name: 'home' });
+      } else {
+        error.value = 'Failed to store user session';
+      }
+    } else {
+      error.value = 'Invalid email or password';
+    }
+  } catch (err) {
+    console.error('Login failed:', err);
+    error.value = 'Login failed. Please try again.';
+  } finally {
+    loading.value = false;
   }
 };
 </script>

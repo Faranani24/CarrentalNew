@@ -38,7 +38,6 @@ public class CustomerFactory {
                 .setEmail(email)
                 .setPassword(password)
                 .setPhone(phone)
-                .setLicenseNumber(licenseNumber)
                 .setPaymentMethods(paymentMethods)
                 .build();
     }
@@ -52,7 +51,6 @@ public class CustomerFactory {
                 .setEmail(mail)
                 .setPassword(password123)
                 .setPhone(number1)
-                .setLicenseNumber(cf54321)
                 .setPaymentMethods(list)
                 .build();
     }

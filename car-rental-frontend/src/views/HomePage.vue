@@ -1,12 +1,23 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { fetchCars } from '@/services/carService'
 import { useRouter } from 'vue-router'
+import { AuthService } from '@/services/auth.js'
 
 const cars = ref([])
 const loading = ref(true)
 const error = ref(null)
 const router = useRouter()
+const authService = new AuthService()
+
+// Auth state
+const currentUser = ref(null)
+const isAuthenticated = computed(() => currentUser.value && currentUser.value.isAuthenticated)
+
+// Initialize auth state
+const initAuth = () => {
+  currentUser.value = authService.getCurrentUser()
+}
 
 const fetchAllCars = async () => {
   loading.value = true
@@ -22,7 +33,16 @@ const fetchAllCars = async () => {
   }
 }
 
-onMounted(fetchAllCars)
+const handleLogout = () => {
+  authService.logout()
+  currentUser.value = null
+  console.log('User logged out')
+}
+
+onMounted(() => {
+  initAuth()
+  fetchAllCars()
+})
 
 function formatRate(val) {
   if (val == null) return ''
@@ -45,9 +65,30 @@ function formatRate(val) {
             </h1>
           </div>
         </router-link>
+
+        <!-- Navigation Menu -->
         <div class="flex items-center gap-4">
-          <router-link to="/login" class="text-neutral-900 font-semibold hover:text-orange-500 transition">Login</router-link>
-          <router-link to="/signup" class="px-4 py-2 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-lg hover:scale-[1.01] active:scale-[0.98] transition">Sign Up</router-link>
+          <template v-if="isAuthenticated">
+            <!-- Authenticated Navigation -->
+            <span class="text-neutral-700 text-sm">
+              Welcome, {{ currentUser.firstName || currentUser.username }}!
+            </span>
+            <router-link to="/cars" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
+              Browse Cars
+            </router-link>
+            <router-link to="/booking" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
+              My Bookings
+            </router-link>
+            <button @click="handleLogout" class="px-4 py-2 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-red-400 to-red-500 text-white shadow-lg hover:scale-[1.01] active:scale-[0.98] transition">
+              Logout
+            </button>
+          </template>
+
+          <template v-else>
+            <!-- Guest Navigation -->
+            <router-link to="/login" class="text-neutral-900 font-semibold hover:text-orange-500 transition">Login</router-link>
+            <router-link to="/signup" class="px-4 py-2 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-lg hover:scale-[1.01] active:scale-[0.98] transition">Sign Up</router-link>
+          </template>
         </div>
       </div>
     </nav>
@@ -114,9 +155,18 @@ function formatRate(val) {
                   <p class="mb-4 text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
                     {{ formatRate(car.dailyRate) }}
                   </p>
-                  <router-link :to="{ name: 'carDetails', params: { id: car.id } }" class="card-view-details">
-                    View Details →
-                  </router-link>
+
+                  <!-- Show different buttons based on auth status -->
+                  <template v-if="isAuthenticated">
+                    <router-link :to="{ name: 'carDetails', params: { id: car.id } }" class="card-view-details">
+                      View Details →
+                    </router-link>
+                  </template>
+                  <template v-else>
+                    <router-link to="/login" class="card-view-details-guest">
+                      Login to Book →
+                    </router-link>
+                  </template>
                 </div>
               </div>
             </div>
@@ -169,6 +219,18 @@ function formatRate(val) {
   background:linear-gradient(90deg,#fbbf24 0%,#fde68a 50%,#fb923c 100%);
   color:#1a202c; font-weight:600;
   transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
+  text-decoration: none;
 }
 .card-view-details:hover { transform:scale(1.03); border-color:#fb923c; box-shadow:0 4px 16px rgba(251,146,60,0.18);}
+
+.card-view-details-guest {
+  display:block; width:100%; text-align:center;
+  padding:0.75rem 1.5rem; border-radius:0.75rem;
+  border:2px solid #6b7280;
+  background:linear-gradient(90deg,#6b7280 0%,#9ca3af 50%,#6b7280 100%);
+  color:white; font-weight:600;
+  transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
+  text-decoration: none;
+}
+.card-view-details-guest:hover { transform:scale(1.03); border-color:#374151; box-shadow:0 4px 16px rgba(107,114,128,0.18);}
 </style>

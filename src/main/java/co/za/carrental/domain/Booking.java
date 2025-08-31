@@ -132,6 +132,7 @@ public class Booking {
         private Customer customer;
         private String vehicleId;
 
+
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
             return this;

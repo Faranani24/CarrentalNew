@@ -199,7 +199,7 @@ onMounted(() => {
                 <label for="phone" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Phone Number</label>
                 <input id="phone" v-model="bookingDetails.phone" type="tel"
                        class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400"
-                       placeholder="+1 555 123 4567" />
+                       placeholder="(+27)" />
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div>

@@ -24,7 +24,7 @@ public class Customer {
     private String email;
     private String password;
     private String phone;
-    private String licenseNumber;
+
 
 
 
@@ -35,7 +35,6 @@ public class Customer {
         this.email = builder.email;
         this.password = builder.password;
         this.phone = builder.phone;
-        this.licenseNumber = builder.licenseNumber;
         this.paymentMethods = builder.paymentMethods;
     }
 
@@ -68,9 +67,7 @@ public class Customer {
         return phone;
     }
 
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
+
 
     public List<String> getPaymentMethods() {
         return paymentMethods;
@@ -101,9 +98,6 @@ public class Customer {
         this.phone = phone;
     }
 
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber;
-    }
 
     public void setPaymentMethods(List<String> paymentMethods) {
         this.paymentMethods = paymentMethods;
@@ -117,7 +111,7 @@ public class Customer {
         private String email;
         private String password;
         private String phone;
-        private String licenseNumber;
+
         private List<String> paymentMethods;
 
         public Builder setCustomerId(String customerId) {
@@ -150,10 +144,7 @@ public class Customer {
             return this;
         }
 
-        public Builder setLicenseNumber(String licenseNumber) {
-            this.licenseNumber = licenseNumber;
-            return this;
-        }
+
 
         public Builder setPaymentMethods(List<String> paymentMethods) {
             this.paymentMethods = paymentMethods;
@@ -174,7 +165,6 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", licenseNumber='" + licenseNumber + '\'' +
                 ", paymentMethods=" + paymentMethods +
                 '}';
     }
