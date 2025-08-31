@@ -24,16 +24,21 @@ public class BookingRequest {
 
     private String phone;
 
+    // ADDED: The totalCost field to match the frontend
+    @NotNull(message = "Total cost is required")
+    private double totalCost;
+
     // Constructors
     public BookingRequest() {}
 
-    public BookingRequest(String carId, String from, String to, String fullName, String email, String phone) {
+    public BookingRequest(String carId, String from, String to, String fullName, String email, String phone, double totalCost) {
         this.carId = carId;
         this.from = from;
         this.to = to;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
+        this.totalCost = totalCost;
     }
 
     // Getters and Setters
@@ -85,6 +90,15 @@ public class BookingRequest {
         this.phone = phone;
     }
 
+    // ADDED: Getter and Setter for totalCost
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+
     @Override
     public String toString() {
         return "BookingRequest{" +
@@ -94,6 +108,7 @@ public class BookingRequest {
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", totalCost=" + totalCost +
                 '}';
     }
 }

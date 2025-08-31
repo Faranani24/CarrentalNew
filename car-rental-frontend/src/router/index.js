@@ -32,14 +32,6 @@ const requireGuest = (to, from, next) => {
 };
 
 const routes = [
-  { path: '/', name: 'home', component: HomePage },
-  { path: '/cars/:id', name: 'carDetails', component: CarDetailsPage },
-  { path: '/booking/:id', name: 'booking', component: BookingPage },
-  { path: '/confirmation/:bookingId', name: 'confirmation', component: ConfirmationPage },
-  { path: '/signup', name: 'signup', component: SignupPage }, // Add the new signup route
-  { path: '/login', name: 'login', component: LoginPage },
-  { path: '/payment/:bookingId', name: 'payment', component: PaymentPage },
-  { path: '/review/:id', name: 'review', component: ReviewPage},// Add the new login route
   {
     path: '/',
     name: 'home',
@@ -49,31 +41,43 @@ const routes = [
     path: '/cars/:id',
     name: 'carDetails',
     component: CarDetailsPage,
-    beforeEnter: requireAuth // Require login to view car details
+    beforeEnter: requireAuth
   },
   {
     path: '/booking/:id',
     name: 'booking',
     component: BookingPage,
-    beforeEnter: requireAuth // Require login to book
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/payment/:bookingId',
+    name: 'payment',
+    component: PaymentPage,
+    beforeEnter: requireAuth
   },
   {
     path: '/confirmation/:bookingId',
     name: 'confirmation',
     component: ConfirmationPage,
-    beforeEnter: requireAuth // Require login to see confirmation
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/review/:id',
+    name: 'review',
+    component: ReviewPage,
+    beforeEnter: requireAuth
   },
   {
     path: '/signup',
     name: 'signup',
     component: SignupPage,
-    beforeEnter: requireGuest // Redirect to home if already logged in
+    beforeEnter: requireGuest
   },
   {
     path: '/login',
     name: 'login',
     component: LoginPage,
-    beforeEnter: requireGuest // Redirect to home if already logged in
+    beforeEnter: requireGuest
   }
 ];
 

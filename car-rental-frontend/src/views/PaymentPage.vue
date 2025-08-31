@@ -22,19 +22,14 @@ const paymentDetails = ref({
 
 const formatCardNumber = (value) => {
   const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-  const matches = v.match(/\d{4,16}/g)
-  const match = matches && matches[0] || ''
+  const match = v.match(/\d{4,16}/g)?.[0] || ''
   const parts = []
 
-  for (let i = 0, len = match.length; i < len; i += 4) {
+  for (let i = 0; i < match.length; i += 4) {
     parts.push(match.substring(i, i + 4))
   }
 
-  if (parts.length) {
-    return parts.join(' ')
-  } else {
-    return v
-  }
+  return parts.length ? parts.join(' ') : v
 }
 
 const formatExpiryDate = (value) => {
@@ -64,14 +59,6 @@ const isFormValid = computed(() => {
       paymentDetails.value.cardholderName.trim().length > 0
 })
 
-const cardType = computed(() => {
-  const number = paymentDetails.value.cardNumber.replace(/\s/g, '')
-  if (number.startsWith('4')) return 'visa'
-  if (number.startsWith('5') || number.startsWith('2')) return 'mastercard'
-  if (number.startsWith('3')) return 'amex'
-  return 'card'
-})
-
 async function processPayment() {
   if (!isFormValid.value) return
 
@@ -87,10 +74,15 @@ async function processPayment() {
       throw new Error('Payment declined. Please check your card details.')
     }
 
-    // On success, redirect to confirmation
+    // Correct navigation logic:
+    // This will redirect to the confirmation page using the correct route name.
     router.push({
       name: 'confirmation',
-      params: { bookingId: bookingId.value }
+      params: { bookingId: bookingId.value },
+      query: {
+        totalCost: totalCost.value,
+        carDetails: carDetails.value
+      }
     })
 
   } catch (e) {
@@ -106,8 +98,13 @@ function formatRate(val) {
 }
 
 onMounted(() => {
-  // Redirect if no booking data
-  if (!bookingId.value || !totalCost.value) {
+  console.log('Payment page loaded with:')
+  console.log('bookingId:', bookingId.value)
+  console.log('totalCost:', totalCost.value)
+  console.log('carDetails:', carDetails.value)
+
+  if (!bookingId.value) {
+    console.warn('No booking ID found, redirecting to home')
     router.push({ name: 'home' })
   }
 })
@@ -115,7 +112,6 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
-    <!-- NAV -->
     <nav class="relative z-30 backdrop-blur-md/40 bg-white/70 border-b border-amber-200/60 shadow-sm">
       <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -138,7 +134,6 @@ onMounted(() => {
         </h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <!-- Order Summary -->
           <div class="order-1 lg:order-2">
             <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 sticky top-6">
               <h3 class="text-xl font-bold mb-4 gradient-text-light">Order Summary</h3>
@@ -162,17 +157,16 @@ onMounted(() => {
                 </div>
               </div>
 
-              <!-- Security badges -->
               <div class="flex items-center justify-center gap-4 pt-4 border-t border-amber-200">
                 <div class="flex items-center gap-2 text-xs text-neutral-500">
                   <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                   </svg>
                   <span>SSL Secured</span>
                 </div>
                 <div class="flex items-center gap-2 text-xs text-neutral-500">
                   <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                   </svg>
                   <span>PCI Compliant</span>
                 </div>
@@ -180,11 +174,9 @@ onMounted(() => {
             </div>
           </div>
 
-          <!-- Payment Form -->
           <div class="order-2 lg:order-1">
             <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 md:p-8">
               <form @submit.prevent="processPayment" class="space-y-6">
-                <!-- Payment Method Selection -->
                 <div>
                   <h4 class="text-lg font-semibold mb-4">Payment Method</h4>
                   <div class="grid grid-cols-2 gap-3">
@@ -193,7 +185,7 @@ onMounted(() => {
                       <div class="flex items-center justify-center p-4 border-2 rounded-lg transition"
                            :class="paymentDetails.paymentMethod === 'credit_card' ? 'border-amber-400 bg-amber-50' : 'border-amber-200 hover:border-amber-300'">
                         <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2 3v2h16V7H4zm0 4v6h16v-6H4z"/>
+                          <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2 3v2h16V7H4zm0 4v6h16v-6H4z"></path>
                         </svg>
                         <span class="font-medium">Credit Card</span>
                       </div>
@@ -203,7 +195,7 @@ onMounted(() => {
                       <div class="flex items-center justify-center p-4 border-2 rounded-lg transition"
                            :class="paymentDetails.paymentMethod === 'debit_card' ? 'border-amber-400 bg-amber-50' : 'border-amber-200 hover:border-amber-300'">
                         <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2 3v2h16V7H4zm0 4v6h16v-6H4z"/>
+                          <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2 3v2h16V7H4zm0 4v6h16v-6H4z"></path>
                         </svg>
                         <span class="font-medium">Debit Card</span>
                       </div>
@@ -211,7 +203,6 @@ onMounted(() => {
                   </div>
                 </div>
 
-                <!-- Card Details -->
                 <div class="space-y-4">
                   <div>
                     <label for="cardholderName" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Cardholder Name</label>
@@ -222,25 +213,9 @@ onMounted(() => {
 
                   <div>
                     <label for="cardNumber" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Card Number</label>
-                    <div class="relative">
-                      <input id="cardNumber" @input="onCardNumberInput" type="text" required maxlength="19"
-                             class="mt-1 w-full px-4 py-3 pr-12 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400 font-mono"
-                             placeholder="1234 5678 9012 3456" />
-                      <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
-                        <svg v-if="cardType === 'visa'" class="w-8 h-5" viewBox="0 0 40 24" fill="none">
-                          <rect width="40" height="24" rx="4" fill="#1434CB"/>
-                          <path d="M16.283 12.064L18.072 5.2h2.892l-2.677 13.6h-2.892l1.789-6.736zm-4.283 6.736c-1.787 0-3.025-1.158-3.025-2.756 0-2.317 2.677-4.634 5.354-4.634.893 0 1.787.26 2.678.78l-.893-4.374h-2.892L9.196 18.8H12l.894-3.117c.894.52 1.787.78 2.678.78.893 0 1.787-.26 2.678-.78L19.143 12.8h2.892l-3.571 5.997H16.572l.894-3.117zm10.715-11.674c-1.787 0-3.025 1.158-3.025 2.756 0 2.317 2.677 4.634 5.354 4.634.893 0 1.787-.26 2.678-.78l.893 4.374h2.892L31.533 5.2h-2.892l-.894 3.117c-.894-.52-1.787-.78-2.678-.78-.893 0-1.787.26-2.678.78L21.498 5.2h-2.892l3.571-5.997h1.892l-.894 3.117z" fill="white"/>
-                        </svg>
-                        <svg v-else-if="cardType === 'mastercard'" class="w-8 h-5" viewBox="0 0 40 24" fill="none">
-                          <rect width="40" height="24" rx="4" fill="#EB001B"/>
-                          <circle cx="15" cy="12" r="7" fill="#FF5F00"/>
-                          <circle cx="25" cy="12" r="7" fill="#F79E1B"/>
-                        </svg>
-                        <svg v-else class="w-6 h-4 text-neutral-400" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm2 3v2h16V7H4zm0 4v6h16v-6H4z"/>
-                        </svg>
-                      </div>
-                    </div>
+                    <input id="cardNumber" @input="onCardNumberInput" type="text" required maxlength="19"
+                           class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400 font-mono"
+                           placeholder="1234 5678 9012 3456" />
                   </div>
 
                   <div class="grid grid-cols-2 gap-4">
@@ -259,16 +234,14 @@ onMounted(() => {
                   </div>
                 </div>
 
-                <!-- Error Message -->
                 <p v-if="error" class="text-rose-600 font-medium text-sm animate-shake bg-rose-50 border border-rose-200 rounded-lg p-3">
                   {{ error }}
                 </p>
 
-                <!-- Security Notice -->
                 <div class="bg-green-50 border border-green-200 rounded-lg p-4">
                   <div class="flex items-start gap-3">
                     <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                     </svg>
                     <div>
                       <p class="text-sm font-medium text-green-800">Your payment is secure</p>
@@ -277,39 +250,17 @@ onMounted(() => {
                   </div>
                 </div>
 
-                <!-- Submit Button -->
                 <button type="submit"
                         class="w-full relative overflow-hidden px-6 py-4 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 text-white shadow-lg hover:scale-[1.01] active:scale-[0.98] transition disabled:opacity-60 disabled:cursor-not-allowed"
                         :disabled="!isFormValid || paymentLoading">
                   <span class="relative z-10 flex items-center justify-center gap-2">
                     <span v-if="paymentLoading" class="loader spinner size-4" aria-hidden="true"></span>
                     <svg v-if="!paymentLoading" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                      <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
                     </svg>
                     {{ paymentLoading ? 'Processing Payment...' : `Pay ${formatRate(totalCost)}` }}
                   </span>
-                  <span class="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-green-200 via-white/30 to-green-200 mix-blend-overlay transition"></span>
                 </button>
-
-                <!-- Payment Methods -->
-                <div class="flex items-center justify-center gap-4 pt-4">
-                  <span class="text-xs text-neutral-500">We accept:</span>
-                  <div class="flex items-center gap-2">
-                    <svg class="w-8 h-5" viewBox="0 0 40 24" fill="none">
-                      <rect width="40" height="24" rx="4" fill="#1434CB"/>
-                      <path d="M16.283 12.064L18.072 5.2h2.892l-2.677 13.6h-2.892l1.789-6.736z" fill="white"/>
-                    </svg>
-                    <svg class="w-8 h-5" viewBox="0 0 40 24" fill="none">
-                      <rect width="40" height="24" rx="4" fill="#EB001B"/>
-                      <circle cx="15" cy="12" r="7" fill="#FF5F00"/>
-                      <circle cx="25" cy="12" r="7" fill="#F79E1B"/>
-                    </svg>
-                    <svg class="w-8 h-5" viewBox="0 0 40 24" fill="none">
-                      <rect width="40" height="24" rx="4" fill="#006FCF"/>
-                      <path d="M18.5 7.5h3v9h-3z" fill="white"/>
-                    </svg>
-                  </div>
-                </div>
               </form>
             </div>
           </div>
@@ -317,7 +268,6 @@ onMounted(() => {
       </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="relative z-10 border-t border-amber-200/70 bg-white/80 backdrop-blur text-center py-6 text-sm text-neutral-600">
       <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <span>© 2025 CarRental</span>
@@ -328,10 +278,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Animations and effects */
-.animate-fade-in { animation: fadeIn 0.8s ease-in-out both; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-
 .animate-shake { animation: shake 0.5s ease-in-out; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
@@ -358,13 +304,7 @@ onMounted(() => {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Card input focus effects */
 input:focus {
   box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
-}
-
-/* Payment method radio styling */
-input[type="radio"]:checked + div {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(251, 146, 60, 0.1));
 }
 </style>

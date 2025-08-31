@@ -4,37 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dc4e6b10-4b5a-43ac-a725-04274f23de73" name="Changes" comment="">
+    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/utils/format.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/utils/format.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/CarDetailsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/CarDetailsPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/ConfirmationPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/ConfirmationPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/PaymentPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/PaymentPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/dto/BookingRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/dto/BookingRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/PaymentController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "Spring Boot.Main.executor": "Run",
-    "git-widget-placeholder": "master",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;Spring Boot.Main.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
@@ -56,6 +63,41 @@
     </recent_temporary>
   </component>
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Front end commite" />
+      <created>1756562390768</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756562390768</updated>
+      <workItem from="1756562392827" duration="5878000" />
+    </task>
+    <task id="LOCAL-00001" summary="Final Customer and Booking Front end commite">
+      <option name="closed" value="true" />
+      <created>1756657733708</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1756657733708</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Final Customer and Booking Front end commite" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final Customer and Booking Front end commite" />
   </component>
 </project>
