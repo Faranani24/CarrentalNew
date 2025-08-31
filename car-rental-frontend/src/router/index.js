@@ -75,6 +75,19 @@ const routes = [
     component: LoginPage,
     beforeEnter: requireGuest // Redirect to home if already logged in
   }
+
+  {
+  path: '/admins',
+  name: 'admins',
+  component: () => import('@/views/AdminView.vue'),
+  beforeEnter: requireAuth // only logged-in users can manage admins
+},
+{
+  path: '/services',
+  name: 'services',
+  component: () => import('@/views/ServiceView.vue'),
+  beforeEnter: requireAuth // only logged-in users can manage services
+    }
 ];
 
 const router = createRouter({
