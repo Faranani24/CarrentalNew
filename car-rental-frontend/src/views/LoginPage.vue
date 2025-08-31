@@ -1,51 +1,29 @@
-<template>
-  <div class="flex items-center justify-center min-h-screen bg-gradient-to-b from-amber-50 via-white to-neutral-100">
-    <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
-      <!-- Logo and Brand -->
-      <div class="flex flex-col items-center space-y-4">
-        <router-link to="/">
-          <div class="flex items-center gap-3">
-            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg flex items-center justify-center font-black text-gray-900 tracking-tighter" aria-label="CarRental logo">
-              CR
-            </div>
-            <h1 class="text-2xl font-bold tracking-tight">
-              <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-400 bg-clip-text text-transparent drop-shadow-sm">CarRental</span>
-            </h1>
-          </div>
-        </router-link>
-        <h2 class="text-3xl font-bold text-center text-neutral-900">Log in</h2>
-      </div>
-      <form @submit.prevent="handleLogin" class="space-y-6">
-        <div>
-          <input type="email" v-model="email" placeholder="Email address" required
-                 class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"/>
-        </div>
-        <div>
-          <input type="password" v-model="password" placeholder="Password" required
-                 class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"/>
-        </div>
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import * as auth from '@/utils/auth.js';
 
-        <!-- Error message -->
-        <div v-if="error" class="text-center text-red-600 text-sm">
-          {{ error }}
-        </div>
+const email = ref('');
+const password = ref('');
+const loading = ref(false);
+const error = ref('');
+const router = useRouter();
 
-        <button type="submit" :disabled="loading"
-                class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed">
-          {{ loading ? 'Logging in...' : 'Log in' }}
-        </button>
-      </form>
+const handleLogin = async () => {
+  loading.value = true;
+  error.value = '';
 
-      <p class="text-center text-sm text-neutral-600">
-        Don't have an account?
-        <router-link to="/signup" class="text-amber-600 hover:text-amber-700 font-medium">
-          Sign up
-        </router-link>
-      </p>
-    </div>
-  </div>
-</template>
-
+  try {
+    const data = await auth.loginUser(email.value, password.value);
+    router.push({ name: 'home' });
+  } catch (err) {
+    console.error(err);
+    error.value = err.response?.data?.message || 'Login failed. Please try again.';
+  } finally {
+    loading.value = false;
+  }
+};
+</script>
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
