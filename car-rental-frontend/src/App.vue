@@ -1,7 +1,7 @@
 <!-- src/App.vue -->
 <template>
   <div id="app">
-    <NavBar />       <!-- Navigation bar -->
+    <NavBar />       <!-- Dynamic navigation bar -->
     <router-view />  <!-- Routed pages -->
   </div>
 </template>
