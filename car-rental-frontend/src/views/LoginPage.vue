@@ -17,20 +17,12 @@
       </div>
       <form @submit.prevent="handleLogin" class="space-y-6">
         <div>
-          <label for="email" class="sr-only">Email address</label>
-          <input id="email" name="email" type="email" autocomplete="email" required
-                 v-model="email"
-                 class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"
-                 placeholder="Email address"
-          />
+          <input type="email" v-model="email" placeholder="Email address" required
+                 class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"/>
         </div>
         <div>
-          <label for="password" class="sr-only">Password</label>
-          <input id="password" name="password" type="password" autocomplete="current-password" required
-                 v-model="password"
-                 class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"
-                 placeholder="Password"
-          />
+          <input type="password" v-model="password" placeholder="Password" required
+                 class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"/>
         </div>
 
         <!-- Error message -->
@@ -57,37 +49,26 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { AuthService } from '@/services/auth.js';
+import * as auth from '@/utils/auth.js'; // use centralized auth.js
 
 const email = ref('');
 const password = ref('');
 const loading = ref(false);
 const error = ref('');
 const router = useRouter();
-const authService = new AuthService();
 
 const handleLogin = async () => {
   loading.value = true;
   error.value = '';
 
   try {
-    // Get all users from local storage
-    const users = authService.getAllUsers();
-
-    // Find user with matching email
-    const user = users.find(u =>
-        u.email.toLowerCase() === email.value.toLowerCase()
-    );
+    // In this example, simulate login check (replace with real API if needed)
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find(u => u.email.toLowerCase() === email.value.toLowerCase());
 
     if (user && user.password === password.value) {
-      // Login successful - store user session
-      const loginSuccess = authService.login(user);
-      if (loginSuccess) {
-        console.log('Login successful:', user);
-        router.push({ name: 'home' });
-      } else {
-        error.value = 'Failed to store user session';
-      }
+      auth.saveToken(user.email); // store user session in auth.js
+      router.push({ name: 'home' });
     } else {
       error.value = 'Invalid email or password';
     }
