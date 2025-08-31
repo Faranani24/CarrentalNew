@@ -2,17 +2,19 @@
   <div>
     <h2>Services</h2>
 
-    <!-- Add Service Form -->
-    <form @submit.prevent="addService">
-      <input v-model="newService.name" placeholder="Service Name" required />
-      <input v-model.number="newService.costPerDay" placeholder="Cost Per Day" required />
-      <button type="submit">Add Service</button>
+    <!-- Add / Edit Service Form -->
+    <form @submit.prevent="submitService">
+      <input v-model="form.name" placeholder="Service Name" required />
+      <input v-model.number="form.costPerDay" placeholder="Cost Per Day" required />
+      <button type="submit">{{ form.id ? 'Update' : 'Add' }} Service</button>
+      <button v-if="form.id" type="button" @click="cancelEdit">Cancel</button>
     </form>
 
     <!-- Service List -->
     <ul>
       <li v-for="service in services" :key="service.id">
         {{ service.name }} - ${{ service.costPerDay }}
+        <button @click="editService(service)">Edit</button>
         <button @click="deleteService(service.id)">Delete</button>
       </li>
     </ul>
@@ -24,7 +26,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const services = ref([]);
-const newService = ref({ name: '', costPerDay: 0 });
+const form = ref({ id: null, name: '', costPerDay: 0 });
 
 const fetchServices = async () => {
   try {
@@ -35,14 +37,28 @@ const fetchServices = async () => {
   }
 };
 
-const addService = async () => {
+const submitService = async () => {
   try {
-    await axios.post('http://localhost:8080/api/services', newService.value);
-    newService.value = { name: '', costPerDay: 0 };
+    if (form.value.id) {
+      // Update existing service
+      await axios.put(`http://localhost:8080/api/services/${form.value.id}`, form.value);
+    } else {
+      // Add new service
+      await axios.post('http://localhost:8080/api/services', form.value);
+    }
+    form.value = { id: null, name: '', costPerDay: 0 };
     fetchServices();
   } catch (err) {
     console.error(err);
   }
+};
+
+const editService = (service) => {
+  form.value = { ...service };
+};
+
+const cancelEdit = () => {
+  form.value = { id: null, name: '', costPerDay: 0 };
 };
 
 const deleteService = async (id) => {
