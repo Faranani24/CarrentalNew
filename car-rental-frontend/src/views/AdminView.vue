@@ -1,40 +1,72 @@
 <template>
-  <div class="container">
-    <h2>Admins</h2>
+  <div class="p-6">
+    <h2 class="text-2xl font-bold mb-4">Admins</h2>
 
-    <!-- Add / Edit Form -->
-    <form @submit.prevent="submitAdmin" class="form-card">
-      <input v-model="form.name" placeholder="Name" required />
-      <input v-model="form.email" placeholder="Email" required />
-      <div class="buttons">
-        <button type="submit">{{ form.id ? 'Update' : 'Add' }} Admin</button>
-        <button v-if="form.id" type="button" @click="cancelEdit">Cancel</button>
-      </div>
+    <!-- Add Admin Form -->
+    <form @submit.prevent="addAdmin" class="mb-4 flex gap-2">
+      <input v-model="newAdmin.firstName" placeholder="First Name" required class="input"/>
+      <input v-model="newAdmin.lastName" placeholder="Last Name" required class="input"/>
+      <input v-model="newAdmin.email" placeholder="Email" type="email" required class="input"/>
+      <button type="submit" class="btn">Add Admin</button>
     </form>
 
     <!-- Admin List -->
-    <div class="cards">
-      <div v-for="admin in admins" :key="admin.id" class="card">
-        <h3>{{ admin.name }}</h3>
-        <p>{{ admin.email }}</p>
-        <div class="buttons">
-          <button @click="editAdmin(admin)">Edit</button>
-          <button @click="deleteAdmin(admin.id)">Delete</button>
-        </div>
-      </div>
-    </div>
+    <ul>
+      <li v-for="admin in admins" :key="admin.id" class="flex justify-between items-center mb-2">
+        <span>{{ admin.firstName }} {{ admin.lastName }} ({{ admin.email }})</span>
+        <button @click="deleteAdmin(admin.id)" class="btn btn-red">Delete</button>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import * as api from '@/utils/api.js'; // centralized API calls
+import axios from 'axios';
+import * as auth from '@/utils/auth.js';
 
 const admins = ref([]);
-const form = ref({ id: null, name: '', email: '' });
+const newAdmin = ref({ firstName: '', lastName: '', email: '' });
+
+// Axios instance with auth token
+const api = axios.create({
+  baseURL: '/api',
+  headers: { Authorization: `Bearer ${auth.getToken()}` }
+});
 
 // Fetch admins
 const fetchAdmins = async () => {
+  try {
+    const res = await api.get('/admins');
+    admins.value = res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Add new admin
+const addAdmin = async () => {
+  try {
+    const res = await api.post('/admins', newAdmin.value);
+    admins.value.push(res.data);
+    newAdmin.value = { firstName: '', lastName: '', email: '' };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Delete admin
+const deleteAdmin = async (id) => {
+  try {
+    await api.delete(`/admins/${id}`);
+    admins.value = admins.value.filter(a => a.id !== id);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+onMounted(fetchAdmins);
+</script>const fetchAdmins = async () => {
   try {
     const res = await api.getAdmins();
     admins.value = res.data;
