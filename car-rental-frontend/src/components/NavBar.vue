@@ -1,4 +1,3 @@
-<!-- src/components/NavBar.vue -->
 <template>
   <nav>
     <router-link to="/">Home</router-link>
@@ -20,19 +19,20 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { AuthService } from '@/services/auth.js';
 import { useRouter } from 'vue-router';
+import * as auth from '@/utils/auth.js'; // centralized auth helpers
 
 const router = useRouter();
-const authService = new AuthService();
 const isAuthenticated = ref(false);
 
+// Check auth status
 const checkAuth = () => {
-  isAuthenticated.value = authService.isAuthenticated();
+  isAuthenticated.value = auth.isAuthenticated();
 };
 
+// Logout
 const logout = () => {
-  authService.logout(); // Implement this in AuthService
+  auth.logout();
   checkAuth();
   router.push('/login');
 };
