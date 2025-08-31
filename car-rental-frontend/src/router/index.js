@@ -49,6 +49,56 @@ const routes = [
     path: '/cars/:id',
     name: 'carDetails',
     component: CarDetailsPage,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/booking/:id',
+    name: 'booking',
+    component: BookingPage,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/confirmation/:bookingId',
+    name: 'confirmation',
+    component: ConfirmationPage,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: SignupPage,
+    beforeEnter: requireGuest
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
+    beforeEnter: requireGuest
+  },
+  {
+    path: '/admins',
+    name: 'admins',
+    component: () => import('@/views/AdminView.vue'),
+    beforeEnter: requireAuth // only logged-in users can manage admins
+  },
+  {
+    path: '/services',
+    name: 'services',
+    component: () => import('@/views/ServiceView.vue'),
+    beforeEnter: requireAuth // only logged-in users can manage services
+  }
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+});
+
+export default router;  },
+  {
+    path: '/cars/:id',
+    name: 'carDetails',
+    component: CarDetailsPage,
     beforeEnter: requireAuth // Require login to view car details
   },
   {
