@@ -144,3 +144,19 @@ export async function bookCar(bookingDetails) {
         }
     }
 }
+export async function getCarById(id) {
+    const res = await fetch(`http://localhost:8082/api/cars/${id}`);
+    if (!res.ok) {
+        throw new Error(`Failed to fetch car with ID: ${id}`);
+    }
+    const data = await res.json();
+    return data;
+}
+export async function submitReview(reviewData) {
+    // Simulate API call
+    console.log('Submitting review:', reviewData);
+    return new Promise(resolve => setTimeout(() => {
+        console.log('Review submitted successfully!');
+        resolve({ success: true });
+    }, 1000));
+}

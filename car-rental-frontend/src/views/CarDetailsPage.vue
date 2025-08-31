@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { fetchCarById } from '@/services/carService';
+import { fetchReviewsByCarId} from '@/services/reviewService.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -9,7 +10,48 @@ const router = useRouter();
 const car = ref(null);
 const loading = ref(true);
 const error = ref('');
+const reviews = ref([]);
+const reviewsLoading = ref(true);
 
+const averageRating = computed(() => {
+  if (reviews.value.length === 0) return 0;
+  const total = reviews.value.reduce((sum, r) => sum + r.rating, 0);
+  return (total / reviews.value.length).toFixed(1);
+});
+
+async function loadCarAndReviews() {
+  loading.value = true;
+  reviewsLoading.value = true;
+  error.value = '';
+  try {
+    const carId = route.params.id;
+    if (!carId) {
+      router.push({ name: 'home' });
+      return;
+    }
+    car.value = await fetchCarById(carId);
+
+    reviews.value = await fetchReviewsByCarId(carId);
+  } catch (e) {
+    error.value = e.message || 'Failed to load car details.';
+    console.error('[CarDetailsPage] load failed:', e);
+  } finally {
+    loading.value = false;
+    reviewsLoading.value = false;
+  }
+}
+function formatStars(rating) {
+  const fullStars = Math.floor(rating);
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    if (i < fullStars) {
+      stars.push('<i class="fas fa-star"></i>');
+    } else {
+      stars.push('<i class="far fa-star"></i>');
+    }
+  }
+  return stars.join('');
+}
 onMounted(async () => {
   const carId = route.params.id;
   if (!carId) {

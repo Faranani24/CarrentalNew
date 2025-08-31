@@ -7,7 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig(({ mode }) => {
   // Only VITE_* env vars are exposed to client by default
   const env = loadEnv(mode, process.cwd())
-  const devPort = Number(env.VITE_FRONTEND_PORT) || 5173
+  //const devPort = Number(env.VITE_FRONTEND_PORT) || 5173
   const backendPort = env.VITE_BACKEND_PORT || 8082
   const backendHost = env.VITE_BACKEND_URL || `http://localhost:${backendPort}`
 
@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
       alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) }
     },
     server: {
-      port: devPort,
+      port: 5173,
       strictPort: true,
       proxy: {
         '/api': {

@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { fetchCars } from '@/services/carService'
+import { fetchReviewsByCarId } from '@/services/reviewService'
 import { useRouter } from 'vue-router'
+import { formatDate } from '@/utils/format.js'
 import { AuthService } from '@/services/auth.js'
 
 const cars = ref([])
@@ -25,6 +27,17 @@ const fetchAllCars = async () => {
   try {
     const fetchedCars = await fetchCars()
     cars.value = fetchedCars
+
+   const carsWithReviews = []
+    for (const car of fetchedCars) {
+      const reviews = await fetchReviewsByCarId(car.id)
+
+      const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0)
+      const averageRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : 0
+      carsWithReviews.push({ ...car, averageRating, reviewCount: reviews.length })
+
+    }
+    cars.value = carsWithReviews
   } catch (e) {
     error.value = 'Failed to load cars.'
     console.error('Error fetching cars:', e)
@@ -33,6 +46,20 @@ const fetchAllCars = async () => {
   }
 }
 
+function formatStars(rating) {
+  const fullStars = Math.floor(rating)
+  let starsHtml = ''
+  for (let i = 0; i < 5; i++) {
+    if (i < fullStars) {
+      starsHtml += `<i class="fas fa-star"></i>`
+    } else {
+      starsHtml += `<i class="far fa-star"></i>`
+    }
+  }
+  return starsHtml
+}
+
+onMounted(fetchAllCars)
 const handleLogout = () => {
   authService.logout()
   currentUser.value = null

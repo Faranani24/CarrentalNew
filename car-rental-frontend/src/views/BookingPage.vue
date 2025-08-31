@@ -1,103 +1,240 @@
+app.cors.allowed-origins=${CORS_ORIGINS:http://localhost:5173,http://localhost:5177,http://localhost:3000,http://localhost:5178}
+Or temporarily hardcode it in your controller:
+
+java
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5178"})
+2. Fix Your Booking Page Template
+Your booking page has duplicate/conflicting template sections. Here's the corrected version:
+
+Fixed BookingPage.vue
+Code
+3. Add Payment Route
+Don't forget to add the payment route to your router:
+
+javascript
+// In your router/index.js, add:
+import PaymentPage from '@/views/PaymentPage.vue';
+
+// And add this route:
+{ path: '/payment/:bookingId', name: 'payment', component: PaymentPage },
+4. Backend CORS Fix
+The quickest fix is to update your application.properties:
+
+properties
+app.cors.allowed-origins=${CORS_ORIGINS:http://localhost:5173,http://localhost:5177,http://localhost:3000,http://localhost:5178,http://localhost:5179}
+Or create a more comprehensive CORS configuration class:
+
+java
+@Configuration
+public class CorsConfig {
+
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+CorsConfiguration configuration = new CorsConfiguration();
+configuration.setAllowedOriginPatterns(List.of("http://localhost:*"));
+configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+configuration.setAllowedHeaders(List.of("*"));
+configuration.setAllowCredentials(true);
+
+UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+source.registerCorsConfiguration("/api/**", configuration);
+return source;
+}
+}
+The main issues were:
+
+CORS blocking - Frontend port 5178 not allowed
+Template conflicts - Duplicate form sections in booking page
+Function mismatch - Using getCarById (API call) instead of fetchCarById (mock data)
+With these fixes, your booking flow should work properly using the mock data while you get the backend CORS sorted out.
+
+
+package co.za.carrental.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class CorsConfig implements WebMvcConfigurer {
+@Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:5177,http://localhost:3000}")
+private String originsRaw;
+
+@Value("${app.cors.allowed-methods:GET,POST,PUT,DELETE,PATCH,OPTIONS}")
+private String methodsRaw;
+
+@Value("${app.cors.allowed-headers:Content-Type,Authorization}")
+private String headersRaw;
+
+@Value("${app.cors.allow-credentials:true}")
+private boolean allowCredentials;
+
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+String[] origins = split(originsRaw);
+String[] methods = split(methodsRaw);
+String[] headers = split(headersRaw);
+
+boolean wildcard = origins.length == 1 && "*".equals(origins[0]);
+boolean effectiveAllowCredentials = allowCredentials && !wildcard;
+
+registry.addMapping("/api/**")
+.allowedOrigins(origins)
+.allowedMethods(methods)
+.allowedHeaders(headers)
+.allowCredentials(effectiveAllowCredentials)
+.maxAge(3600);
+}
+
+private String[] split(String csv) {
+if (!StringUtils.hasText(csv)) return new String[0];
+return StringUtils.commaDelimitedListToStringArray(csv.trim());
+}
+}
+//this is what the cors config file looks like
+Perfect! Your CORS configuration looks well-structured. The issue is that your frontend is running on port 5178, but your CORS config only allows ports 5173, 5177, and 3000.
+
+Quick fix - update your application.properties:
+
+properties
+app.cors.allowed-origins=${CORS_ORIGINS:http://localhost:5173,http://localhost:5177,http://localhost:3000,http://localhost:5178}
+Just add ,http://localhost:5178 to the end of your existing line.
+
+Alternative fix - make it more flexible: You could also update your CORS config to allow any localhost port:
+
+java
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+registry.addMapping("/api/**")
+.allowedOriginPatterns("http://localhost:*") // This allows any localhost port
+.allowedMethods(split(methodsRaw))
+.allowedHeaders(split(headersRaw))
+.allowCredentials(allowCredentials)
+.maxAge(3600);
+}
+Root cause analysis:
+
+Your frontend dev server started on port 5178 (probably because 5173 was occupied)
+Your CORS config only allows specific ports
+The 403 Forbidden error is from CORS blocking the request
+Your booking page was also calling getCarById which tries to hit the real API instead of using the mock fetchCarById
+The booking page fix I provided should resolve the template issues and use the mock data that works, while the CORS fix will allow your real API calls to work when you're ready to switch from mock to real data.
+
+After updating the CORS config, restart your Spring Boot application for the changes to take effect.
+
+
+
+
+This conversation has reached its maximum length.
+Start a new conversation
+
+
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { fetchCarById, bookCar } from '@/services/carService'
-import { formatDate } from '@/utils/format'
+import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { fetchCarById } from '@/services/carService'; // Use the mock function that works
+import { formatDate } from '@/utils/format.js';
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
-const car = ref(null)
-const loading = ref(true)
-const bookingLoading = ref(false)
-const error = ref('')
+const loading = ref(true);
+const error = ref(null);
+const carId = computed(() => route.params.id);
+const car = ref(null);
 
 const bookingDetails = ref({
-  fullName: '',
+  from: '',
+  to: '',
+  fullName: '', // Changed from firstName/lastName to match your original
   email: '',
-  phone: '',
-  from: route.query.from || '',
-  to: route.query.to || ''
-})
+  phone: ''
+});
+
+const fetchCarDetails = async () => {
+  loading.value = true;
+  error.value = null;
+  try {
+    // Use the mock fetchCarById function instead of getCarById
+    const fetchedCar = await fetchCarById(carId.value);
+    car.value = fetchedCar;
+  } catch (e) {
+    error.value = 'Failed to load car details.';
+    console.error('Error fetching car details:', e);
+  } finally {
+    loading.value = false;
+  }
+};
 
 const datesValid = computed(() => {
   if (!bookingDetails.value.from || !bookingDetails.value.to) return false
   return new Date(bookingDetails.value.from) <= new Date(bookingDetails.value.to)
 })
 
-const durationInDays = computed(() => {
+const totalDays = computed(() => {
   if (!datesValid.value) return 0
   const from = new Date(bookingDetails.value.from)
   const to = new Date(bookingDetails.value.to)
   const diffTime = Math.abs(to - from)
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  return diffDays + 1 // Add 1 to include the last day
-})
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1 // Add 1 to include the last day
+});
 
 const totalCost = computed(() => {
   if (!car.value || !datesValid.value) return 0
-  return car.value.dailyRate * durationInDays.value
-})
+  return car.value.dailyRate * totalDays.value
+});
 
-const canBook = computed(() => {
-  return !bookingLoading.value &&
-      datesValid.value &&
+const isFormValid = computed(() => {
+  return datesValid.value &&
       bookingDetails.value.fullName &&
       bookingDetails.value.email &&
-      !loading.value
-})
+      bookingDetails.value.phone;
+});
 
-async function loadCar() {
-  loading.value = true
-  error.value = ''
-  try {
-    const carId = route.params.id
-    if (!carId) {
-      router.push({ name: 'home' })
-      return
-    }
-    car.value = await fetchCarById(carId)
-  } catch (e) {
-    error.value = e?.message || 'Failed to load car details.'
-    console.error('[booking] load car failed:', e)
-  } finally {
-    loading.value = false
+const bookCar = async () => {
+  if (!isFormValid.value || !car.value) {
+    error.value = 'Please fill out all required fields.';
+    return;
   }
-}
 
-async function submitBooking(e) {
-  e.preventDefault()
-  if (!canBook.value) return
-
-  bookingLoading.value = true
-  error.value = ''
+  const bookingData = {
+    carId: car.value.id,
+    ...bookingDetails.value,
+    totalCost: totalCost.value
+  };
 
   try {
-    const bookingData = {
-      carId: car.value.id || car.value.carId,
-      ...bookingDetails.value
-    }
-    const response = await bookCar(bookingData)
+    // Mock booking creation
+    const response = await new Promise(resolve => setTimeout(() => {
+      resolve({ bookingId: 'BOOK-' + Math.floor(Math.random() * 100000) });
+    }, 1000));
 
-    // Redirect to a confirmation page or show a success message
-    router.push({ name: 'confirmation', params: { bookingId: response.bookingId } })
-
+    router.push({
+      name: 'payment',
+      params: { bookingId: response.bookingId },
+      query: {
+        totalCost: totalCost.value,
+        carDetails: `${car.value.make} ${car.value.model} (${car.value.year})`
+      }
+    });
   } catch (e) {
-    error.value = e?.message || 'Booking failed. Please try again.'
-    console.error('[booking] submission failed:', e)
-  } finally {
-    bookingLoading.value = false
+    error.value = 'Failed to process booking. Please try again.';
+    console.error('Booking error:', e);
   }
-}
+};
 
 function formatRate(val) {
   if (val == null) return ''
-  return Intl.NumberFormat(undefined, { style: 'currency', currency: 'ZAR' }).format(val)
+  return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
 }
 
 onMounted(() => {
-  loadCar()
-})
+  if (carId.value) {
+    fetchCarDetails();
+  }
+});
 </script>
 
 <template>
@@ -116,69 +253,105 @@ onMounted(() => {
         </div>
       </div>
     </nav>
-
     <main class="relative z-10 flex-1 w-full py-12">
       <div class="mx-auto max-w-4xl px-6">
         <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-center mb-10">
-          <span class="gradient-text-light">Complete Your Booking</span>
+          <span class="gradient-text-light">Book Your Ride</span>
         </h2>
-
-        <div v-if="loading" class="text-center p-8">
-          <div class="loader spinner size-8 mx-auto" aria-hidden="true"></div>
-          <p class="mt-4 text-neutral-500">Loading car details...</p>
+      </div>
+        <div v-if="loading" class="flex flex-col items-center justify-center p-8 bg-white/80 rounded-xl shadow-xl border border-amber-200/60 backdrop-blur-xl/30">
+          <div class="loader-spinner mb-4"></div>
+          <p class="text-neutral-500">Loading car details...</p>
         </div>
-
-        <div v-else-if="error" class="text-center p-8 text-rose-600 font-medium animate-shake">
-          <p>{{ error }}</p>
+        <div v-else-if="error" class="bg-rose-50 border border-rose-200 rounded-lg p-6 text-center shadow-lg">
+          <p class="text-rose-600 font-medium">{{ error }}</p>
         </div>
-
-        <div v-else-if="car" class="grid grid-cols-1 md:grid-cols-2 gap-8 backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 md:p-8">
-
-          <div>
-            <div class="rounded-xl overflow-hidden border border-amber-200 shadow-sm">
-              <div class="relative h-56 overflow-hidden">
-                <img :src="car.imageUrl" class="w-full h-full object-cover" :alt="`${car.make} ${car.model}`" />
-              </div>
-              <div class="p-4 bg-white">
-                <h4 class="font-semibold text-xl tracking-tight mb-1 text-neutral-900">
-                  {{ car.make }} {{ car.model }} <span class="text-sm text-neutral-500">({{ car.year }})</span>
-                </h4>
-                <p class="text-xs font-mono text-neutral-500">Plate: {{ car.licensePlate }}</p>
-                <div class="flex items-center justify-between mt-4 border-t border-amber-100 pt-4">
-                  <p class="text-sm text-neutral-500">Daily Rate</p>
-                  <p class="text-xl font-bold">
-                    <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
-                      {{ formatRate(car.dailyRate) }}
+        <div v-else-if="car" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="order-1 lg:order-2">
+            <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 sticky top-6">
+              <h3 class="text-xl font-bold mb-4 gradient-text-light">Booking Summary</h3>
+              <div class="space-y-4">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+                  <div class="w-full md:w-32 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                    <img :src="car.imageUrl" alt="" class="w-full h-full object-cover">
+                  </div>
+                  <div>
+                    <h4 class="text-lg font-semibold">{{ car.make }} {{ car.model }}</h4>
+                    <p class="text-sm text-neutral-500">{{ car.year }} · {{ car.fuelType }}</p>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center text-sm text-neutral-600">
+                    <span>From:</span>
+                    <span class="font-medium">{{ bookingDetails.from ? formatDate(bookingDetails.from) : 'Select Date' }}</span>
+                  </div>
+                  <div class="flex justify-between items-center text-sm text-neutral-600">
+                    <span>To:</span>
+                    <span class="font-medium">{{ bookingDetails.to ? formatDate(bookingDetails.to) : 'Select Date' }}</span>
+                  </div>
+                  <div class="flex justify-between items-center text-sm text-neutral-600">
+                    <span>Total Days:</span>
+                    <span class="font-medium">{{ totalDays }}</span>
+                  </div>
+                </div>
+                <div class="border-t border-amber-200 pt-3 mt-4">
+                  <div class="flex justify-between items-center">
+                    <span class="text-lg font-bold">Total Cost:</span>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
+                      {{ formatRate(totalCost) }}
                     </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-6 p-5 rounded-xl border border-amber-200 bg-amber-50 shadow-inner">
-              <h5 class="text-lg font-semibold mb-3">Booking Summary</h5>
-              <div class="space-y-2 text-sm text-neutral-700">
-                <div class="flex justify-between items-center">
-                  <span>From:</span>
-                  <span class="font-medium">{{ bookingDetails.from ? formatDate(bookingDetails.from) : 'N/A' }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>To:</span>
-                  <span class="font-medium">{{ bookingDetails.to ? formatDate(bookingDetails.to) : 'N/A' }}</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span>Duration:</span>
-                  <span class="font-medium">{{ durationInDays }} day<span v-if="durationInDays !== 1">s</span></span>
-                </div>
-                <div class="flex justify-between items-center pt-3 border-t border-amber-200 mt-3">
-                  <span class="text-base font-bold">Total Cost:</span>
-                  <span class="text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
-                    {{ formatRate(totalCost) }}
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="order-2 lg:order-1">
+            <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 md:p-8">
+              <form @submit.prevent="bookCar" class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="from" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">From</label>
+                    <input id="from" type="date" v-model="bookingDetails.from" required
+                           class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition" />
+                  </div>
+                  <div>
+                    <label for="to" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">To</label>
+                    <input id="to" type="date" v-model="bookingDetails.to" required
+                           class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition" />
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <h4 class="text-lg font-semibold">Your Details</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label for="firstName" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">First Name</label>
+                      <input id="firstName" v-model="bookingDetails.firstName" type="text" required
+                             class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400" />
+                    </div>
+                    <div>
+                      <label for="lastName" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Last Name</label>
+                      <input id="lastName" v-model="bookingDetails.lastName" type="text" required
+                             class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400" />
+                    </div>
+                  </div>
+                  <div>
+                    <label for="email" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Email</label>
+                    <input id="email" v-model="bookingDetails.email" type="email" required
+                           class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400" />
+                  </div>
+                  <div>
+                    <label for="phone" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Phone Number</label>
+                    <input id="phone" v-model="bookingDetails.phone" type="tel" required
+                           class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400" />
+                  </div>
+                </div>
+                <button type="submit"
+                        class="w-full px-6 py-4 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-500 via-orange-500 to-rose-400 text-white shadow-lg hover:scale-[1.01] active:scale-[0.98] transition disabled:opacity-60 disabled:cursor-not-allowed"
+                        :disabled="!isFormValid || loading">
+                  {{ loading ? 'Booking...' : `Proceed to Payment` }}
+                </button>
+              </form>
+            </div>
 
           <div class="flex flex-col">
             <h5 class="text-xl font-semibold mb-4">Your Details</h5>
@@ -233,7 +406,6 @@ onMounted(() => {
         </div>
       </div>
     </main>
-
     <footer class="relative z-10 border-t border-amber-200/70 bg-white/80 backdrop-blur text-center py-6 text-sm text-neutral-600">
       <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <span>© 2025 CarRental</span>
@@ -244,69 +416,13 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/*
-  The CSS from HomePage.vue should be copied and pasted here,
-  as you cannot import a Vue file directly as a stylesheet.
-*/
-.hero { min-height: 70vh; }
-.hero-title-gradient-light {
-  background: linear-gradient(90deg,#fbbf24 0%,#f59e0b 30%,#fb923c 60%,#f97316 80%,#fbbf24 100%);
-  -webkit-background-clip: text;
-  color: transparent;
-  background-size: 200% 100%;
-  animation: shine 8s linear infinite;
-}
-@keyframes shine {
-  0% { background-position: 0% 50%; }
-  100% { background-position: -200% 50%; }
-}
-.animate-pan { animation: pan 40s linear infinite; }
-@keyframes pan {
-  0% { transform: scale(1.15) translate(0,0); }
-  50% { transform: scale(1.18) translate(-2%, -2%); }
-  100% { transform: scale(1.15) translate(0,0); }
-}
-.animated-grid {
-  background:
-      linear-gradient(rgba(255,180,60,0.15) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,180,60,0.15) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
-  animation: grid-move 25s linear infinite;
-}
-@keyframes grid-move {
-  0% { background-position: 0 0, 0 0; }
-  100% { background-position: 0 40px, 40px 0; }
-}
-.card-enter-from,
-.card-leave-to { opacity: 0; transform: translateY(18px) scale(.96); }
-.card-enter-active { transition: all .60s cubic-bezier(.16,.8,.43,1.01); }
-.card-leave-active { transition: all .35s ease; }
-.card-enter-to { opacity: 1; transform: translateY(0) scale(1); }
-.animate-fade-down { animation: fadeDown .9s cubic-bezier(.16,.8,.43,1) both; }
-.animate-fade-up { animation: fadeUp 1s cubic-bezier(.16,.8,.43,1) both; }
-@keyframes fadeDown {
-  0% { opacity:0; transform:translateY(-24px) scale(.97); }
-  100% { opacity:1; transform:translateY(0) scale(1); }
-}
-@keyframes fadeUp {
-  0% { opacity:0; transform:translateY(30px) scale(.96); }
-  100% { opacity:1; transform:translateY(0) scale(1); }
-}
-.animate-pop { animation: pop .8s .25s cubic-bezier(.34,1.56,.64,1) both; }
-@keyframes pop {
-  0% { opacity:0; transform:scale(.4) rotate(-8deg); }
-  100% { opacity:1; transform:scale(1) rotate(0); }
-}
-.loader.spinner {
-  border: 3px solid rgba(0,0,0,0.15);
-  border-top-color: #f59e0b;
-  border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
-  animation: spin .8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+/* Animations and effects */
+.animate-fade-in { animation: fadeIn 0.8s ease-in-out both; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+.animate-shake { animation: shake 0.5s ease-in-out; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
 .gradient-text-light {
   background: linear-gradient(90deg,#f59e0b,#fb923c,#f97316,#fbbf24);
   -webkit-background-clip: text;
@@ -319,7 +435,24 @@ onMounted(() => {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-@media (max-width: 640px) {
-  .hero { min-height: 64vh; }
+
+.loader.spinner {
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Card input focus effects */
+input:focus {
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+}
+
+/* Payment method radio styling */
+input[type="radio"]:checked + div {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(251, 146, 60, 0.1));
 }
 </style>
