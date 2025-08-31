@@ -1,6 +1,6 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-import * as auth from '@/utils/auth.js'; // use centralized auth.js
+import { AuthService } from '@/services/auth.js';
 
 // Import your existing components
 import HomePage from '@/views/HomePage.vue';
@@ -12,9 +12,10 @@ import SignupPage from '@/views/SignupPage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import ReviewPage from "@/views/ReviewPage.vue";
 
-// Route guards
+// Auth guards
 const requireAuth = (to, from, next) => {
-  if (auth.isAuthenticated()) {
+  const authService = new AuthService();
+  if (authService.isAuthenticated()) {
     next();
   } else {
     next('/login');
@@ -22,7 +23,8 @@ const requireAuth = (to, from, next) => {
 };
 
 const requireGuest = (to, from, next) => {
-  if (!auth.isAuthenticated()) {
+  const authService = new AuthService();
+  if (!authService.isAuthenticated()) {
     next();
   } else {
     next('/');
@@ -43,106 +45,6 @@ const routes = [
     name: 'home',
     component: HomePage
   },
-  {
-    path: '/cars/:id',
-    name: 'carDetails',
-    component: CarDetailsPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/booking/:id',
-    name: 'booking',
-    component: BookingPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/confirmation/:bookingId',
-    name: 'confirmation',
-    component: ConfirmationPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: SignupPage,
-    beforeEnter: requireGuest
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginPage,
-    beforeEnter: requireGuest
-  },
-  {
-    path: '/admins',
-    name: 'admins',
-    component: () => import('@/views/AdminView.vue'),
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/services',
-    name: 'services',
-    component: () => import('@/views/ServiceView.vue'),
-    beforeEnter: requireAuth
-  }
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes
-});
-
-export default router;  },
-  {
-    path: '/cars/:id',
-    name: 'carDetails',
-    component: CarDetailsPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/booking/:id',
-    name: 'booking',
-    component: BookingPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/confirmation/:bookingId',
-    name: 'confirmation',
-    component: ConfirmationPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: SignupPage,
-    beforeEnter: requireGuest
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginPage,
-    beforeEnter: requireGuest
-  },
-  {
-    path: '/admins',
-    name: 'admins',
-    component: () => import('@/views/AdminView.vue'),
-    beforeEnter: requireAuth // only logged-in users can manage admins
-  },
-  {
-    path: '/services',
-    name: 'services',
-    component: () => import('@/views/ServiceView.vue'),
-    beforeEnter: requireAuth // only logged-in users can manage services
-  }
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes
-});
-
-export default router;  },
   {
     path: '/cars/:id',
     name: 'carDetails',
@@ -173,19 +75,6 @@ export default router;  },
     component: LoginPage,
     beforeEnter: requireGuest // Redirect to home if already logged in
   }
-
-  {
-  path: '/admins',
-  name: 'admins',
-  component: () => import('@/views/AdminView.vue'),
-  beforeEnter: requireAuth // only logged-in users can manage admins
-},
-{
-  path: '/services',
-  name: 'services',
-  component: () => import('@/views/ServiceView.vue'),
-  beforeEnter: requireAuth // only logged-in users can manage services
-    }
 ];
 
 const router = createRouter({
