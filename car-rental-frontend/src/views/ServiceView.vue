@@ -28,13 +28,71 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import * as api from '@/utils/api.js'; // centralized API calls
 
 const services = ref([]);
 const form = ref({ id: null, name: '', costPerDay: 0 });
 
+// Fetch services
 const fetchServices = async () => {
   try {
+    const res = await api.getServices();
+    services.value = res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Add / Update
+const submitService = async () => {
+  try {
+    if (form.value.id) {
+      await api.updateService(form.value.id, form.value);
+    } else {
+      await api.addService(form.value);
+    }
+    form.value = { id: null, name: '', costPerDay: 0 };
+    fetchServices();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Edit
+const editService = (service) => {
+  form.value = { ...service };
+};
+
+// Cancel edit
+const cancelEdit = () => {
+  form.value = { id: null, name: '', costPerDay: 0 };
+};
+
+// Delete
+const deleteService = async (id) => {
+  try {
+    await api.deleteService(id);
+    fetchServices();
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+onMounted(fetchServices);
+</script>
+
+<style scoped>
+/* same styles as before */
+.container { max-width: 900px; margin: auto; padding: 2rem; }
+h2 { margin-bottom: 1rem; color: #2c3e50; }
+.form-card { display: flex; gap: 1rem; margin-bottom: 2rem; padding: 1rem; background: #f9f9f9; border-radius: 8px; }
+.form-card input { flex: 1; padding: 0.5rem; }
+.buttons button { margin-left: 0.5rem; padding: 0.5rem 1rem; cursor: pointer; }
+.cards { display: flex; flex-wrap: wrap; gap: 1rem; }
+.card { background: #fff; padding: 1rem; border-radius: 8px; flex: 1 1 250px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+.card h3 { margin: 0 0 0.5rem; }
+.card p { margin: 0 0 1rem; color: #555; }
+</style>  try {
     const res = await axios.get('http://localhost:8080/api/services');
     services.value = res.data;
   } catch (err) {
