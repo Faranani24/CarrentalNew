@@ -1,50 +1,7 @@
-<template>
-  <div class="flex items-center justify-center min-h-screen bg-gradient-to-b from-amber-50 via-white to-neutral-100">
-    <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
-      <!-- Logo and Brand -->
-      <div class="flex flex-col items-center space-y-4">
-        <router-link to="/">
-          <div class="flex items-center gap-3">
-            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg flex items-center justify-center font-black text-gray-900 tracking-tighter" aria-label="CarRental logo">
-              CR
-            </div>
-            <h1 class="text-2xl font-bold tracking-tight">
-              <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-400 bg-clip-text text-transparent drop-shadow-sm">CarRental</span>
-            </h1>
-          </div>
-        </router-link>
-        <h2 class="text-3xl font-bold text-center text-neutral-900">Sign up</h2>
-      </div>
-      <form @submit.prevent="handleSignup" class="space-y-6">
-        <input type="text" v-model="firstName" placeholder="First Name" required class="input"/>
-        <input type="text" v-model="lastName" placeholder="Last Name" required class="input"/>
-        <input type="text" v-model="username" placeholder="Username" required class="input"/>
-        <input type="email" v-model="email" placeholder="Email address" required class="input"/>
-        <input type="password" v-model="password" placeholder="Password" required class="input"/>
-
-        <div v-if="error" class="text-center text-red-600 text-sm">{{ error }}</div>
-        <div v-if="success" class="text-center text-green-600 text-sm">{{ success }}</div>
-
-        <button type="submit" :disabled="loading"
-                class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed">
-          {{ loading ? 'Creating account...' : 'Sign up' }}
-        </button>
-      </form>
-
-      <p class="text-center text-sm text-neutral-600">
-        Already have an account?
-        <router-link to="/login" class="text-amber-600 hover:text-amber-700 font-medium">
-          Log in
-        </router-link>
-      </p>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import * as auth from '@/utils/auth.js'; // use centralized auth.js
+import * as auth from '@/utils/auth.js';
 
 const firstName = ref('');
 const lastName = ref('');
@@ -62,18 +19,29 @@ const handleSignup = async () => {
   success.value = '';
 
   try {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-    if (users.some(u => u.email.toLowerCase() === email.value.toLowerCase())) {
-      error.value = 'Email already exists. Please use a different email.';
-      return;
-    }
-
-    const newUser = {
+    const userData = {
       firstName: firstName.value,
       lastName: lastName.value,
       username: username.value,
       email: email.value,
+      password: password.value
+    };
+
+    const res = await auth.signupUser(userData);
+    success.value = 'Account created successfully! Logging in...';
+
+    // Auto-login after signup
+    await auth.loginUser(email.value, password.value);
+    setTimeout(() => router.push({ name: 'home' }), 1000);
+
+  } catch (err) {
+    console.error(err);
+    error.value = err.response?.data?.message || 'Signup failed. Please try again.';
+  } finally {
+    loading.value = false;
+  }
+};
+</script>      email: email.value,
       password: password.value
     };
 
