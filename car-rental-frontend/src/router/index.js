@@ -1,6 +1,6 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-import { AuthService } from '@/services/auth.js';
+import * as auth from '@/utils/auth.js'; // use centralized auth.js
 
 // Import your existing components
 import HomePage from '@/views/HomePage.vue';
@@ -12,10 +12,9 @@ import SignupPage from '@/views/SignupPage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import ReviewPage from "@/views/ReviewPage.vue";
 
-// Auth guards
+// Route guards
 const requireAuth = (to, from, next) => {
-  const authService = new AuthService();
-  if (authService.isAuthenticated()) {
+  if (auth.isAuthenticated()) {
     next();
   } else {
     next('/login');
@@ -23,8 +22,7 @@ const requireAuth = (to, from, next) => {
 };
 
 const requireGuest = (to, from, next) => {
-  const authService = new AuthService();
-  if (!authService.isAuthenticated()) {
+  if (!auth.isAuthenticated()) {
     next();
   } else {
     next('/');
@@ -45,6 +43,56 @@ const routes = [
     name: 'home',
     component: HomePage
   },
+  {
+    path: '/cars/:id',
+    name: 'carDetails',
+    component: CarDetailsPage,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/booking/:id',
+    name: 'booking',
+    component: BookingPage,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/confirmation/:bookingId',
+    name: 'confirmation',
+    component: ConfirmationPage,
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: SignupPage,
+    beforeEnter: requireGuest
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
+    beforeEnter: requireGuest
+  },
+  {
+    path: '/admins',
+    name: 'admins',
+    component: () => import('@/views/AdminView.vue'),
+    beforeEnter: requireAuth
+  },
+  {
+    path: '/services',
+    name: 'services',
+    component: () => import('@/views/ServiceView.vue'),
+    beforeEnter: requireAuth
+  }
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+});
+
+export default router;  },
   {
     path: '/cars/:id',
     name: 'carDetails',
