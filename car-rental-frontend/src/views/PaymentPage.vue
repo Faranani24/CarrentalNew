@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
@@ -11,6 +12,10 @@ const carDetails = computed(() => route.query.carDetails || 'Vehicle')
 
 const paymentLoading = ref(false)
 const error = ref('')
+
+const promotions = ref([])
+const promotionsLoading = ref(false)
+const promotionsError = ref('')
 
 const paymentDetails = ref({
   cardNumber: '',
@@ -92,6 +97,20 @@ async function processPayment() {
   }
 }
 
+async function fetchPromotions() {
+  promotionsLoading.value = true
+  promotionsError.value = ''
+  try {
+    const response = await axios.get(`/api/promotions/${bookingId.value}`)
+    promotions.value = response.data
+  } catch (err) {
+    promotionsError.value = 'Failed to load promotions. Please try again later.'
+    console.error(err)
+  } finally {
+    promotionsLoading.value = false
+  }
+}
+
 function formatRate(val) {
   if (val == null) return ''
   return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
@@ -107,6 +126,8 @@ onMounted(() => {
     console.warn('No booking ID found, redirecting to home')
     router.push({ name: 'home' })
   }
+
+  fetchPromotions()
 })
 </script>
 
@@ -173,6 +194,33 @@ onMounted(() => {
               </div>
             </div>
           </div>
+
+          <div class="mt-8">
+            <h3 class="text-xl font-bold mb-4 gradient-text-light">Available Promotions</h3>
+
+            <div v-if="promotionsLoading" class="text-sm text-neutral-500">Loading promotions...</div>
+            <p v-if="promotionsError" class="text-sm text-rose-600">{{ promotionsError }}</p>
+
+            <ul v-if="!promotionsLoading && promotions.length" class="space-y-3">
+              <li v-for="promo in promotions" :key="promo.promotionId"
+                  class="border border-amber-200 rounded-lg p-4 shadow-sm bg-amber-50/70 hover:bg-amber-100/70 transition">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <p class="font-semibold text-amber-700">{{ promo.title }}</p>
+                    <p class="text-xs text-neutral-600">{{ promo.description }}</p>
+                  </div>
+                  <span class="text-green-600 font-bold">
+          -{{ promo.discountPercentage }}%
+        </span>
+                </div>
+              </li>
+            </ul>
+
+            <p v-if="!promotionsLoading && !promotions.length" class="text-sm text-neutral-500">
+              No promotions available at the moment.
+            </p>
+          </div>
+
 
           <div class="order-2 lg:order-1">
             <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 md:p-8">
