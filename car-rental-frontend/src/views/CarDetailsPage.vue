@@ -93,7 +93,6 @@ function formatRate(val) {
         </router-link>
       </div>
     </nav>
-
     <main class="relative z-10 flex-1 w-full py-12">
       <div class="mx-auto max-w-4xl px-6">
         <div v-if="loading" class="text-center text-neutral-500">
@@ -125,7 +124,7 @@ function formatRate(val) {
                 </ul>
               </div>
               <div class="pt-4">
-                <router-link :to="{ name: 'booking', params: { id: car.id, location: 'City or airport', from: '2025-01-01', to: '2025-01-03' } }"
+                <router-link :to="{ name: 'bookingDetails', params: { id: car.id }, query: { location: 'City or airport', from: '2025-01-01', to: '2025-01-03' } }"
                              class="group w-full relative overflow-hidden px-6 py-3 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-500 text-gray-900 shadow-lg hover:scale-[1.01] active:scale-[0.98] transition flex justify-center items-center">
                   <span class="relative z-10">Proceed to Booking</span>
                 </router-link>
@@ -135,7 +134,6 @@ function formatRate(val) {
         </div>
       </div>
     </main>
-
     <footer class="relative z-10 border-t border-amber-200/70 bg-white/80 backdrop-blur text-center py-6 text-sm text-neutral-600">
       <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <span>© 2025 CarRental</span>

@@ -29,11 +29,9 @@ const formatCardNumber = (value) => {
   const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
   const match = v.match(/\d{4,16}/g)?.[0] || ''
   const parts = []
-
   for (let i = 0; i < match.length; i += 4) {
     parts.push(match.substring(i, i + 4))
   }
-
   return parts.length ? parts.join(' ') : v
 }
 
@@ -66,21 +64,14 @@ const isFormValid = computed(() => {
 
 async function processPayment() {
   if (!isFormValid.value) return
-
   paymentLoading.value = true
   error.value = ''
 
   try {
-    // Simulate payment processing
     await new Promise(resolve => setTimeout(resolve, 2000))
-
-    // Simulate random payment failure (10% chance for demo)
     if (Math.random() < 0.1) {
       throw new Error('Payment declined. Please check your card details.')
     }
-
-    // Correct navigation logic:
-    // This will redirect to the confirmation page using the correct route name.
     router.push({
       name: 'confirmation',
       params: { bookingId: bookingId.value },
@@ -89,7 +80,6 @@ async function processPayment() {
         carDetails: carDetails.value
       }
     })
-
   } catch (e) {
     error.value = e.message || 'Payment processing failed. Please try again.'
   } finally {
@@ -101,13 +91,21 @@ async function fetchPromotions() {
   promotionsLoading.value = true
   promotionsError.value = ''
   try {
-    const response = await axios.get(`/api/promotions/${bookingId.value}`)
-    promotions.value = response.data
+    await new Promise(resolve => setTimeout(resolve, 800));
+    const mockPromotions = [
+      { promotionId: 'promo_123', title: 'Weekend Special', description: '20% off all weekend rentals!', discountPercentage: 20 },
+      { promotionId: 'promo_456', title: 'First-time Renter Discount', description: 'Save 10% on your first booking.', discountPercentage: 10 },
+      { promotionId: 'promo_789', title: 'Summer Sale', description: 'Get a 15% discount on bookings in December.', discountPercentage: 15 }
+    ];
+    if (Math.random() < 0.1) {
+      throw new Error('Server error: Failed to fetch promotions.');
+    }
+    promotions.value = mockPromotions;
   } catch (err) {
-    promotionsError.value = 'Failed to load promotions. Please try again later.'
-    console.error(err)
+    promotionsError.value = err.message || 'Failed to load promotions. Please try again later.';
+    console.error(err);
   } finally {
-    promotionsLoading.value = false
+    promotionsLoading.value = false;
   }
 }
 
@@ -121,12 +119,10 @@ onMounted(() => {
   console.log('bookingId:', bookingId.value)
   console.log('totalCost:', totalCost.value)
   console.log('carDetails:', carDetails.value)
-
   if (!bookingId.value) {
     console.warn('No booking ID found, redirecting to home')
     router.push({ name: 'home' })
   }
-
   fetchPromotions()
 })
 </script>
@@ -147,18 +143,15 @@ onMounted(() => {
         </div>
       </div>
     </nav>
-
     <main class="relative z-10 flex-1 w-full py-12">
       <div class="mx-auto max-w-4xl px-6">
         <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-center mb-10">
           <span class="gradient-text-light">Secure Payment</span>
         </h2>
-
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div class="order-1 lg:order-2">
             <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 sticky top-6">
               <h3 class="text-xl font-bold mb-4 gradient-text-light">Order Summary</h3>
-
               <div class="space-y-3 mb-6">
                 <div class="flex justify-between items-center text-sm">
                   <span class="text-neutral-600">Vehicle:</span>
@@ -177,7 +170,6 @@ onMounted(() => {
                   </div>
                 </div>
               </div>
-
               <div class="flex items-center justify-center gap-4 pt-4 border-t border-amber-200">
                 <div class="flex items-center gap-2 text-xs text-neutral-500">
                   <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -194,13 +186,10 @@ onMounted(() => {
               </div>
             </div>
           </div>
-
           <div class="mt-8">
             <h3 class="text-xl font-bold mb-4 gradient-text-light">Available Promotions</h3>
-
             <div v-if="promotionsLoading" class="text-sm text-neutral-500">Loading promotions...</div>
             <p v-if="promotionsError" class="text-sm text-rose-600">{{ promotionsError }}</p>
-
             <ul v-if="!promotionsLoading && promotions.length" class="space-y-3">
               <li v-for="promo in promotions" :key="promo.promotionId"
                   class="border border-amber-200 rounded-lg p-4 shadow-sm bg-amber-50/70 hover:bg-amber-100/70 transition">
@@ -215,13 +204,10 @@ onMounted(() => {
                 </div>
               </li>
             </ul>
-
             <p v-if="!promotionsLoading && !promotions.length" class="text-sm text-neutral-500">
               No promotions available at the moment.
             </p>
           </div>
-
-
           <div class="order-2 lg:order-1">
             <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-6 md:p-8">
               <form @submit.prevent="processPayment" class="space-y-6">
@@ -250,7 +236,6 @@ onMounted(() => {
                     </label>
                   </div>
                 </div>
-
                 <div class="space-y-4">
                   <div>
                     <label for="cardholderName" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Cardholder Name</label>
@@ -258,14 +243,12 @@ onMounted(() => {
                            class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400"
                            placeholder="John Doe" />
                   </div>
-
                   <div>
                     <label for="cardNumber" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Card Number</label>
                     <input id="cardNumber" @input="onCardNumberInput" type="text" required maxlength="19"
                            class="mt-1 w-full px-4 py-3 rounded-lg bg-white border border-amber-200 focus:border-amber-400 outline-none transition placeholder:text-neutral-400 font-mono"
                            placeholder="1234 5678 9012 3456" />
                   </div>
-
                   <div class="grid grid-cols-2 gap-4">
                     <div>
                       <label for="expiryDate" class="text-xs uppercase tracking-wider text-neutral-600 font-medium">Expiry Date</label>
@@ -281,11 +264,9 @@ onMounted(() => {
                     </div>
                   </div>
                 </div>
-
                 <p v-if="error" class="text-rose-600 font-medium text-sm animate-shake bg-rose-50 border border-rose-200 rounded-lg p-3">
                   {{ error }}
                 </p>
-
                 <div class="bg-green-50 border border-green-200 rounded-lg p-4">
                   <div class="flex items-start gap-3">
                     <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -297,7 +278,6 @@ onMounted(() => {
                     </div>
                   </div>
                 </div>
-
                 <button type="submit"
                         class="w-full relative overflow-hidden px-6 py-4 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 text-white shadow-lg hover:scale-[1.01] active:scale-[0.98] transition disabled:opacity-60 disabled:cursor-not-allowed"
                         :disabled="!isFormValid || paymentLoading">
@@ -315,7 +295,6 @@ onMounted(() => {
         </div>
       </div>
     </main>
-
     <footer class="relative z-10 border-t border-amber-200/70 bg-white/80 backdrop-blur text-center py-6 text-sm text-neutral-600">
       <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <span>© 2025 CarRental</span>
@@ -328,7 +307,6 @@ onMounted(() => {
 <style scoped>
 .animate-shake { animation: shake 0.5s ease-in-out; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-
 .gradient-text-light {
   background: linear-gradient(90deg,#f59e0b,#fb923c,#f97316,#fbbf24);
   -webkit-background-clip: text;
@@ -336,12 +314,7 @@ onMounted(() => {
   background-size: 300% 100%;
   animation: gradientShift 8s ease infinite;
 }
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .loader.spinner {
   border: 3px solid rgba(255,255,255,0.3);
   border-top-color: #ffffff;
@@ -351,8 +324,5 @@ onMounted(() => {
   animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-input:focus {
-  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
-}
+input:focus { box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1); }
 </style>

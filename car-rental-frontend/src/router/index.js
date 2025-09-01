@@ -1,8 +1,6 @@
-// router/index.js
+// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import { AuthService } from '@/services/auth.js';
-
-// Import your existing components
 import HomePage from '@/views/HomePage.vue';
 import CarDetailsPage from '@/views/CarDetailsPage.vue';
 import BookingPage from '@/views/BookingPage.vue';
@@ -11,8 +9,8 @@ import ConfirmationPage from '@/views/ConfirmationPage.vue';
 import SignupPage from '@/views/SignupPage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import ReviewPage from "@/views/ReviewPage.vue";
+import PromotionsPage from "@/views/PromotionsPage.vue";
 
-// Auth guards
 const requireAuth = (to, from, next) => {
   const authService = new AuthService();
   if (authService.isAuthenticated()) {
@@ -38,14 +36,30 @@ const routes = [
     component: HomePage
   },
   {
+    path: '/cars',
+    name: 'cars',
+    component: HomePage,
+    props: (route) => ({
+      location: route.query.location,
+      from: route.query.from,
+      to: route.query.to
+    })
+  },
+  {
     path: '/cars/:id',
     name: 'carDetails',
     component: CarDetailsPage,
     beforeEnter: requireAuth
   },
   {
+    path: '/booking',
+    name: 'bookingList',
+    component: BookingPage,
+    beforeEnter: requireAuth
+  },
+  {
     path: '/booking/:id',
-    name: 'booking',
+    name: 'bookingDetails',
     component: BookingPage,
     beforeEnter: requireAuth
   },
@@ -66,6 +80,11 @@ const routes = [
     name: 'review',
     component: ReviewPage,
     beforeEnter: requireAuth
+  },
+  {
+    path: '/promotions',
+    name: 'promotions',
+    component: PromotionsPage
   },
   {
     path: '/signup',
