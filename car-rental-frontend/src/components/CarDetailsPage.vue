@@ -150,6 +150,7 @@ function formatRate(val) {
   to { opacity: 1; transform: translateY(0); }
 }
 
+
 .gradient-text-light {
   background: linear-gradient(90deg,#f59e0b,#fb923c,#f97316,#fbbf24);
   -webkit-background-clip: text;

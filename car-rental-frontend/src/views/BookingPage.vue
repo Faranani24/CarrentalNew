@@ -23,6 +23,7 @@ const bookingDetails = ref({
   phone: ''
 });
 
+
 const fetchCarDetails = async () => {
   loading.value = true;
   error.value = null;

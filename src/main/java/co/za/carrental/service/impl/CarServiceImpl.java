@@ -50,6 +50,7 @@ public class CarServiceImpl implements ICarService {
         // Implement logic to delete by ID if you want both
     }
 
+
     @Override
     public List<Car> getAll() {
         return carRepository.findAll();

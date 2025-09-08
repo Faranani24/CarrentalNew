@@ -17,6 +17,7 @@ export async function fetchReviewsByCarId(carId) {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 300));
     return mockReviews[carId] || [];
+
 }
 
 // Function to submit a new review

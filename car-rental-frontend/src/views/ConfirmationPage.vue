@@ -19,6 +19,7 @@ const navigateToHome = () => {
 };
 </script>
 
+
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
     <div class="backdrop-blur-xl/30 bg-white/90 border border-amber-200/70 shadow-xl rounded-2xl p-8 text-center max-w-md w-full animate-fade-in">

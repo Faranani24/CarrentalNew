@@ -14,6 +14,7 @@ const routes = [
   { path: '/car-details/:id', name: 'carDetails', component: () => import('@/components/CarDetailsPage.vue') },
 ]
 
+
 const router = createRouter({
   history: createWebHistory(),
   routes,

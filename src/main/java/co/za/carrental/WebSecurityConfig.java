@@ -10,6 +10,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+
+
     /**
      * Configures the security filter chain to permit all requests to the specified API endpoints.
      * <p>

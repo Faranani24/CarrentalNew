@@ -18,6 +18,7 @@ export async function fetchCars() {
 
 }
 
+
 // Fetch a single car by ID
 export async function fetchCarById(carId) {
     try {

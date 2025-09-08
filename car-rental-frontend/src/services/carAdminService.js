@@ -15,6 +15,7 @@ export async function addCar(carDetails, imageFile) {
 
     }
 
+
     try {
         const response = await fetch(API_BASE_URL, {
             method: "POST",
