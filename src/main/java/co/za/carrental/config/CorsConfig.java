@@ -37,6 +37,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
+
     private String[] split(String csv) {
         if (!StringUtils.hasText(csv)) return new String[0];
         return StringUtils.commaDelimitedListToStringArray(csv.trim());

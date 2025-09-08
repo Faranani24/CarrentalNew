@@ -17,6 +17,7 @@ export class AuthService {
                 isAuthenticated: true,
                 // Adding a placeholder token to allow other services to function
                 token: 'your-mock-auth-token'
+
             };
 
             localStorage.setItem(this.storageKey, JSON.stringify(userSession));

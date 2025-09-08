@@ -15,6 +15,7 @@ export async function fetchCars() {
         console.error('Error fetching cars:', error)
         throw error
     }
+
 }
 
 // Fetch a single car by ID

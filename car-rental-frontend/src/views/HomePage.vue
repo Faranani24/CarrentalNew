@@ -197,6 +197,7 @@ function formatRate(val) {
 }
 .card-view-details:hover { transform:scale(1.03); border-color:#fb923c; box-shadow:0 4px 16px rgba(251,146,60,0.18);}
 
+
 .card-view-details-guest {
   display:block; width:100%; text-align:center;
   padding:0.75rem 1.5rem; border-radius:0.75rem;

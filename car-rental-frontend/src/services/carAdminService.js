@@ -12,6 +12,7 @@ export async function addCar(carDetails, imageFile) {
     );
     if (imageFile) {
         formData.append("image", imageFile);
+
     }
 
     try {
