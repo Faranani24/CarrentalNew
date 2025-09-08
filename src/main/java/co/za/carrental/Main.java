@@ -2,16 +2,14 @@ package co.za.carrental;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.ApplicationListener;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
 public class Main {
+
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(Main.class);
-        app.addListeners((ApplicationListener<ApplicationStartedEvent>) event -> {
-            System.out.println("Application has started successfully!");
-        });
-        app.run(args);
+        SpringApplication.run(Main.class, args);
+        System.out.println("Application has started");
     }
+
 }

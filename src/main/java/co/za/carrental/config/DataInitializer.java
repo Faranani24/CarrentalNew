@@ -13,11 +13,18 @@ import java.math.BigDecimal;
 @Configuration
 public class DataInitializer {
 
+    // This Bean is responsible for initializing the database with sample data.
+    // To prevent it from running on every startup, we will comment out the
+    // data saving logic.
     @Bean
     CommandLineRunner initCars(CarRepository carRepository, CarTypeRepository carTypeRepository) {
         return args -> {
+            /*
+            // The following code is for initial data seeding.
+            // It creates a CarType and a Car and saves them to the database.
+            // Commenting this out prevents the data from being re-inserted on every application restart.
             CarType suvType = new CarType();
-            suvType.setTypeId("T001"); // Set a valid typeId!
+            suvType.setTypeId("T001");
             suvType.setName("SUV");
             suvType.setDailyRate(200.0f);
             suvType.setLateFeePerHour(50.0f);
@@ -37,6 +44,8 @@ public class DataInitializer {
                     .build();
 
             carRepository.save(car);
+            */
+            System.out.println("Data initialization bean is active, but no data will be inserted.");
         };
     }
 }

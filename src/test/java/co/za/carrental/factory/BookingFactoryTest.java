@@ -21,7 +21,7 @@ class BookingFactoryTest {
                 .setLastName("User")
                 .setEmail("factory@example.com")
                 .setPhone("1234567890")
-                .setLicenseNumber("FCTRY123")
+                .setLicense("FCTRY123")
                 .setPassword("dummyPass")
                 .setPaymentMethods(List.of("Card"))
                 .build();
@@ -57,7 +57,7 @@ class BookingFactoryTest {
                 .setLastName("User")
                 .setEmail("test@example.com")
                 .setPhone("1234567890")
-                .setLicenseNumber("TEST123")
+                .setLicense("TEST123")
                 .setPassword("pass")
                 .setPaymentMethods(List.of("cash"))
                 .build();
@@ -85,7 +85,7 @@ class BookingFactoryTest {
                 .setLastName("User")
                 .setEmail("test@example.com")
                 .setPhone("1234567890")
-                .setLicenseNumber("TEST123")
+                .setLicense("TEST123")
                 .setPassword("pass")
                 .setPaymentMethods(List.of("cash"))
                 .build();

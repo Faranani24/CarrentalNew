@@ -1,9 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { fetchCars } from '@/services/carService'
-import { fetchReviewsByCarId } from '@/services/reviewService'
 import { useRouter } from 'vue-router'
-import { formatDate } from '@/utils/format.js'
+import { fetchCars } from '@/services/carService'
 import { AuthService } from '@/services/auth.js'
 
 const cars = ref([])
@@ -12,11 +10,9 @@ const error = ref(null)
 const router = useRouter()
 const authService = new AuthService()
 
-// Auth state
 const currentUser = ref(null)
 const isAuthenticated = computed(() => currentUser.value && currentUser.value.isAuthenticated)
 
-// Initialize auth state
 const initAuth = () => {
   currentUser.value = authService.getCurrentUser()
 }
@@ -26,17 +22,11 @@ const fetchAllCars = async () => {
   error.value = null
   try {
     const fetchedCars = await fetchCars()
-    cars.value = fetchedCars
-
-   const carsWithReviews = []
-    for (const car of fetchedCars) {
-      const reviews = await fetchReviewsByCarId(car.id)
-
-      const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0)
-      const averageRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : 0
-      carsWithReviews.push({ ...car, averageRating, reviewCount: reviews.length })
-
-    }
+    const carsWithReviews = fetchedCars.map(car => ({
+      ...car,
+      averageRating: 0,
+      reviewCount: 0,
+    }))
     cars.value = carsWithReviews
   } catch (e) {
     error.value = 'Failed to load cars.'
@@ -46,20 +36,6 @@ const fetchAllCars = async () => {
   }
 }
 
-function formatStars(rating) {
-  const fullStars = Math.floor(rating)
-  let starsHtml = ''
-  for (let i = 0; i < 5; i++) {
-    if (i < fullStars) {
-      starsHtml += `<i class="fas fa-star"></i>`
-    } else {
-      starsHtml += `<i class="far fa-star"></i>`
-    }
-  }
-  return starsHtml
-}
-
-onMounted(fetchAllCars)
 const handleLogout = () => {
   authService.logout()
   currentUser.value = null
@@ -79,52 +55,14 @@ function formatRate(val) {
 
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
-    <!-- NAV -->
-    <nav class="relative z-30 backdrop-blur-md/40 bg-white/70 border-b border-amber-200/60 shadow-sm">
-      <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-        <router-link to="/">
-          <div class="flex items-center gap-3">
-            <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg flex items-center justify-center font-black text-gray-900 tracking-tighter" aria-label="CarRental logo">
-              CR
-            </div>
-            <h1 class="text-2xl font-bold tracking-tight">
-              <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-400 bg-clip-text text-transparent drop-shadow-sm">CarRental</span>
-            </h1>
-          </div>
-        </router-link>
-
-        <!-- Navigation Menu -->
-        <div class="flex items-center gap-4">
-          <template v-if="isAuthenticated">
-            <!-- Authenticated Navigation -->
-            <span class="text-neutral-700 text-sm">
-              Welcome, {{ currentUser.firstName || currentUser.username }}!
-            </span>
-            <router-link to="/cars" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
-              Browse Cars
-            </router-link>
-            <router-link to="/booking" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
-              My Bookings
-            </router-link>
-            <button @click="handleLogout" class="px-4 py-2 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-red-400 to-red-500 text-white shadow-lg hover:scale-[1.01] active:scale-[0.98] transition">
-              Logout
-            </button>
-          </template>
-
-          <template v-else>
-            <!-- Guest Navigation -->
-            <router-link to="/login" class="text-neutral-900 font-semibold hover:text-orange-500 transition">Login</router-link>
-            <router-link to="/signup" class="px-4 py-2 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-lg hover:scale-[1.01] active:scale-[0.98] transition">Sign Up</router-link>
-          </template>
-        </div>
-      </div>
-    </nav>
-
     <!-- HERO -->
     <section class="relative flex items-center min-h-[70vh] overflow-hidden">
-      <!-- Background Image & Effects -->
       <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1650&q=60" class="w-full h-full object-cover animate-pan opacity-50" alt="hero"/>
+        <img
+            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1650&q=60"
+            class="w-full h-full object-cover animate-pan opacity-50"
+            alt="hero"
+        />
         <div class="absolute inset-0 bg-gradient-to-b from-white/85 via-white/70 to-amber-100/60"></div>
         <div class="absolute inset-0 mix-blend-overlay bg-[radial-gradient(circle_at_30%_30%,rgba(255,180,60,0.20),transparent_60%)]"></div>
         <div class="absolute inset-0 pointer-events-none animated-grid opacity-40"></div>
@@ -167,25 +105,35 @@ function formatRate(val) {
           <div v-if="loading" class="text-center text-neutral-500">Loading cars...</div>
           <div v-else-if="error" class="text-center text-rose-600">{{ error }}</div>
           <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 justify-center">
-            <div v-for="car in cars" :key="car.id" class="group relative rounded-xl overflow-hidden border border-amber-200 bg-white shadow-sm hover:shadow-lg transition flex flex-col animate-fade-in">
+            <div
+                v-for="car in cars"
+                :key="car.carId"
+                class="group relative rounded-xl overflow-hidden border border-amber-200 bg-white shadow-sm hover:shadow-lg transition flex flex-col animate-fade-in"
+            >
               <div class="relative h-48 overflow-hidden">
-                <img :src="car.imageUrl || 'https://via.placeholder.com/400x200?text=No+Image'" :alt="`${car.make} ${car.model}`" class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 ease-out"/>
+                <img
+                    :src="car.imageUrl || 'https://via.placeholder.com/400x200?text=No+Image'"
+                    :alt="`${car.make} ${car.model}`"
+                    class="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700 ease-out"
+                />
                 <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/0 to-black/50"></div>
                 <div class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold tracking-wide bg-green-300 backdrop-blur border border-amber-200 uppercase text-neutral-700">
-                  AVAILABLE
+                  {{ car.status.toUpperCase() }}
                 </div>
               </div>
               <div class="p-5 flex flex-col flex-1">
-                <h3 class="font-semibold text-lg tracking-tight mb-1 text-neutral-900">{{ car.make }} {{ car.model }} ({{ car.year }})</h3>
+                <h3 class="font-semibold text-lg tracking-tight mb-1 text-neutral-900">
+                  {{ car.make }} {{ car.model }} ({{ car.year }})
+                </h3>
                 <p class="text-xs text-neutral-500 mb-4">{{ car.description || '' }}</p>
                 <div class="mt-auto mb-4">
                   <p class="mb-4 text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
                     {{ formatRate(car.dailyRate) }}
                   </p>
 
-                  <!-- Show different buttons based on auth status -->
+                  <!-- Auth check -->
                   <template v-if="isAuthenticated">
-                    <router-link :to="{ name: 'carDetails', params: { id: car.id } }" class="card-view-details">
+                    <router-link :to="{ name: 'carDetails', params: { id: car.carId } }" class="card-view-details">
                       View Details →
                     </router-link>
                   </template>
@@ -213,7 +161,7 @@ function formatRate(val) {
 </template>
 
 <style scoped>
-/* Hero & gradient text animations */
+/* animations + card buttons */
 .animate-fade-in { animation: fadeIn 0.8s ease-in-out both; }
 @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
@@ -238,7 +186,6 @@ function formatRate(val) {
   0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
 }
 
-/* Card view details button */
 .card-view-details {
   display:block; width:100%; text-align:center;
   padding:0.75rem 1.5rem; border-radius:0.75rem;

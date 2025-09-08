@@ -1,108 +1,33 @@
-// src/router/index.js
-import { createRouter, createWebHistory } from 'vue-router';
-import { AuthService } from '@/services/auth.js';
-import HomePage from '@/views/HomePage.vue';
-import CarDetailsPage from '@/views/CarDetailsPage.vue';
-import BookingPage from '@/views/BookingPage.vue';
-import PaymentPage from '@/views/PaymentPage.vue';
-import ConfirmationPage from '@/views/ConfirmationPage.vue';
-import SignupPage from '@/views/SignupPage.vue';
-import LoginPage from '@/views/LoginPage.vue';
-import ReviewPage from "@/views/ReviewPage.vue";
-import PromotionsPage from "@/views/PromotionsPage.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import HomePage from '@/views/HomePage.vue'
+import { AuthService } from '@/services/auth.js'
 
-const requireAuth = (to, from, next) => {
-  const authService = new AuthService();
-  if (authService.isAuthenticated()) {
-    next();
-  } else {
-    next('/login');
-  }
-};
-
-const requireGuest = (to, from, next) => {
-  const authService = new AuthService();
-  if (!authService.isAuthenticated()) {
-    next();
-  } else {
-    next('/');
-  }
-};
+const authService = new AuthService()
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomePage
-  },
-  {
-    path: '/cars',
-    name: 'cars',
-    component: HomePage,
-    props: (route) => ({
-      location: route.query.location,
-      from: route.query.from,
-      to: route.query.to
-    })
-  },
-  {
-    path: '/cars/:id',
-    name: 'carDetails',
-    component: CarDetailsPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/booking',
-    name: 'bookingList',
-    component: BookingPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/booking/:id',
-    name: 'bookingDetails',
-    component: BookingPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/payment/:bookingId',
-    name: 'payment',
-    component: PaymentPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/confirmation/:bookingId',
-    name: 'confirmation',
-    component: ConfirmationPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/review/:id',
-    name: 'review',
-    component: ReviewPage,
-    beforeEnter: requireAuth
-  },
-  {
-    path: '/promotions',
-    name: 'promotions',
-    component: PromotionsPage
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: SignupPage,
-    beforeEnter: requireGuest
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginPage,
-    beforeEnter: requireGuest
-  }
-];
+  { path: '/', name: 'home', component: HomePage },
+  { path: '/cars', name: 'cars', component: () => import('@/components/CarList.vue') },
+  { path: '/admin', name: 'admin', component: () => import('@/views/AdminPanel.vue') },
+  // { path: '/booking', name: 'booking', component: () => import('@/views/BookingPage.vue') },
+  { path: '/login', name: 'login', component: () => import('@/views/LoginPage.vue') },
+  { path: '/signup', name: 'signup', component: () => import('@/views/SignUpPage.vue') },
+  { path: '/car-details/:id', name: 'carDetails', component: () => import('@/components/CarDetailsPage.vue') },
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const isAuthenticated = authService.isAuthenticated();
+
+  if (requiresAuth && !isAuthenticated) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
-export default router;
+export default router

@@ -26,6 +26,7 @@ class CustomerServiceTest {
         Optional<Customer> found = customerService.findById(saved.getCustomerId());
         assertTrue(found.isPresent());
         assertEquals(saved.getCustomerId(), found.get().getCustomerId());
+        assertEquals("LIC123", saved.getLicense());
     }
 
     @Test
@@ -43,7 +44,7 @@ class CustomerServiceTest {
                 .setEmail("jane.new@example.com")
                 .setPassword(saved.getPassword())
                 .setPhone(saved.getPhone())
-                .setLicenseNumber(saved.getLicenseNumber())
+                .setLicense(saved.getLicense())
                 .setPaymentMethods(saved.getPaymentMethods())
                 .build();
 

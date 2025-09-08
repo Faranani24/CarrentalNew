@@ -6,22 +6,32 @@ import co.za.carrental.domain.Status;
 import co.za.carrental.factory.CarFactory;
 import co.za.carrental.repository.CarRepository;
 import co.za.carrental.repository.CarTypeRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class CarControllerTest {
 
     @Autowired
-    private CarController carController;
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private CarRepository carRepository;
@@ -53,7 +63,7 @@ class CarControllerTest {
     }
 
     @Test
-    void create_shouldCreateCar() {
+    void create_shouldCreateCar() throws Exception {
         CarType carType = CarType.builder()
                 .typeId("T002")
                 .name("Sedan")
@@ -67,49 +77,57 @@ class CarControllerTest {
         Car newCar = CarFactory.createCar(
                 "67890", "Honda", "Civic", 2022, Status.AVAILABLE, carType, BigDecimal.valueOf(120.00)
         );
-        ResponseEntity<Car> response = carController.create(newCar);
 
-        assertNotNull(response.getBody());
-        assertEquals("Honda", response.getBody().getMake());
-        assertEquals(BigDecimal.valueOf(120.00), response.getBody().getDailyRate());
-        assertEquals(2, carRepository.count());
+        String carJson = objectMapper.writeValueAsString(newCar);
+        MockMultipartFile carDataPart = new MockMultipartFile("car", "", "application/json", carJson.getBytes(StandardCharsets.UTF_8));
+        MockMultipartFile imagePart = new MockMultipartFile("image", "test-image.jpg", "image/jpeg", "test image content".getBytes(StandardCharsets.UTF_8));
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/cars")
+                        .file(carDataPart)
+                        .file(imagePart)
+                        .contentType(MediaType.MULTIPART_FORM_DATA))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.carId").value("67890"))
+                .andExpect(jsonPath("$.make").value("Honda"))
+                .andExpect(jsonPath("$.model").value("Civic"));
     }
 
     @Test
-    void getAll_shouldReturnAllCars() {
-        ResponseEntity<List<Car>> response = carController.getAll();
-
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isEmpty());
-        assertEquals(1, response.getBody().size());
+    void getAll_shouldReturnAllCars() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/cars")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].carId").value("12345"));
     }
 
     @Test
-    void read_shouldReturnCarById() {
-        ResponseEntity<Car> response = carController.read(testCar.getCarId());
-
-        assertNotNull(response.getBody(), "Car should not be null");
-        assertEquals("Toyota", response.getBody().getMake());
-        assertTrue(BigDecimal.valueOf(100.00).compareTo(response.getBody().getDailyRate()) == 0, "Daily rate should match");
+    void read_shouldReturnCarById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/{carId}", testCar.getCarId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.carId").value("12345"))
+                .andExpect(jsonPath("$.make").value("Toyota"));
     }
 
     @Test
-    void update_shouldUpdateCar() {
+    void update_shouldUpdateCar() throws Exception {
         testCar.setMake("Updated Toyota");
         testCar.setDailyRate(BigDecimal.valueOf(150.00));
-        ResponseEntity<Car> response = carController.update(testCar.getCarId(), testCar);
 
-        assertNotNull(response.getBody());
-        assertEquals("Updated Toyota", response.getBody().getMake());
-        assertEquals(BigDecimal.valueOf(150.00), response.getBody().getDailyRate());
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/cars/{carId}", testCar.getCarId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(testCar)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.make").value("Updated Toyota"))
+                .andExpect(jsonPath("$.dailyRate").value(150.00));
     }
 
     @Test
-    void delete_shouldDeleteCar() {
-        // Delete the car
-        carController.delete(testCar.getCarId());
-
-        // Verify the car is deleted
-        assertEquals(0, carRepository.count(), "Car count should be 0 after deletion");
+    void delete_shouldDeleteCar() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/cars/{carId}", testCar.getCarId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 }

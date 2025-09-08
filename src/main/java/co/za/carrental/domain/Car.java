@@ -2,6 +2,7 @@ package co.za.carrental.domain;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Car {
@@ -21,7 +22,10 @@ public class Car {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal dailyRate;
 
-    private String imageUrl;
+    @Lob
+    @Column(name = "image", columnDefinition="LONGBLOB")
+    @JsonIgnore // This annotation prevents the image from being serialized in standard JSON responses
+    private byte[] image;
 
     public Car() {}
 
@@ -34,7 +38,7 @@ public class Car {
         this.status = builder.status;
         this.carType = builder.carType;
         this.dailyRate = builder.dailyRate;
-        this.imageUrl = builder.imageUrl;
+        this.image = builder.image;
     }
 
     public static Builder builder() {
@@ -50,7 +54,7 @@ public class Car {
         private String status;
         private CarType carType;
         private BigDecimal dailyRate;
-        private String imageUrl;
+        private byte[] image;
 
         public Builder carId(String carId) { this.carId = carId; return this; }
         public Builder make(String make) { this.make = make; return this; }
@@ -60,7 +64,7 @@ public class Car {
         public Builder status(String status) { this.status = status; return this; }
         public Builder carType(CarType carType) { this.carType = carType; return this; }
         public Builder dailyRate(BigDecimal dailyRate) { this.dailyRate = dailyRate; return this; }
-        public Builder imageUrl(String imageUrl) { this.imageUrl = imageUrl; return this; }
+        public Builder image(byte[] image) { this.image = image; return this; }
         public Car build() { return new Car(this); }
     }
 
@@ -70,11 +74,8 @@ public class Car {
     public String getCarId() { return carId; }
     public void setCarId(String carId) { this.carId = carId; }
     public String getMake() { return make; }
-    public void setMake(String make) { this.make = make; }
     public String getModel() { return model; }
-    public void setModel(String model) { this.model = model; }
     public int getYear() { return year; }
-    public void setYear(int year) { this.year = year; }
     public String getLicensePlate() { return licensePlate; }
     public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
     public String getStatus() { return status; }
@@ -83,6 +84,20 @@ public class Car {
     public void setCarType(CarType carType) { this.carType = carType; }
     public BigDecimal getDailyRate() { return dailyRate; }
     public void setDailyRate(BigDecimal dailyRate) { this.dailyRate = dailyRate; }
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    // The @JsonIgnore annotation is added to the getter to prevent the image from being serialized with the rest of the car data.
+    public byte[] getImage() { return image; }
+    public void setImage(byte[] image) { this.image = image; }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
 }

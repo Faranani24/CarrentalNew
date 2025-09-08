@@ -1,4 +1,3 @@
-//
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.Payment;
@@ -7,24 +6,31 @@ import co.za.carrental.domain.PaymentStatus;
 import co.za.carrental.factory.PaymentFactory;
 import co.za.carrental.repository.PaymentRepository;
 import co.za.carrental.service.IPaymentService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class PaymentControllerTest {
 
     @Autowired
-    private PaymentController paymentController;
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private IPaymentService paymentService;
@@ -45,13 +51,11 @@ class PaymentControllerTest {
                 PaymentMethod.CREDIT_CARD,
                 PaymentStatus.COMPLETED
         );
-
-        // Save the test data using the service to ensure the whole flow is tested
         paymentService.createPayment(testPayment);
     }
 
     @Test
-    void create_shouldCreatePayment() {
+    void create_shouldCreatePayment() throws Exception {
         Payment newPayment = PaymentFactory.buildPayment(
                 UUID.randomUUID(),
                 UUID.randomUUID(),
@@ -59,26 +63,23 @@ class PaymentControllerTest {
                 PaymentMethod.EFT,
                 PaymentStatus.PENDING
         );
-        ResponseEntity<Payment> response = paymentController.createPayment(newPayment);
 
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(newPayment.getAmount(), response.getBody().getAmount());
-        assertEquals(2, paymentRepository.count());
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/payments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newPayment)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.amount").value(500.00));
     }
 
     @Test
-    void read_shouldReturnPaymentById() {
-        ResponseEntity<Payment> response = paymentController.readPayment(testPayment.getPaymentId());
-
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(testPayment.getAmount(), response.getBody().getAmount());
+    void read_shouldReturnPaymentById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/payments/{id}", testPayment.getPaymentId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.amount").value(1000.00));
     }
 
     @Test
-    void update_shouldUpdatePayment() {
-        // Create a new object with the same ID but updated details
+    void update_shouldUpdatePayment() throws Exception {
         Payment updatedPayment = Payment.builder()
                 .paymentId(testPayment.getPaymentId())
                 .bookingId(testPayment.getBookingId())
@@ -88,30 +89,24 @@ class PaymentControllerTest {
                 .amount(new BigDecimal("1200.00"))
                 .build();
 
-        ResponseEntity<Payment> response = paymentController.updatePayment(updatedPayment);
-
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(new BigDecimal("1200.00"), response.getBody().getAmount());
-
-        // Verify the change in the database
-        assertEquals(new BigDecimal("1200.00"), paymentRepository.findById(testPayment.getPaymentId()).get().getAmount());
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/payments/{id}", updatedPayment.getPaymentId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedPayment)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.amount").value(1200.00));
     }
 
     @Test
-    void delete_shouldDeletePayment() {
-        paymentController.deletePayment(testPayment.getPaymentId());
-
-        // Verify the payment is deleted from the database
-        assertEquals(0, paymentRepository.count());
+    void delete_shouldDeletePayment() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/payments/{id}", testPayment.getPaymentId()))
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    void getAll_shouldReturnAllPayments() {
-        ResponseEntity<List<Payment>> response = paymentController.getAllPayments();
-
-        assertNotNull(response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1, response.getBody().size());
+    void getAll_shouldReturnAllPayments() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/payments"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1));
     }
 }

@@ -14,7 +14,9 @@ export class AuthService {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 loginTime: new Date().toISOString(),
-                isAuthenticated: true
+                isAuthenticated: true,
+                // Adding a placeholder token to allow other services to function
+                token: 'your-mock-auth-token'
             };
 
             localStorage.setItem(this.storageKey, JSON.stringify(userSession));
@@ -37,7 +39,9 @@ export class AuthService {
                 lastName: userData.lastName,
                 createdAt: new Date().toISOString(),
                 loginTime: new Date().toISOString(),
-                isAuthenticated: true
+                isAuthenticated: true,
+                // Adding a placeholder token for newly signed up users
+                token: 'your-mock-auth-token'
             };
 
             // Store existing users
@@ -69,6 +73,12 @@ export class AuthService {
     isAuthenticated() {
         const user = this.getCurrentUser();
         return user && user.isAuthenticated;
+    }
+
+    // Get the authentication token
+    getAuthToken() {
+        const user = this.getCurrentUser();
+        return user ? user.token : null;
     }
 
     // Logout user
