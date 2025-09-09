@@ -18,4 +18,5 @@ export function formatDate(date) {
     const d = new Date(date);
     return new Intl.DateTimeFormat('en-ZA', { dateStyle: 'long' }).format(d);
 
+
 }

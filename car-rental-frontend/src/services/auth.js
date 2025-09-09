@@ -19,6 +19,7 @@ export class AuthService {
                 token: 'your-mock-auth-token'
 
 
+
             };
 
             localStorage.setItem(this.storageKey, JSON.stringify(userSession));

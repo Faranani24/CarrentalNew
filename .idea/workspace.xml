@@ -4,342 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final Customer and Booking Front end commite">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Rebasing_at_2025_08_26,_00_27_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Rebasing_at_2025_08_26__00_27__Changes_1.xml" beforeDir="false" />
+    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/components/CarDetailsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarDetailsPage.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carAdminService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carAdminService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/utils/format.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/utils/format.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/BranchesPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/CarDetailsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarDetailsPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/PromotionsPage.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/esbuild" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/rollup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.bin/vite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/esbuild.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@esbuild/win32-x64/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@rollup/rollup-win32-x64-msvc/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@rollup/rollup-win32-x64-msvc/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@rollup/rollup-win32-x64-msvc/rollup.win32-x64-msvc.node" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@types/estree/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@types/estree/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@types/estree/flow.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@types/estree/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/@types/estree/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/bench.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/abort.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/async.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/defer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/iterate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/readable_asynckit.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/readable_parallel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/readable_serial.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/readable_serial_ordered.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/state.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/streamify.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/lib/terminator.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/parallel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/serial.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/serialOrdered.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/asynckit/stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/MIGRATION_GUIDE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/axios.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/axios.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/axios.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/axios.min.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/browser/axios.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/browser/axios.cjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/esm/axios.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/esm/axios.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/esm/axios.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/esm/axios.min.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/node/axios.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/dist/node/axios.cjs.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/index.d.cts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/adapters/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/adapters/adapters.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/adapters/fetch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/adapters/http.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/adapters/xhr.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/axios.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/cancel/CancelToken.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/cancel/CanceledError.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/cancel/isCancel.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/Axios.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/AxiosError.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/AxiosHeaders.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/InterceptorManager.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/buildFullPath.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/dispatchRequest.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/mergeConfig.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/settle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/core/transformData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/defaults/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/defaults/transitional.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/env/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/env/classes/FormData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/env/data.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/AxiosTransformStream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/AxiosURLSearchParams.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/HttpStatusCode.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/ZlibHeaderTransformStream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/bind.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/buildURL.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/callbackify.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/combineURLs.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/composeSignals.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/cookies.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/deprecatedMethod.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/formDataToJSON.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/formDataToStream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/fromDataURI.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/isAbsoluteURL.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/isAxiosError.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/isURLSameOrigin.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/null.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/parseHeaders.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/parseProtocol.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/progressEventReducer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/readBlob.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/resolveConfig.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/speedometer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/spread.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/throttle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/toFormData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/toURLEncodedForm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/trackStream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/helpers/validator.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/browser/classes/Blob.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/browser/classes/FormData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/browser/classes/URLSearchParams.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/browser/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/common/utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/node/classes/FormData.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/node/classes/URLSearchParams.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/platform/node/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/lib/utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/axios/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/combined-stream/License" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/combined-stream/Readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/combined-stream/lib/combined_stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/combined-stream/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/combined-stream/yarn.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/delayed-stream/.npmignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/delayed-stream/License" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/delayed-stream/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/delayed-stream/Readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/delayed-stream/lib/delayed_stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/delayed-stream/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/.eslintrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/.nycrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/test/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/es-set-tostringtag/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/bin/esbuild" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/install.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/lib/main.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/lib/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/esbuild/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fdir/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fdir/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fdir/dist/index.cjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fdir/dist/index.d.cts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fdir/dist/index.d.mts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fdir/dist/index.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/fdir/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/follow-redirects/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/follow-redirects/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/follow-redirects/debug.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/follow-redirects/http.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/follow-redirects/https.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/follow-redirects/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/follow-redirects/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/License" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/lib/browser.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/lib/form_data.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/lib/populate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/form-data/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/.eslintrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/.github/FUNDING.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/.nycrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/CHANGELOG.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/shams.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/shams.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/test/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/test/shams/core-js.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/test/shams/get-own-property-symbols.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/test/tests.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/has-tostringtag/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-db/HISTORY.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-db/HISTORY.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-db/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-db/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-db/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-db/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-db/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-db/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-types/HISTORY.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-types/HISTORY.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-types/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-types/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-types/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-types/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/mime-types/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mime-types/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/lib/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/lib/parse.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/lib/picomatch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/lib/scan.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/lib/utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/picomatch/posix.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/proxy-from-env/.eslintrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/proxy-from-env/.travis.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/proxy-from-env/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/proxy-from-env/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/proxy-from-env/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/proxy-from-env/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/proxy-from-env/test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/bin/rollup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/getLogFilter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/parseAst.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/rollup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/node-entry.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/parseAst.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/es/shared/watch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/getLogFilter.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/getLogFilter.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/loadConfigFile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/native.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/parseAst.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/parseAst.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/rollup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/fsevents-importer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/loadConfigFile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/parseAst.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/rollup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch-cli.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/dist/shared/watch.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/rollup/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tinyglobby/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tinyglobby/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tinyglobby/dist/index.d.mts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tinyglobby/dist/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tinyglobby/dist/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tinyglobby/dist/index.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tinyglobby/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/bin/openChrome.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/bin/vite.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/client.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/client/client.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/client/env.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-03SfmTdk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-6-jTB_1O.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-Bj7gA1-0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-C9NktISv.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-CA7ICgyJ.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-CPnzVSwg.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-CcFMbzqu.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-D5MCzjWT.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-SeJl6gzM.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-TDFDwW_9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-UEPspf5j.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-XdVlHtXy.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/chunks/dep-lCKrEJQm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/cli.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/constants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/module-runner.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/module-runner.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/dist/node/moduleRunnerTransport-BWUZBVLX.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/misc/false.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/misc/true.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/customEvent.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/hmrPayload.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/hot.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/import-meta.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/importGlob.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/importMeta.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/internal/cssPreprocessorOptions.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/internal/lightningcssOptions.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/internal/terserOptions.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/metadata.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/vite/types/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mock-api/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/mock-api/server.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/DataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/DataInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/BranchController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/PromotionController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Branch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Promotion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/BookingFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/BookingFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/BranchFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/PromotionFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/BranchRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/PromotionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/IBranchService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/IPromotionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/BranchServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CarServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CarServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/PromotionServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CarTypeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CarTypeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/BookingControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/BranchControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/CarControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/CarControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/PaymentControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/PaymentControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/PromotionControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/BookingFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/BookingFactoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/BranchFactoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/PromotionFactoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/BranchServiceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/CustomerServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/CustomerServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/PromotionServiceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/impl/BranchServiceImplTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/impl/PromotionServiceImplTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -383,35 +65,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.CarControllerTest.executor": "Run",
-    "JUnit.PromotionControllerTest.executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.Main.executor": "Run",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "car-type-updates",
-    "junie.onboarding.icon.badge.shown": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.CarControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PromotionControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Main.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;car-type-updates&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+  &quot;keyToStringList&quot;: {
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/car-rental-frontend/src/components" />

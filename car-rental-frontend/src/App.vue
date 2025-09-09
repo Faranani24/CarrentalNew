@@ -122,6 +122,7 @@ onMounted(() => {
 
 
 
+
 .card-view-details-guest {
   display:block; width:100%; text-align:center;
   padding:0.75rem 1.5rem; border-radius:0.75rem;
