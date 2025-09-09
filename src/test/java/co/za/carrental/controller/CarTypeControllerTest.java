@@ -33,6 +33,7 @@ class CarTypeControllerTest {
         testCarType = carTypeService.create(testCarType);
     }
 
+
     @Test
     void create_shouldCreateCarType() {
         CarType newCarType = CarTypeFactory.createCarType(

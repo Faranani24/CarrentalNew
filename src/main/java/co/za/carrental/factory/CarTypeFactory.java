@@ -16,6 +16,7 @@ public class CarTypeFactory {
                 .build();
     }
 
+
     public static CarType createDefaultCarType() {
         return CarType.builder()
                 .typeId("default-type-id")

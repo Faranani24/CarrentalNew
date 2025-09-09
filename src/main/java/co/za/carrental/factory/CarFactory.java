@@ -24,6 +24,7 @@ public class CarFactory {
                 .build();
     }
 
+
     public static Car buildCar(String carId, String make, String model, int year, String licensePlate, CarType carType, BigDecimal dailyRate) {
         return Car.builder()
                 .carId(carId)

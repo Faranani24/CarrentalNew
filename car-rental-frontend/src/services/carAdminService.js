@@ -21,6 +21,7 @@ export async function addCar(carDetails, imageFile) {
             body: formData
         });
 
+
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Failed to add car: ${errorText || response.statusText}`);

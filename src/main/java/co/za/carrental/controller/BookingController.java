@@ -18,6 +18,7 @@ import java.util.Optional;
 @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5177", "http://localhost:3000"})
 public class BookingController {
 
+
     private final IBookingService bookingService;
     private final BookingServiceImpl bookingServiceImpl; // For the new method
 

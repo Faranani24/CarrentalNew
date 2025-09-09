@@ -72,6 +72,7 @@ onMounted(() => {
 })
 
 
+
 function formatRate(val) {
   if (val == null) return ''
   return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)

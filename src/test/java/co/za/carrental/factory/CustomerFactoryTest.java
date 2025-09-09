@@ -27,5 +27,6 @@ class CustomerFactoryTest {
         assertEquals("Adams", customer.getLastName());
         assertTrue(customer.getPaymentMethods().contains("Card"));
     }
+
 }
 

@@ -38,6 +38,7 @@ class BookingServiceTest {
     private Customer testCustomer;
     // private Vehicle testVehicle; // If you need a test vehicle
 
+
     @BeforeEach // This method runs before EACH test method
     void setUp() {
         // 1. Create and Save a Customer first

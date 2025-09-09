@@ -21,3 +21,4 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
     List<Review> findByBookingId(UUID bookingId);
     List<Review> findByRating(int rating);
 }
+

@@ -31,6 +31,7 @@ class CarServiceImplTest {
     private CarType testCarType;
     private Car testCar;
 
+
     @BeforeEach
     void setUp() {
         testCarType = CarTypeFactory.createCarType(

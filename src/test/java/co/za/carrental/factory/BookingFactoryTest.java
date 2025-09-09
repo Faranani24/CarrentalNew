@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookingFactoryTest {
 
+
     @Test
     void buildBooking_shouldCreateBookingWithGivenValues() {
         Customer dummyCustomer = new Customer.Builder()

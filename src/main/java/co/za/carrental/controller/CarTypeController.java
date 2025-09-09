@@ -20,6 +20,7 @@ public class CarTypeController {
         this.repository = repository;
     }
 
+
     @GetMapping
     public List<CarType> all() {
         return repository.findAll();

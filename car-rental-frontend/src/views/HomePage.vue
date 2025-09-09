@@ -17,6 +17,7 @@ const initAuth = () => {
   currentUser.value = authService.getCurrentUser()
 }
 
+
 const fetchAllCars = async () => {
   loading.value = true
   error.value = null

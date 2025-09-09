@@ -37,6 +37,7 @@ class CustomerControllerTest {
         // .andExpect(jsonPath("$").isEmpty());
     }
 
+
     @Test
     @DisplayName("POST /api/customers should return 201 Created") // Updated expectation
     void createCustomer() throws Exception {

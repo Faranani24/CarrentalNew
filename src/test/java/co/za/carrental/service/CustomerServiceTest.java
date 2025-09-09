@@ -29,6 +29,7 @@ class CustomerServiceTest {
         assertEquals("LIC123", saved.getLicense());
     }
 
+
     @Test
     void update_shouldModifyCustomer() {
         Customer customer = CustomerFactory.buildCustomer(

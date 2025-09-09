@@ -35,6 +35,7 @@ public class Payment {
     protected Payment() {
     }
 
+
     private Payment(Builder builder) {
         this.paymentId = builder.paymentId;
         this.bookingId = builder.bookingId;

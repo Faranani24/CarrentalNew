@@ -21,6 +21,7 @@ public class CarFactoryTest {
                 .build();
     }
 
+
     @Test
     void buildCar_shouldReturnCarWithValidProperties() {
         CarType carType = createTestCarType();

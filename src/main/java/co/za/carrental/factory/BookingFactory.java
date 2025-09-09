@@ -32,6 +32,7 @@ public class BookingFactory {
 
         String bookingId = "BOOK-" + UUID.randomUUID();
 
+
         return new Booking.Builder()
                 .setBookingId(bookingId)
                 .setStartDate(startDate)

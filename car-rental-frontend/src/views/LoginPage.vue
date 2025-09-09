@@ -23,6 +23,7 @@
                  class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"
                  placeholder="Email address"
           />
+
         </div>
         <div>
           <label for="password" class="sr-only">Password</label>

@@ -5,6 +5,7 @@ import { fetchCarById } from '@/services/carService';
 import { createBooking } from '@/services/bookingService'; // Import the new service
 import { formatDate } from '@/utils/format.js';
 
+
 const route = useRoute();
 const router = useRouter();
 

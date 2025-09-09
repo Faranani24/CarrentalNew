@@ -34,6 +34,7 @@ class BookingControllerTest {
     @MockBean
     private IBookingService bookingService;
 
+
     @Test
     void testCreate() throws Exception {
         BookingRequest bookingRequest = new BookingRequest();

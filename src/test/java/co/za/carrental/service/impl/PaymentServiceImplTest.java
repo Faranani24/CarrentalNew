@@ -35,6 +35,7 @@ class PaymentServiceImplTest {
     private UUID bookingId1;
     private UUID bookingId2;
 
+
     @BeforeEach
     void setUp() {
         paymentRepository.deleteAll();

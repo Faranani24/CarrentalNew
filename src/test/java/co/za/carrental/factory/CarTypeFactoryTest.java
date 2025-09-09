@@ -21,6 +21,7 @@ class CarTypeFactoryTest {
         assertEquals(5, carType.getSeatingCapacity());
     }
 
+
     @Test
     void createDefaultCarType_shouldReturnPredefinedCarType() {
         CarType carType = CarTypeFactory.createDefaultCarType();

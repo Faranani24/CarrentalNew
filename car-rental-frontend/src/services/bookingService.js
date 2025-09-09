@@ -9,6 +9,7 @@ export const createBooking = async (bookingData) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+
                 // You might need an Authorization header if your API is secured
                 // 'Authorization': `Bearer ${token}`
             },

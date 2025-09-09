@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
     @ExceptionHandler(CarTypeNotFoundException.class)
     public ResponseEntity<Map<String,Object>> notFound(CarTypeNotFoundException ex) {
         return body(HttpStatus.NOT_FOUND, ex.getMessage());

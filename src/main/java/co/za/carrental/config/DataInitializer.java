@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 @Configuration
 public class DataInitializer {
 
+
+
     // This Bean is responsible for initializing the database with sample data.
     // To prevent it from running on every startup, we will comment out the
     // data saving logic.

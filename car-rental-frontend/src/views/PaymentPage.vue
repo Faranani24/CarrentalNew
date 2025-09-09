@@ -17,6 +17,7 @@ const promotions = ref([])
 const promotionsLoading = ref(false)
 const promotionsError = ref('')
 
+
 const paymentDetails = ref({
   cardNumber: '',
   expiryDate: '',

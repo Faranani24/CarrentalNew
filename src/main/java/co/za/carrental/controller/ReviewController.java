@@ -35,6 +35,7 @@ public class ReviewController {
         return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
     }
 
+
     @GetMapping("/read/{id}")
     public ResponseEntity<Review> readReview(@PathVariable UUID id) {
         Optional<Review> review = reviewService.read(id);

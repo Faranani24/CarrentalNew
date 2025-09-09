@@ -21,6 +21,7 @@
           <input id="firstName" name="firstName" type="text" required
                  v-model="firstName"
                  class="relative block w-full px-3 py-2 border border-neutral-300 placeholder-neutral-500 text-neutral-900 rounded-md focus:outline-none focus:ring-amber-500 focus:border-amber-500 focus:z-10 sm:text-sm"
+
                  placeholder="First Name"
           />
         </div>

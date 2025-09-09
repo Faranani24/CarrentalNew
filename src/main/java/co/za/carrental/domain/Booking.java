@@ -14,6 +14,7 @@ import java.util.Date;
 @Table(name = "booking")
 public class Booking {
 
+
     @Id
     private String bookingId;
 

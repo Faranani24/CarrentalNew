@@ -28,6 +28,7 @@ public class CarType {
     @Positive
     private float dailyRate;
 
+
     @PositiveOrZero
     private float lateFeePerHour;
 

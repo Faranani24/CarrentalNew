@@ -152,6 +152,7 @@ function formatRate(val) {
 
 
 
+
 .gradient-text-light {
   background: linear-gradient(90deg,#f59e0b,#fb923c,#f97316,#fbbf24);
   -webkit-background-clip: text;

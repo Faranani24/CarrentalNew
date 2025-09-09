@@ -20,6 +20,7 @@ const review = ref({
 // A computed property to check if the form can be submitted
 const canSubmit = ref(false);
 
+
 // Function to handle the rating selection
 function setRating(rating) {
   review.value.rating = rating;

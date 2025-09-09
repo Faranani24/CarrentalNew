@@ -16,6 +16,7 @@ import java.util.UUID;
 @Table(name = "reviews")
 public class Review {
 
+
     @Id
     @Column(name = "review_id", updatable = false, nullable = false, columnDefinition = "VARCHAR(36)")
     private final UUID reviewId;

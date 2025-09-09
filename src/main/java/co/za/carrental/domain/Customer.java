@@ -23,6 +23,7 @@ public class Customer {
 
     public Customer() {}
 
+
     private Customer(Builder builder) {
         this.customerId = builder.customerId;
         this.firstName = builder.firstName;

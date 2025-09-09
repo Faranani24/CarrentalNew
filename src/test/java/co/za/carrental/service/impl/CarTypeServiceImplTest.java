@@ -32,6 +32,7 @@ class CarTypeServiceImplTest {
         assertNotNull(testCarType.getTypeId());
     }
 
+
     @Test
     void create_shouldSaveCarType() {
         CarType newCarType = CarTypeFactory.createCarType(

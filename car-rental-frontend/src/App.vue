@@ -132,5 +132,6 @@ onMounted(() => {
   transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
   text-decoration: none;
 }
+
 .card-view-details-guest:hover { transform:scale(1.03); border-color:#374151; box-shadow:0 4px 16px rgba(107,114,128,0.18);}
 </style>

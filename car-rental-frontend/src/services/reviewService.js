@@ -20,6 +20,7 @@ export async function fetchReviewsByCarId(carId) {
 
 }
 
+
 // Function to submit a new review
 export async function submitReview(reviewData) {
     // Simulate API call delay

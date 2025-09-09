@@ -36,6 +36,7 @@ class ReviewFactoryTest {
         assertEquals(comment, review.getComment());
     }
 
+
     @Test
     void buildReviewExceptionForNullBookingId() {
         UUID customerId = UUID.randomUUID();

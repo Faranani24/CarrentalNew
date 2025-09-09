@@ -28,6 +28,7 @@ public class CustomerFactory {
             throw new IllegalArgumentException("One or more required fields are null or empty");
         }
 
+
         // Auto-generate a unique customer ID
         String customerId = UUID.randomUUID().toString();
 

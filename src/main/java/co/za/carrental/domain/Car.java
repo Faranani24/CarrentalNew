@@ -19,6 +19,7 @@ public class Car {
     @ManyToOne
     private CarType carType;
 
+
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal dailyRate;
 

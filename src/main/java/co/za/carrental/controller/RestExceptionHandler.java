@@ -23,6 +23,7 @@ public class RestExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
+
     @ExceptionHandler(CarTypeNotFoundException.class)
     public ResponseEntity<Map<String,Object>> handleNotFound(CarTypeNotFoundException ex) {
         Map<String,Object> body = base(HttpStatus.NOT_FOUND);
