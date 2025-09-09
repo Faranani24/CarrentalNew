@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/components/CarDetailsPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarDetailsPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carAdminService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carAdminService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/utils/format.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/utils/format.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mock-api/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/mock-api/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CarTypeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CarTypeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final Customer and Booking Front end commite" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -203,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1756706199177</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Final Customer and Booking Front end commite">
+      <option name="closed" value="true" />
+      <created>1757445307224</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1757445307224</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
