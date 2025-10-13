@@ -41,7 +41,6 @@ class CarControllerTest {
 
     private Car testCar;
 
-
     @BeforeEach
     void setUp() {
         carRepository.deleteAll();
@@ -90,7 +89,8 @@ class CarControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.carId").value("67890"))
                 .andExpect(jsonPath("$.make").value("Honda"))
-                .andExpect(jsonPath("$.model").value("Civic"));
+                .andExpect(jsonPath("$.model").value("Civic"))
+                .andExpect(jsonPath("$.status").value("AVAILABLE")); // Ensure enum string is returned
     }
 
     @Test
@@ -100,7 +100,8 @@ class CarControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].carId").value("12345"));
+                .andExpect(jsonPath("$[0].carId").value("12345"))
+                .andExpect(jsonPath("$[0].status").value("AVAILABLE"));
     }
 
     @Test
@@ -109,20 +110,23 @@ class CarControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.carId").value("12345"))
-                .andExpect(jsonPath("$.make").value("Toyota"));
+                .andExpect(jsonPath("$.make").value("Toyota"))
+                .andExpect(jsonPath("$.status").value("AVAILABLE"));
     }
 
     @Test
     void update_shouldUpdateCar() throws Exception {
         testCar.setMake("Updated Toyota");
         testCar.setDailyRate(BigDecimal.valueOf(150.00));
+        testCar.setStatus(Status.MAINTENANCE);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/cars/{carId}", testCar.getCarId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testCar)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.make").value("Updated Toyota"))
-                .andExpect(jsonPath("$.dailyRate").value(150.00));
+                .andExpect(jsonPath("$.dailyRate").value(150.00))
+                .andExpect(jsonPath("$.status").value("MAINTENANCE"));
     }
 
     @Test

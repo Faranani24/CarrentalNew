@@ -1,3 +1,4 @@
+// src/test/java/co/za/carrental/factory/CarFactoryTest.java
 package co.za.carrental.factory;
 
 import co.za.carrental.domain.Car;
@@ -20,7 +21,6 @@ public class CarFactoryTest {
                 .seatingCapacity(5)
                 .build();
     }
-
 
     @Test
     void buildCar_shouldReturnCarWithValidProperties() {
@@ -55,7 +55,8 @@ public class CarFactoryTest {
         assertEquals("Toyota", car.getMake());
         assertEquals("Corolla", car.getModel());
         assertEquals(2020, car.getYear());
-        assertEquals("AVAILABLE", car.getStatus());
+        assertEquals(Status.AVAILABLE, car.getStatus()); // fixed
+        // alternatively: assertEquals("AVAILABLE", car.getStatus().name());
         assertNotNull(car.getCarType());
         assertEquals("SUV", car.getCarType().getName());
         assertEquals(BigDecimal.valueOf(120.00), car.getDailyRate());

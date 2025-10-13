@@ -16,11 +16,12 @@ public final class CarMapper {
                 c.getModel(),
                 c.getYear(),
                 c.getLicensePlate(),
-                c.getStatus(),
+                c.getStatus() != null ? c.getStatus().name() : null, // convert enum -> string
                 t != null ? t.getTypeId() : null,
                 t != null ? t.getName() : null,
                 c.getDailyRate()
         );
     }
+
 
 }

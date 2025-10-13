@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { fetchCars } from '@/services/carService'
+import { fetchAvailableCars } from '@/services/carService'
 import { AuthService } from '@/services/auth.js'
 
 const cars = ref([])
-const loading = ref(true)
+const loading = ref(false)
 const error = ref(null)
 const router = useRouter()
 const authService = new AuthService()
@@ -13,28 +13,44 @@ const authService = new AuthService()
 const currentUser = ref(null)
 const isAuthenticated = computed(() => currentUser.value && currentUser.value.isAuthenticated)
 
+const startDate = ref('')
+const endDate = ref('')
+const filtered = ref(false)
+
 const initAuth = () => {
   currentUser.value = authService.getCurrentUser()
 }
 
+// Fetch cars only after filtering
+const filterCars = async () => {
+  if (!startDate.value || !endDate.value) {
+    alert('Please select both start and end dates.')
+    return
+  }
 
-const fetchAllCars = async () => {
+  filtered.value = true
   loading.value = true
   error.value = null
+
   try {
-    const fetchedCars = await fetchCars()
-    const carsWithReviews = fetchedCars.map(car => ({
+    const fetched = await fetchAvailableCars(startDate.value, endDate.value)
+    cars.value = fetched.map(car => ({
       ...car,
-      averageRating: 0,
-      reviewCount: 0,
+      imageUrl: car.image
+          ? `data:image/jpeg;base64,${arrayBufferToBase64(car.image)}`
+          : `${import.meta.env.VITE_API_URL || 'http://localhost:8082/api/cars'}/${car.carId}/image`
     }))
-    cars.value = carsWithReviews
   } catch (e) {
-    error.value = 'Failed to load cars.'
-    console.error('Error fetching cars:', e)
+    console.error(e)
+    error.value = 'Failed to fetch cars for the selected dates.'
   } finally {
     loading.value = false
   }
+}
+
+// Navigate to booking page for a car
+const goToBooking = (carId) => {
+  router.push({ name: 'booking', params: { carId } })
 }
 
 const handleLogout = () => {
@@ -43,20 +59,29 @@ const handleLogout = () => {
   console.log('User logged out')
 }
 
-onMounted(() => {
-  initAuth()
-  fetchAllCars()
-})
+onMounted(initAuth)
 
+// Helper to format currency
 function formatRate(val) {
   if (val == null) return ''
   return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
+}
+
+// Convert ArrayBuffer to Base64
+function arrayBufferToBase64(buffer) {
+  if (!buffer) return ''
+  if (typeof buffer === 'string') return buffer
+  if (buffer.data && Array.isArray(buffer.data)) buffer = Uint8Array.from(buffer.data).buffer
+  let binary = ''
+  const bytes = new Uint8Array(buffer)
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i])
+  return window.btoa(binary)
 }
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
-    <!-- HERO -->
+    <!-- HERO / SEARCH -->
     <section class="relative flex items-center min-h-[70vh] overflow-hidden">
       <div class="absolute inset-0">
         <img
@@ -65,25 +90,21 @@ function formatRate(val) {
             alt="hero"
         />
         <div class="absolute inset-0 bg-gradient-to-b from-white/85 via-white/70 to-amber-100/60"></div>
-        <div class="absolute inset-0 mix-blend-overlay bg-[radial-gradient(circle_at_30%_30%,rgba(255,180,60,0.20),transparent_60%)]"></div>
-        <div class="absolute inset-0 pointer-events-none animated-grid opacity-40"></div>
       </div>
 
       <div class="relative z-10 w-full mx-auto max-w-5xl px-6 text-center">
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-4 gradient-text-light drop-shadow-lg animate-fade-in">
           Find Your Perfect Ride
         </h1>
-        <p class="text-lg md:text-xl text-neutral-700 max-w-2xl mx-auto mb-8 drop-shadow-md animate-fade-in">
-          Premium vehicles. Transparent pricing. Effortless booking.
-        </p>
 
         <!-- Search Card -->
         <div class="inline-block backdrop-blur-md bg-white/70 rounded-xl p-4 shadow-lg border border-white/30 animate-fade-in">
           <div class="flex flex-col md:flex-row items-center gap-4">
-            <input type="text" placeholder="City or airport" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
-            <input type="date" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
-            <input type="date" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
-            <button class="px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-md hover:scale-[1.01] active:scale-[0.98] transition">Search</button>
+            <input type="date" v-model="startDate" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+            <input type="date" v-model="endDate" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+            <button @click="filterCars" class="px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-md hover:scale-[1.01] active:scale-[0.98] transition">
+              Search
+            </button>
           </div>
         </div>
       </div>
@@ -93,18 +114,22 @@ function formatRate(val) {
     <main class="relative z-10 flex-1 w-full py-12">
       <div class="mx-auto max-w-6xl px-6">
         <section class="mt-16">
-          <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold tracking-tight mb-4 md:mb-0">Available Cars</h2>
-            <button @click="fetchAllCars" class="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-white bg-orange-500 hover:bg-orange-600 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-              </svg>
-              Refresh
-            </button>
+          <h2 class="text-3xl font-bold tracking-tight mb-4">Available Cars</h2>
+
+          <div v-if="!filtered" class="text-center text-neutral-500">
+            Please select dates and click "Search" to see available cars.
           </div>
 
-          <div v-if="loading" class="text-center text-neutral-500">Loading cars...</div>
+          <div v-else-if="loading" class="text-center text-neutral-500">
+            Loading cars...
+          </div>
+
           <div v-else-if="error" class="text-center text-rose-600">{{ error }}</div>
+
+          <div v-else-if="cars.length === 0" class="text-center text-neutral-500">
+            No cars available for the selected dates.
+          </div>
+
           <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 justify-center">
             <div
                 v-for="car in cars"
@@ -131,85 +156,27 @@ function formatRate(val) {
                   <p class="mb-4 text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
                     {{ formatRate(car.dailyRate) }}
                   </p>
-
-                  <!-- Auth check -->
-                  <template v-if="isAuthenticated">
-                    <router-link :to="{ name: 'carDetails', params: { id: car.carId } }" class="card-view-details">
-                      View Details →
-                    </router-link>
-                  </template>
-                  <template v-else>
-                    <router-link to="/login" class="card-view-details-guest">
-                      Login to Book →
-                    </router-link>
-                  </template>
+                  <button
+                      v-if="isAuthenticated"
+                      @click="goToBooking(car.carId)"
+                      class="text-white bg-orange-500 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 transition"
+                  >
+                    Book Now →
+                  </button>
+                  <router-link
+                      v-else
+                      to="/login"
+                      class="text-gray-800 underline hover:text-gray-600"
+                  >
+                    Login to Book →
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
+
         </section>
       </div>
     </main>
-
-    <!-- FOOTER -->
-    <footer class="relative z-10 border-t border-amber-200/70 bg-white/80 backdrop-blur text-center py-6 text-sm text-neutral-600">
-      <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <span>© 2025 CarRental</span>
-        <span class="text-xs tracking-wide uppercase opacity-70">Crafted with Vue 3 & Vite</span>
-      </div>
-    </footer>
   </div>
 </template>
-
-<style scoped>
-/* animations + card buttons */
-.animate-fade-in { animation: fadeIn 0.8s ease-in-out both; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-
-.animate-pan { animation: pan 40s linear infinite; }
-@keyframes pan { 0%{transform:scale(1.15) translate(0,0);} 50%{transform:scale(1.18) translate(-2%,-2%);} 100%{transform:scale(1.15) translate(0,0);} }
-
-.animated-grid {
-  background: linear-gradient(rgba(255,180,60,0.15) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(255,180,60,0.15) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
-  animation: grid-move 25s linear infinite;
-}
-@keyframes grid-move { 0%{background-position:0 0,0 0;} 100%{background-position:0 40px,40px 0;} }
-
-.gradient-text-light {
-  background: linear-gradient(90deg,#f59e0b,#fb923c,#f97316,#fbbf24);
-  -webkit-background-clip: text; color: transparent;
-  background-size: 300% 100%; animation: gradientShift 8s ease infinite;
-}
-@keyframes gradientShift {
-  0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
-}
-
-.card-view-details {
-  display:block; width:100%; text-align:center;
-  padding:0.75rem 1.5rem; border-radius:0.75rem;
-  border:2px solid #fbbf24;
-  background:linear-gradient(90deg,#fbbf24 0%,#fde68a 50%,#fb923c 100%);
-  color:#1a202c; font-weight:600;
-  transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
-  text-decoration: none;
-}
-.card-view-details:hover { transform:scale(1.03); border-color:#fb923c; box-shadow:0 4px 16px rgba(251,146,60,0.18);}
-
-
-.card-view-details-guest {
-  display:block; width:100%; text-align:center;
-  padding:0.75rem 1.5rem; border-radius:0.75rem;
-  border:2px solid #6b7280;
-  background:linear-gradient(90deg,#6b7280 0%,#9ca3af 50%,#6b7280 100%);
-  color:white; font-weight:600;
-  transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
-  text-decoration: none;
-}
-
-
-
-.card-view-details-guest:hover { transform:scale(1.03); border-color:#374151; box-shadow:0 4px 16px rgba(107,114,128,0.18);}
-</style>

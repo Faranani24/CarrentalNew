@@ -1,56 +1,38 @@
-const API_BASE_URL = "http://localhost:8082/api/cars";
+import axios from 'axios';
 
-/**
- * Adds a new car to the backend API.
- * Sends car JSON as @RequestPart("car") + image as @RequestPart("image").
- */
-export async function addCar(carDetails, imageFile) {
+const api = axios.create({
+    baseURL: 'http://localhost:8082/api',
+});
+export async function deleteCar(carId) {
+    try {
+        await api.delete(`/cars/${carId}`);
+    } catch (error) {
+        if (error.response?.status === 409) {
+            alert(`Cannot delete car "${carId}": it has related records.`);
+        } else if (error.response?.status === 404) {
+            alert(`Car "${carId}" not found.`);
+        } else {
+            console.error(`Error deleting car with ID ${carId}:`, error);
+            alert(`Unexpected error deleting car "${carId}".`);
+        }
+        throw error;
+    }
+}
+
+
+
+export const addCar = async (car, imageFile) => {
     const formData = new FormData();
-    formData.append(
-        "car",
-        new Blob([JSON.stringify(carDetails)], { type: "application/json" })
-    );
+    formData.append('car', new Blob([JSON.stringify(car)], { type: 'application/json' }));
+    if (imageFile) formData.append('image', imageFile);
 
-    if (imageFile) {
-        formData.append("image", imageFile);
-    }
+    const { data } = await api.post('/cars', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return data;
+};
 
-    try {
-        const response = await fetch(API_BASE_URL, {
-            method: "POST",
-            body: formData
-        });
-
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Failed to add car: ${errorText || response.statusText}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error("Error adding car:", error);
-        throw error;
-    }
-}
-
-/**
- * Fetches all cars from the backend API.
- * Each car gets an imageUrl pointing to /{carId}/image.
- */
-export async function fetchAllCars() {
-    try {
-        const response = await fetch(API_BASE_URL);
-        if (!response.ok) {
-            throw new Error("Failed to fetch cars.");
-        }
-        const cars = await response.json();
-        return cars.map(car => ({
-            ...car,
-            imageUrl: `${API_BASE_URL}/${car.carId}/image`
-        }));
-    } catch (error) {
-        console.error("Error fetching cars:", error);
-        throw error;
-    }
-}
+export const fetchAllCars = async () => {
+    const { data } = await api.get('/cars');
+    return data;
+};

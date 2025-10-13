@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class CarFactory {
 
     public static Car createCar(String carId, String make, String model, int year, Status status, CarType carType, BigDecimal dailyRate) {
-        // Ensure licensePlate is derived or passed explicitly
+        // If licensePlate is not provided, derive from carId
         String licensePlate = carId != null ? carId : "UNKNOWN";
 
         return Car.builder()
@@ -18,23 +18,23 @@ public class CarFactory {
                 .model(model)
                 .year(year)
                 .licensePlate(licensePlate)
-                .status(status != null ? status.toString() : "UNKNOWN") // Handle null status
+                .status(status != null ? status : Status.AVAILABLE) // Enum directly
                 .carType(carType)
-                .dailyRate(dailyRate != null ? dailyRate : BigDecimal.ZERO) // Handle null dailyRate
+                .dailyRate(dailyRate != null ? dailyRate : BigDecimal.ZERO)
                 .build();
     }
 
-
+    // Optional: simple builder for default car
     public static Car buildCar(String carId, String make, String model, int year, String licensePlate, CarType carType, BigDecimal dailyRate) {
         return Car.builder()
                 .carId(carId)
                 .make(make)
                 .model(model)
                 .year(year)
-                .licensePlate(licensePlate != null ? licensePlate : "UNKNOWN") // Handle null licensePlate
-                .status("AVAILABLE") // Default status
+                .licensePlate(licensePlate != null ? licensePlate : "UNKNOWN")
+                .status(Status.AVAILABLE) // Default status
                 .carType(carType)
-                .dailyRate(dailyRate != null ? dailyRate : BigDecimal.ZERO) // Handle null dailyRate
+                .dailyRate(dailyRate != null ? dailyRate : BigDecimal.ZERO)
                 .build();
     }
 }

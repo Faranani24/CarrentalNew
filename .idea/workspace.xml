@@ -4,7 +4,86 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final Customer and Booking Front end commite" />
+    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final Customer and Booking Front end commite">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/components/CarList.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carAdminService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carAdminService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/carService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/BookingPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/LoginPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/SignupPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/SignupPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/adminPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/AdminPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.cjs.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.cjs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.cjs.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.cjs.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.es.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.es.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.es.mjs.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.es.mjs.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.umd.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.umd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.umd.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/magic-string/dist/magic-string.umd.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/magic-string/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/magic-string/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/mkdirp/bin/cmd.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/mkdirp/bin/cmd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.cjs.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.cjs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.cjs.prod.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.cjs.prod.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.esm-browser.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.esm-browser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.esm-bundler.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.esm-bundler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.global.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.global.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.global.prod.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/dist/vue-router.global.prod.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/vue-router/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/vue-router/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/WebSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/CarMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/api/CarMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/BookingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CarController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/PaymentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Booking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Car.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Payment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/PaymentMethod.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/PaymentStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/BookingFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/BookingFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/CarFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/CarFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/CustomerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/CustomerFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/PaymentFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/BookingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/BookingRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CarRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CarRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/CustomerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/repository/PaymentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/IBookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/IBookingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICarService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/ICustomerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/IPaymentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/BookingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/BookingServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CarServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CarServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CustomerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/CustomerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/PaymentServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/BookingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/BookingControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/CarControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/CarControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/CustomerControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/CustomerControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/controller/PaymentControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/BookingFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/BookingFactoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/CarFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/CarFactoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/CustomerFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/factory/CustomerFactoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/BookingServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/BookingServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/CustomerServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/CustomerServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/co/za/carrental/service/impl/PaymentServiceImplTest.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +92,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Vue Composition API Component" />
+        <option value="Interface" />
         <option value="JUnit5 Test Class" />
+        <option value="JavaScript File" />
         <option value="Class" />
       </list>
     </option>
@@ -35,6 +115,9 @@
     &quot;accountId&quot;: &quot;de4a3c96-9e97-4be5-9f28-14b08c62232e&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -49,7 +132,25 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;JUnit.AdminLoginControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AdminLoginFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AdminLoginServiceTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AdminPortalControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AdminPortalFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AdminPortalServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BookingControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BookingFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BookingServiceTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CarControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CarFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CarServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CarTypeControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CarTypeFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CarTypeServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerControllerTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerFactoryTest.createCustomer.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerFactoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CustomerServiceTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PromotionControllerTest.executor&quot;: &quot;Run&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
@@ -61,16 +162,25 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;git-widget-placeholder&quot;: &quot;car-type-updates&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lance/IdeaProjects/carrental 3/carrental/pom.xml&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.qodana&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2025.1.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql_aurora&quot;
+    ],
     &quot;vue.recent.templates&quot;: [
       &quot;Vue Composition API Component&quot;
     ]
@@ -89,9 +199,56 @@
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="co.za.carrental.controller" />
+      <recent name="co.za.carrental.service.impl" />
+      <recent name="co.za.carrental.factory" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Main">
+    <configuration name="BookingControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="carrental" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.za.carrental.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="co.za.carrental.controller" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.controller.BookingControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookingFactoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="carrental" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.za.carrental.factory.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="co.za.carrental.factory" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.factory.BookingFactoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookingServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="carrental" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.za.carrental.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="co.za.carrental.service" />
+      <option name="MAIN_CLASS_NAME" value="co.za.carrental.service.BookingServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CarControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="carrental" />
       <extension name="coverage">
@@ -102,21 +259,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="co.za.carrental.controller" />
       <option name="MAIN_CLASS_NAME" value="co.za.carrental.controller.CarControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PromotionControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="carrental" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="co.za.carrental.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="co.za.carrental.controller" />
-      <option name="MAIN_CLASS_NAME" value="co.za.carrental.controller.PromotionControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -138,7 +280,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.Main" />
-        <item itemvalue="JUnit.PromotionControllerTest" />
+        <item itemvalue="JUnit.BookingControllerTest" />
+        <item itemvalue="JUnit.BookingServiceTest" />
+        <item itemvalue="JUnit.BookingFactoryTest" />
         <item itemvalue="JUnit.CarControllerTest" />
       </list>
     </recent_temporary>
@@ -146,8 +290,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.129" />
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.129" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.28293.39" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.28293.39" />
       </set>
     </attachedChunks>
   </component>
@@ -160,6 +304,13 @@
       <updated>1756562390768</updated>
       <workItem from="1756562392827" duration="5878000" />
       <workItem from="1756702879284" duration="878000" />
+      <workItem from="1757680118779" duration="10334000" />
+      <workItem from="1757768344441" duration="19980000" />
+      <workItem from="1757853709423" duration="51984000" />
+      <workItem from="1759313114161" duration="12000" />
+      <workItem from="1759313177795" duration="19000" />
+      <workItem from="1759572694920" duration="142000" />
+      <workItem from="1760383683360" duration="1482000" />
     </task>
     <task id="LOCAL-00001" summary="Final Customer and Booking Front end commite">
       <option name="closed" value="true" />
@@ -193,7 +344,23 @@
       <option name="project" value="LOCAL" />
       <updated>1757445307224</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Final Customer and Booking Front end commite">
+      <option name="closed" value="true" />
+      <created>1757447597978</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1757447597979</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Final Customer and Booking Front end commite">
+      <option name="closed" value="true" />
+      <created>1757448722552</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1757448722552</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,5 +380,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Final Customer and Booking Front end commite" />
     <option name="LAST_COMMIT_MESSAGE" value="Final Customer and Booking Front end commite" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

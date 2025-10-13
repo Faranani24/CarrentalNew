@@ -72,31 +72,22 @@ const handleLogin = async () => {
   error.value = '';
 
   try {
-    // Get all users from local storage
-    const users = authService.getAllUsers();
+    const userSession = await authService.login({
+      email: email.value,
+      password: password.value
+    });
 
-    // Find user with matching email
-    const user = users.find(u =>
-        u.email.toLowerCase() === email.value.toLowerCase()
-    );
+    console.log('Login successful:', userSession);
+    router.push({ name: 'home' });
 
-    if (user && user.password === password.value) {
-      // Login successful - store user session
-      const loginSuccess = authService.login(user);
-      if (loginSuccess) {
-        console.log('Login successful:', user);
-        router.push({ name: 'home' });
-      } else {
-        error.value = 'Failed to store user session';
-      }
-    } else {
-      error.value = 'Invalid email or password';
-    }
   } catch (err) {
     console.error('Login failed:', err);
-    error.value = 'Login failed. Please try again.';
+    error.value = err.response?.status === 401
+        ? 'Invalid credentials'
+        : 'Login failed. Please try again.';
   } finally {
     loading.value = false;
   }
 };
+
 </script>

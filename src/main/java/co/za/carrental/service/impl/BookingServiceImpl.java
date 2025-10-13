@@ -1,22 +1,18 @@
 package co.za.carrental.service.impl;
 
-import co.za.carrental.domain.Booking;
-import co.za.carrental.domain.BookingStatus;
-import co.za.carrental.domain.Customer;
 import co.za.carrental.api.dto.BookingRequest;
+import co.za.carrental.domain.*;
 import co.za.carrental.repository.BookingRepository;
+import co.za.carrental.repository.CarRepository;
 import co.za.carrental.repository.CustomerRepository;
 import co.za.carrental.service.IBookingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate; // Import the modern LocalDate
+import java.util.*;
 
 @Service
 @Transactional
@@ -24,16 +20,14 @@ public class BookingServiceImpl implements IBookingService {
 
     private final BookingRepository bookingRepository;
     private final CustomerRepository customerRepository;
+    private final CarRepository carRepository;
 
-    // Mock car data for cost calculation (replace with actual car service when available)
-    private static final double BMW_DAILY_RATE = 150.00;
-    private static final double TOYOTA_DAILY_RATE = 75.00;
-    private static final double HONDA_DAILY_RATE = 85.00;
-
-    @Autowired
-    public BookingServiceImpl(BookingRepository bookingRepository, CustomerRepository customerRepository) {
+    public BookingServiceImpl(BookingRepository bookingRepository,
+                              CustomerRepository customerRepository,
+                              CarRepository carRepository) {
         this.bookingRepository = bookingRepository;
         this.customerRepository = customerRepository;
+        this.carRepository = carRepository;
     }
 
     @Override
@@ -47,11 +41,6 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public List<Booking> findAll() {
-        return bookingRepository.findAll();
-    }
-
-    @Override
     public Booking update(Booking booking) {
         return bookingRepository.save(booking);
     }
@@ -62,19 +51,13 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public Booking create(Booking booking) {
-        if (booking.getBookingId() == null) {
-            booking.setBookingId(UUID.randomUUID().toString());
-        }
-        if (booking.getStatus() == null) {
-            booking.setStatus(BookingStatus.CONFIRMED);
-        }
-        return bookingRepository.save(booking);
+    public Optional<Booking> read(String bookingId) {
+        return findById(bookingId);
     }
 
     @Override
-    public Optional<Booking> read(String bookingId) {
-        return bookingRepository.findById(bookingId);
+    public void delete(String bookingId) {
+        deleteById(bookingId);
     }
 
     @Override
@@ -83,92 +66,56 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public void delete(String bookingId) {
-        bookingRepository.deleteById(bookingId);
-    }
-
-    @Override
-    public void customBookingLogic() {
-        // Custom logic here if needed
-    }
-
-    /**
-     * Create booking from Vue form request
-     */
     public Booking createFromRequest(BookingRequest request) {
-        try {
-            // Find or create customer
-            Customer customer = findOrCreateCustomer(request.getFullName(), request.getEmail(), request.getPhone());
+        // Use LocalDate.parse to directly convert the String dates
+        LocalDate start = LocalDate.parse(request.getFrom());
+        LocalDate end = LocalDate.parse(request.getTo());
 
-            // Parse dates
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date startDate = dateFormat.parse(request.getFrom());
-            Date endDate = dateFormat.parse(request.getTo());
+        Customer customer = findOrCreateCustomer(
+                request.getFullName(),
+                request.getEmail(),
+                request.getPhone()
+        );
 
-            // Calculate total cost
-            Float totalCost = calculateTotalCost(request.getCarId(), startDate, endDate);
+        Car car = carRepository.findByCarId(request.getCarId())
+                .orElseThrow(() -> new IllegalArgumentException("Car not found: " + request.getCarId()));
 
-            // Create booking using builder
-            Booking booking = new Booking.Builder()
-                    .setBookingId(UUID.randomUUID().toString())
-                    .setStartDate(startDate)
-                    .setEndDate(endDate)
-                    .setTotalCost(totalCost)
-                    .setStatus(BookingStatus.CONFIRMED)
-                    .setCustomer(customer)
-                    .setVehicleId(request.getCarId())
-                    .build();
+        Float totalCost = calculateTotalCost(car, start, end);
 
-            return bookingRepository.save(booking);
+        Booking booking = new Booking.Builder()
+                .setBookingId(UUID.randomUUID().toString())
+                .setStartDate(start)
+                .setEndDate(end)
+                .setTotalCost(totalCost)
+                .setStatus(BookingStatus.CONFIRMED)
+                .setCustomer(customer)
+                .setCar(car)
+                .build();
 
-        } catch (ParseException e) {
-            throw new RuntimeException("Invalid date format", e);
-        }
+        return bookingRepository.save(booking);
     }
 
     private Customer findOrCreateCustomer(String fullName, String email, String phone) {
-        // Try to find existing customer by email
-        Optional<Customer> existingCustomer = customerRepository.findByEmail(email);
-
-        if (existingCustomer.isPresent()) {
-            return existingCustomer.get();
-        }
-
-        // Create new customer if not found
-        // Split fullName into firstName and lastName
-        String[] nameParts = fullName.trim().split("\\s+", 2);
-        String firstName = nameParts[0];
-        String lastName = nameParts.length > 1 ? nameParts[1] : "";
-
-        Customer newCustomer = new Customer.Builder()
-                .setCustomerId(UUID.randomUUID().toString())
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setEmail(email)
-                .setPhone(phone)
-                .build();
-
-        return customerRepository.save(newCustomer);
+        return customerRepository.findByEmail(email).orElseGet(() -> {
+            String[] parts = (fullName == null ? "" : fullName.trim()).split("\\s+", 2);
+            String first = parts.length > 0 ? parts[0] : "";
+            String last = parts.length > 1 ? parts[1] : "";
+            Customer c = new Customer.Builder()
+                    .setCustomerId(UUID.randomUUID().toString())
+                    .setFirstName(first)
+                    .setLastName(last)
+                    .setEmail(email)
+                    .setPhone(phone)
+                    .build();
+            return customerRepository.save(c);
+        });
     }
 
-    private Float calculateTotalCost(String carId, Date startDate, Date endDate) {
-        // Calculate duration in days
-        long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
-        long diffInDays = diffInMillies / (24 * 60 * 60 * 1000) + 1; // +1 to include the last day
-
-        // Get daily rate based on car ID (replace with actual car service lookup)
-        double dailyRate = getDailyRateByCarId(carId);
-
-        return (float) (dailyRate * diffInDays);
-    }
-
-    private double getDailyRateByCarId(String carId) {
-        // This is temporary - replace with actual car service when available
-        switch (carId) {
-            case "1": return BMW_DAILY_RATE;
-            case "2": return TOYOTA_DAILY_RATE;
-            case "3": return HONDA_DAILY_RATE;
-            default: return 100.00; // Default rate
-        }
+    private Float calculateTotalCost(Car car, LocalDate startDate, LocalDate endDate) {
+        long days = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        if (days < 1) days = 1;
+        BigDecimal rate = Optional.ofNullable(car.getDailyRate()).orElse(BigDecimal.ZERO);
+        BigDecimal total = rate.multiply(BigDecimal.valueOf(days)).setScale(2, RoundingMode.HALF_UP);
+        return total.floatValue();
     }
 }

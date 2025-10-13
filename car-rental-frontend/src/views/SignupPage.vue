@@ -106,39 +106,29 @@ const handleSignup = async () => {
   success.value = '';
 
   try {
-    // Check if email already exists
-    if (authService.emailExists(email.value)) {
-      error.value = 'Email already exists. Please use a different email.';
-      return;
-    }
-
-    // Create new user locally
     const userData = {
       firstName: firstName.value,
       lastName: lastName.value,
       username: username.value,
       email: email.value,
-      password: password.value // Note: In production, this should be hashed
+      password: password.value
     };
 
-    const newUser = authService.signup(userData);
+    await authService.signup(userData);
+    success.value = 'Account created successfully! Redirecting to login...';
 
-    if (newUser) {
-      success.value = 'Account created successfully! Redirecting...';
-      console.log('Signup successful:', newUser);
+    setTimeout(() => {
+      router.push({ name: 'login' });
+    }, 1500);
 
-      // Redirect to home page after successful signup and auto-login
-      setTimeout(() => {
-        router.push({ name: 'home' });
-      }, 1500);
-    } else {
-      error.value = 'Failed to create account. Please try again.';
-    }
   } catch (err) {
     console.error('Signup failed:', err);
-    error.value = 'Signup failed. Please try again.';
+    error.value = err.response?.status === 400
+        ? 'Email already exists'
+        : 'Signup failed. Please try again.';
   } finally {
     loading.value = false;
   }
 };
+
 </script>
