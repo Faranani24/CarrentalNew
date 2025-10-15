@@ -65,7 +65,9 @@ const password = ref('');
 const loading = ref(false);
 const error = ref('');
 const router = useRouter();
-const authService = new AuthService;
+
+// AuthService is already an instance, not a class
+const authService = AuthService;
 
 const handleLogin = async () => {
   loading.value = true;
@@ -78,7 +80,12 @@ const handleLogin = async () => {
     });
 
     console.log('Login successful:', userSession);
-    router.push({ name: 'home' });
+
+    // Navigate to home page - the App.vue will detect the login on mount
+    await router.push({ name: 'home' });
+
+    // Reload to refresh auth state
+    window.location.reload();
 
   } catch (err) {
     console.error('Login failed:', err);

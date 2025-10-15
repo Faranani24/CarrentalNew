@@ -25,7 +25,11 @@ public class AuthController {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthController(ICustomerService customerService, AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public AuthController(ICustomerService customerService,
+                          AuthenticationManager authenticationManager,
+                          JwtUtil jwtUtil,
+                          UserDetailsService userDetailsService,
+                          PasswordEncoder passwordEncoder) {
         this.customerService = customerService;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
@@ -43,22 +47,24 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("message", "Email already in use"));
         }
 
-        // Build new customer
+        // Get the plain password before encoding
+        String plainPassword = request.get("password");
+
+        // Build new customer with encoded password
         Customer newCustomer = new Customer.Builder()
                 .setCustomerId(UUID.randomUUID().toString())
                 .setFirstName(request.get("firstName"))
                 .setLastName(request.get("lastName"))
                 .setEmail(email)
-                .setPassword(passwordEncoder.encode(request.get("password"))) // Encrypt the password
+                .setPassword(passwordEncoder.encode(plainPassword)) // Encrypt the password
                 .setPhone(request.get("phone"))
                 .setLicense(request.get("license"))
                 .build();
 
+        // Save the customer
         Customer savedCustomer = customerService.save(newCustomer);
 
-        // --- CHANGE IS HERE ---
-        // Since the user is newly created, we can trust their details
-        // to generate the first token without re-authenticating.
+        // Generate JWT token for the newly created user
         final UserDetails userDetails = userDetailsService.loadUserByUsername(savedCustomer.getEmail());
         final String token = jwtUtil.generateToken(userDetails);
 
@@ -74,17 +80,25 @@ public class AuthController {
         String email = request.get("email");
         String password = request.get("password");
 
-        // The login process still uses the authentication manager to validate credentials
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        try {
+            // Authenticate the user
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password)
+            );
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-        final String token = jwtUtil.generateToken(userDetails);
+            // Load user details and generate token
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            final String token = jwtUtil.generateToken(userDetails);
 
-        Optional<Customer> customerOpt = customerService.findByEmail(email);
+            // Get customer details
+            Optional<Customer> customerOpt = customerService.findByEmail(email);
 
-        return ResponseEntity.ok(Map.of(
-                "user", customerOpt.get(),
-                "token", token
-        ));
+            return ResponseEntity.ok(Map.of(
+                    "user", customerOpt.get(),
+                    "token", token
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(Map.of("message", "Invalid credentials"));
+        }
     }
 }

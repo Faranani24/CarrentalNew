@@ -10,7 +10,12 @@ class AuthService {
         try {
             const response = await axios.post(API_URL + 'signup', userData, { headers });
             if (response.data && response.data.token) {
-                localStorage.setItem('user', JSON.stringify(response.data));
+                // Store both user and token
+                const userSession = {
+                    ...response.data.user,
+                    token: response.data.token
+                };
+                localStorage.setItem('user', JSON.stringify(userSession));
             }
             return response.data;
         } catch (error) {
@@ -19,28 +24,47 @@ class AuthService {
         }
     }
 
-    login(userData) {
+    async login(userData) {
         const headers = {
             'Content-Type': 'application/json'
         };
-        return axios.post(API_URL + 'login', userData, { headers })
-            .then(response => {
-                if (response.data.token) {
-                    localStorage.setItem('user', JSON.stringify(response.data));
-                }
-                return response.data;
-            });
+        try {
+            const response = await axios.post(API_URL + 'login', userData, { headers });
+            if (response.data.token) {
+                // Store both user and token
+                const userSession = {
+                    ...response.data.user,
+                    token: response.data.token
+                };
+                localStorage.setItem('user', JSON.stringify(userSession));
+                console.log('User stored in localStorage:', userSession);
+            }
+            return response.data;
+        } catch (error) {
+            console.error("Login failed:", error);
+            throw error;
+        }
     }
 
     logout() {
         localStorage.removeItem('user');
+        console.log('User removed from localStorage');
     }
 
-    // --- THIS IS THE NEW FUNCTION ---
-    // Add this method to get the current user from localStorage
     getCurrentUser() {
-        const user = localStorage.getItem('user');
-        return user ? JSON.parse(user) : null;
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                console.log('getCurrentUser returned:', user);
+                return user;
+            } catch (e) {
+                console.error('Error parsing user from localStorage:', e);
+                return null;
+            }
+        }
+        console.log('No user in localStorage');
+        return null;
     }
 }
 
