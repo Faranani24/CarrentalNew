@@ -1,9 +1,14 @@
-// File: src/main/java/co/za/carrental/controller/AuthController.java
 package co.za.carrental.controller;
 
+import co.za.carrental.config.JwtUtil;
 import co.za.carrental.domain.Customer;
 import co.za.carrental.service.ICustomerService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -15,9 +20,17 @@ import java.util.UUID;
 public class AuthController {
 
     private final ICustomerService customerService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(ICustomerService customerService) {
+    public AuthController(ICustomerService customerService, AuthenticationManager authenticationManager, JwtUtil jwtUtil, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.customerService = customerService;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // ------------------- SIGNUP -------------------
@@ -36,17 +49,22 @@ public class AuthController {
                 .setFirstName(request.get("firstName"))
                 .setLastName(request.get("lastName"))
                 .setEmail(email)
-                .setPassword(request.get("password")) // TODO: hash password in production
+                .setPassword(passwordEncoder.encode(request.get("password"))) // Encrypt the password
                 .setPhone(request.get("phone"))
                 .setLicense(request.get("license"))
                 .build();
 
         Customer savedCustomer = customerService.save(newCustomer);
 
-        // Return saved customer
+        // --- CHANGE IS HERE ---
+        // Since the user is newly created, we can trust their details
+        // to generate the first token without re-authenticating.
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(savedCustomer.getEmail());
+        final String token = jwtUtil.generateToken(userDetails);
+
         return ResponseEntity.ok(Map.of(
                 "user", savedCustomer,
-                "token", "mock-jwt-token" // placeholder token for frontend
+                "token", token
         ));
     }
 
@@ -56,22 +74,17 @@ public class AuthController {
         String email = request.get("email");
         String password = request.get("password");
 
+        // The login process still uses the authentication manager to validate credentials
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        final String token = jwtUtil.generateToken(userDetails);
+
         Optional<Customer> customerOpt = customerService.findByEmail(email);
-        if (customerOpt.isEmpty()) {
-            return ResponseEntity.status(401).body(Map.of("message", "Invalid email or password"));
-        }
 
-        Customer customer = customerOpt.get();
-
-        // Simple password check (replace with hashed password check in production)
-        if (!customer.getPassword().equals(password)) {
-            return ResponseEntity.status(401).body(Map.of("message", "Invalid email or password"));
-        }
-
-        // Return customer and mock token
         return ResponseEntity.ok(Map.of(
-                "user", customer,
-                "token", "mock-jwt-token"
+                "user", customerOpt.get(),
+                "token", token
         ));
     }
 }

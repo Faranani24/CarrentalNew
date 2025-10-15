@@ -1,46 +1,47 @@
 import axios from 'axios';
 
-export class AuthService {
-    constructor() {
-        this.storageKey = 'car_rental_user';
-        this.apiUrl = 'http://localhost:8082/api/auth';
-    }
+const API_URL = 'http://localhost:8082/api/auth/';
 
-    async login(credentials) {
-        try {
-            const response = await axios.post(`${this.apiUrl}/login`, credentials);
-            const { token, user } = response.data;
-
-            const userSession = { ...user, token, isAuthenticated: true };
-            localStorage.setItem(this.storageKey, JSON.stringify(userSession));
-            return userSession;
-        } catch (error) {
-            console.error('Login failed:', error);
-            throw error;
-        }
-    }
-
+class AuthService {
     async signup(userData) {
+        const headers = {
+            'Content-Type': 'application/json'
+        };
         try {
-            const response = await axios.post(`${this.apiUrl}/signup`, userData);
-            return response.data; // return new user from backend
+            const response = await axios.post(API_URL + 'signup', userData, { headers });
+            if (response.data && response.data.token) {
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }
+            return response.data;
         } catch (error) {
-            console.error('Signup failed:', error);
+            console.error("Signup failed:", error);
             throw error;
         }
     }
 
-    getCurrentUser() {
-        const userSession = localStorage.getItem(this.storageKey);
-        return userSession ? JSON.parse(userSession) : null;
+    login(userData) {
+        const headers = {
+            'Content-Type': 'application/json'
+        };
+        return axios.post(API_URL + 'login', userData, { headers })
+            .then(response => {
+                if (response.data.token) {
+                    localStorage.setItem('user', JSON.stringify(response.data));
+                }
+                return response.data;
+            });
     }
 
     logout() {
-        localStorage.removeItem(this.storageKey);
+        localStorage.removeItem('user');
     }
 
-    getAuthToken() {
-        const user = this.getCurrentUser();
-        return user ? user.token : null;
+    // --- THIS IS THE NEW FUNCTION ---
+    // Add this method to get the current user from localStorage
+    getCurrentUser() {
+        const user = localStorage.getItem('user');
+        return user ? JSON.parse(user) : null;
     }
 }
+
+export default new AuthService();

@@ -87,7 +87,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { AuthService } from '@/services/auth.js';
+import AuthService from '@/services/auth.js';
 
 const firstName = ref('');
 const lastName = ref('');
@@ -98,7 +98,7 @@ const loading = ref(false);
 const error = ref('');
 const success = ref('');
 const router = useRouter();
-const authService = new AuthService();
+const authService = AuthService;
 
 const handleSignup = async () => {
   loading.value = true;

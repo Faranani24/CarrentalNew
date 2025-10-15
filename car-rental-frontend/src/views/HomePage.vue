@@ -2,13 +2,13 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchAvailableCars } from '@/services/carService'
-import { AuthService } from '@/services/auth.js'
+import AuthService from '@/services/auth.js'
 
 const cars = ref([])
 const loading = ref(false)
 const error = ref(null)
 const router = useRouter()
-const authService = new AuthService()
+const authService = AuthService
 
 const currentUser = ref(null)
 const isAuthenticated = computed(() => currentUser.value && currentUser.value.isAuthenticated)

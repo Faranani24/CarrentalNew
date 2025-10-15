@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, RouterLink, RouterView } from 'vue-router'
-import { AuthService } from '@/services/auth.js'
+import  AuthService from './services/auth.js'
 
-const authService = new AuthService()
+const authService = AuthService
 const currentUser = ref(null)
 const isAuthenticated = computed(() => currentUser.value && currentUser.value.isAuthenticated)
 const router = useRouter()
