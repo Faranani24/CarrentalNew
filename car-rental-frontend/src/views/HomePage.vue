@@ -11,7 +11,7 @@ const router = useRouter()
 const authService = AuthService
 
 const currentUser = ref(null)
-const isAuthenticated = computed(() => currentUser.value && currentUser.value.isAuthenticated)
+const isAuthenticated = computed(() => currentUser.value !== null)
 
 const startDate = ref('')
 const endDate = ref('')
@@ -19,9 +19,10 @@ const filtered = ref(false)
 
 const initAuth = () => {
   currentUser.value = authService.getCurrentUser()
+  console.log('HomePage - Current user:', currentUser.value)
+  console.log('HomePage - Is authenticated:', isAuthenticated.value)
 }
 
-// Fetch cars only after filtering
 const filterCars = async () => {
   if (!startDate.value || !endDate.value) {
     alert('Please select both start and end dates.')
@@ -48,9 +49,16 @@ const filterCars = async () => {
   }
 }
 
-// Navigate to booking page for a car
 const goToBooking = (carId) => {
-  router.push({ name: 'booking', params: { carId } })
+  console.log('Booking car:', carId, 'Authenticated:', isAuthenticated.value)
+  router.push({
+    name: 'booking',
+    params: { carId },
+    query: {
+      from: startDate.value,
+      to: endDate.value
+    }
+  })
 }
 
 const handleLogout = () => {
@@ -59,15 +67,15 @@ const handleLogout = () => {
   console.log('User logged out')
 }
 
-onMounted(initAuth)
+onMounted(() => {
+  initAuth()
+})
 
-// Helper to format currency
 function formatRate(val) {
   if (val == null) return ''
   return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
 }
 
-// Convert ArrayBuffer to Base64
 function arrayBufferToBase64(buffer) {
   if (!buffer) return ''
   if (typeof buffer === 'string') return buffer
@@ -156,17 +164,19 @@ function arrayBufferToBase64(buffer) {
                   <p class="mb-4 text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
                     {{ formatRate(car.dailyRate) }}
                   </p>
+
+                  <!-- Show Book Now button if authenticated, otherwise show Login prompt -->
                   <button
                       v-if="isAuthenticated"
                       @click="goToBooking(car.carId)"
-                      class="text-white bg-orange-500 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 transition"
+                      class="w-full text-white bg-orange-500 px-4 py-2 rounded-lg font-semibold hover:bg-orange-600 transition"
                   >
                     Book Now →
                   </button>
                   <router-link
                       v-else
                       to="/login"
-                      class="text-gray-800 underline hover:text-gray-600"
+                      class="block w-full text-center text-gray-800 bg-gray-200 px-4 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
                   >
                     Login to Book →
                   </router-link>
@@ -180,3 +190,168 @@ function arrayBufferToBase64(buffer) {
     </main>
   </div>
 </template>
+
+<style scoped>
+.hero {
+  min-height: 72vh;
+}
+
+.hero-title-gradient {
+  background: linear-gradient(90deg, #fde68a, #fbbf24, #fb923c, #f59e0b, #fbbf24);
+  -webkit-background-clip: text;
+  color: transparent;
+  position: relative;
+}
+
+.shine {
+  background-size: 200% 100%;
+  animation: shine 8s linear infinite;
+}
+
+@keyframes shine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: -200% 50%; }
+}
+
+.animate-pan {
+  animation: pan 40s linear infinite;
+}
+
+@keyframes pan {
+  0% { transform: scale(1.15) translate(0, 0); }
+  50% { transform: scale(1.18) translate(-2%, -2%); }
+  100% { transform: scale(1.15) translate(0, 0); }
+}
+
+.animated-grid {
+  background: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+  animation: grid-move 25s linear infinite;
+}
+
+@keyframes grid-move {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 40px, 40px 0; }
+}
+
+.card-enter-from,
+.card-leave-to {
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+}
+
+.card-enter-active {
+  transition: all 0.6s cubic-bezier(0.16, 0.8, 0.43, 1.01);
+}
+
+.card-leave-active {
+  transition: all 0.35s ease;
+}
+
+.card-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.animate-fade-down {
+  animation: fadeDown 0.9s cubic-bezier(0.16, 0.8, 0.43, 1) both;
+}
+
+.animate-fade-up {
+  animation: fadeUp 1s cubic-bezier(0.16, 0.8, 0.43, 1) both;
+}
+
+@keyframes fadeDown {
+  0% { opacity: 0; transform: translateY(-24px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-pop {
+  animation: pop 0.8s 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes pop {
+  0% { opacity: 0; transform: scale(0.4) rotate(-8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+}
+
+.loader.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fbbf24;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.gradient-text-light {
+  background: linear-gradient(90deg, #fbbf24, #fb923c, #f59e0b, #fbbf24);
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: hue 10s linear infinite;
+  background-size: 300% 100%;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.car-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+
+.car-card:hover::after {
+  opacity: 1;
+}
+
+.car-card {
+  animation: cardAppear 0.9s cubic-bezier(0.16, 0.8, 0.43, 1) both;
+}
+
+@keyframes cardAppear {
+  0% { opacity: 0; transform: translateY(24px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.car-card:nth-child(1) { animation-delay: 0.05s; }
+.car-card:nth-child(2) { animation-delay: 0.1s; }
+.car-card:nth-child(3) { animation-delay: 0.15s; }
+.car-card:nth-child(4) { animation-delay: 0.2s; }
+.car-card:nth-child(5) { animation-delay: 0.25s; }
+.car-card:nth-child(6) { animation-delay: 0.3s; }
+
+@media (max-width: 640px) {
+  .hero { min-height: 68vh; }
+}
+</style>

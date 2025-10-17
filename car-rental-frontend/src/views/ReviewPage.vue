@@ -11,28 +11,23 @@ const loading = ref(true);
 const submitting = ref(false);
 const error = ref('');
 
-// User's review data
 const review = ref({
   rating: 0,
   comment: ''
 });
 
-// A computed property to check if the form can be submitted
 const canSubmit = ref(false);
 
 
-// Function to handle the rating selection
 function setRating(rating) {
   review.value.rating = rating;
   updateCanSubmit();
 }
 
-// Function to update the canSubmit ref
 function updateCanSubmit() {
   canSubmit.value = review.value.rating > 0 && review.value.comment.trim() !== '' && !submitting.value;
 }
 
-// Function to send the review to the backend
 async function submitReviewForm() {
   if (!canSubmit.value) return;
 
@@ -45,9 +40,8 @@ async function submitReviewForm() {
       rating: review.value.rating,
       comment: review.value.comment,
     };
-    await submitReview(reviewData); // Assume this function exists in your carService.js
+    await submitReview(reviewData);
 
-    // Redirect on success
     router.push({ name: 'review-success' });
 
   } catch (e) {
@@ -58,7 +52,6 @@ async function submitReviewForm() {
   }
 }
 
-// Load car details on page mount
 onMounted(async () => {
   const carId = route.params.id;
   if (!carId) {

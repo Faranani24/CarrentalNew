@@ -7,7 +7,6 @@ public class CustomerDTO {
     private String email;
     private String password;
 
-    // Getters and setters
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getLastName() { return lastName; }

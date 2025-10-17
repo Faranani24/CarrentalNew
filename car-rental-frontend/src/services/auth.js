@@ -10,7 +10,6 @@ class AuthService {
         try {
             const response = await axios.post(API_URL + 'signup', userData, { headers });
             if (response.data && response.data.token) {
-                // Store both user and token
                 const userSession = {
                     ...response.data.user,
                     token: response.data.token

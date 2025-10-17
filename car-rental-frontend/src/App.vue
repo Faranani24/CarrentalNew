@@ -5,18 +5,28 @@ import AuthService from './services/auth.js'
 
 const authService = AuthService
 const currentUser = ref(null)
-const isAuthenticated = computed(() => currentUser.value !== null)
+const isAuthenticated = computed(() => {
+  console.log('[App.vue] isAuthenticated check:', currentUser.value !== null)
+  return currentUser.value !== null
+})
+const isAdmin = computed(() => {
+  const result = currentUser.value && currentUser.value.role === 'ADMIN'
+  console.log('[App.vue] isAdmin check:', {
+    user: currentUser.value,
+    role: currentUser.value?.role,
+    isAdmin: result
+  })
+  return result
+})
 const router = useRouter()
 
 const initAuth = () => {
   // Get the current user from localStorage
   const user = authService.getCurrentUser()
-  if (user) {
-    currentUser.value = user
-    console.log('User loaded from localStorage:', user)
-  } else {
-    console.log('No user found in localStorage')
-  }
+  currentUser.value = user
+  console.log('[App.vue] initAuth - User loaded:', user)
+  console.log('[App.vue] initAuth - User role:', user?.role)
+  console.log('[App.vue] initAuth - isAdmin computed:', isAdmin.value)
 }
 
 const handleLogout = () => {
@@ -67,7 +77,7 @@ if (typeof window !== 'undefined') {
             <router-link to="/cars" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
               Browse Cars
             </router-link>
-            <router-link to="/admin" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
+            <router-link v-if="isAdmin" to="/admin" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
               Admin Panel
             </router-link>
             <router-link to="/booking" class="text-neutral-900 font-semibold hover:text-orange-500 transition">

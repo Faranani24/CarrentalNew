@@ -14,7 +14,6 @@ const bookingLoading = ref(false);
 const bookingConfirmed = ref(false);
 const car = ref(null);
 
-// Prefill from HomePage query params
 const bookingDetails = ref({
   from: route.query.from || '',
   to: route.query.to || '',
@@ -24,7 +23,6 @@ const bookingDetails = ref({
   phone: ''
 });
 
-// Always use carId from route param
 const carId = computed(() => route.params.carId);
 
 const fetchCarDetails = async () => {

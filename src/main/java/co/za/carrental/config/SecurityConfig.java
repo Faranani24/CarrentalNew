@@ -22,19 +22,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Bean for AuthController
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    // Bean for AuthController
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Basic CORS configuration
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -50,11 +47,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Apply CORS
                 .cors(withDefaults())
-                // 2. Forcefully disable CSRF
                 .csrf(AbstractHttpConfigurer::disable)
-                // 3. Permit absolutely every request, no security
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
 
         return http.build();

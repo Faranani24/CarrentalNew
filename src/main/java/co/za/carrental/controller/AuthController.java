@@ -40,38 +40,57 @@ public class AuthController {
     // ------------------- SIGNUP -------------------
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
+        try {
+            String email = request.get("email");
+            String plainPassword = request.get("password");
 
-        // Check if email already exists
-        if (customerService.existsByEmail(email)) {
-            return ResponseEntity.badRequest().body(Map.of("message", "Email already in use"));
+            if (email == null || email.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Email is required"));
+            }
+            if (plainPassword == null || plainPassword.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Password is required"));
+            }
+
+            if (customerService.existsByEmail(email)) {
+                return ResponseEntity.badRequest().body(Map.of("message", "Email already in use"));
+            }
+
+            String role = "CUSTOMER"; // Default role
+            String[] adminEmails = {"admin@carrental.com", "admin@gmail.com", "tester@carrental.com"}; // Add your admin emails here
+            for (String adminEmail : adminEmails) {
+                if (email.equalsIgnoreCase(adminEmail)) {
+                    role = "ADMIN";
+                    break;
+                }
+            }
+
+
+            Customer newCustomer = new Customer.Builder()
+                    .setCustomerId(UUID.randomUUID().toString())
+                    .setFirstName(request.getOrDefault("firstName", ""))
+                    .setLastName(request.getOrDefault("lastName", ""))
+                    .setEmail(email)
+                    .setPassword(passwordEncoder.encode(plainPassword))
+                    .setPhone(request.getOrDefault("phone", ""))
+                    .setLicense(request.getOrDefault("license", ""))
+                    .setRole(role)
+                    .build();
+
+            Customer savedCustomer = customerService.save(newCustomer);
+
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(savedCustomer.getEmail());
+            final String token = jwtUtil.generateToken(userDetails);
+
+            return ResponseEntity.ok(Map.of(
+                    "user", savedCustomer,
+                    "token", token
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(
+                    Map.of("message", "Signup failed: " + e.getMessage())
+            );
         }
-
-        // Get the plain password before encoding
-        String plainPassword = request.get("password");
-
-        // Build new customer with encoded password
-        Customer newCustomer = new Customer.Builder()
-                .setCustomerId(UUID.randomUUID().toString())
-                .setFirstName(request.get("firstName"))
-                .setLastName(request.get("lastName"))
-                .setEmail(email)
-                .setPassword(passwordEncoder.encode(plainPassword)) // Encrypt the password
-                .setPhone(request.get("phone"))
-                .setLicense(request.get("license"))
-                .build();
-
-        // Save the customer
-        Customer savedCustomer = customerService.save(newCustomer);
-
-        // Generate JWT token for the newly created user
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(savedCustomer.getEmail());
-        final String token = jwtUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(Map.of(
-                "user", savedCustomer,
-                "token", token
-        ));
     }
 
     // ------------------- LOGIN -------------------
@@ -81,16 +100,13 @@ public class AuthController {
         String password = request.get("password");
 
         try {
-            // Authenticate the user
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password)
             );
 
-            // Load user details and generate token
             final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             final String token = jwtUtil.generateToken(userDetails);
 
-            // Get customer details
             Optional<Customer> customerOpt = customerService.findByEmail(email);
 
             return ResponseEntity.ok(Map.of(

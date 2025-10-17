@@ -27,11 +27,8 @@ public class JwtUtil implements Serializable {
     private String secret;
 
     private SecretKey getSigningKey() {
-        // Create a key from the secret string
         byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
-        // Ensure the key is at least 256 bits (32 bytes) for HS512
         if (keyBytes.length < 32) {
-            // Pad the key if it's too short
             byte[] paddedKey = new byte[32];
             System.arraycopy(keyBytes, 0, paddedKey, 0, Math.min(keyBytes.length, 32));
             return Keys.hmacShaKeyFor(paddedKey);

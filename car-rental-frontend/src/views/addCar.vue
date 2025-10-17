@@ -67,7 +67,6 @@ const submitForm = async () => {
     successMessage.value = 'Car added successfully!';
     error.value = null;
     await fetchAndDisplayCars();
-    // Reset form fields
     car.value = {
       carId: '', make: '', model: '', year: null, licensePlate: '', dailyRate: null, status: 'available', carType: { typeId: 'SUV' }
     };
@@ -80,7 +79,6 @@ const submitForm = async () => {
   }
 };
 
-// Placeholder for formatRate function to prevent errors
 const formatRate = (value) => {
   if (value === null || value === undefined) {
     return 'N/A';
@@ -97,7 +95,6 @@ onMounted(() => {
 <template>
   <div class="min-h-screen flex flex-col bg-neutral-100 p-8">
     <div class="max-w-4xl mx-auto w-full">
-      <!-- The h1 heading has been moved to AdminPanel.vue to follow best practice. -->
 
       <!-- Add Car Form -->
       <section class="bg-white rounded-xl shadow-lg p-6 mb-8 border border-neutral-200">

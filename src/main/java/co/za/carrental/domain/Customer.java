@@ -1,10 +1,10 @@
-// File: src/main/java/co/za/carrental/domain/Customer.java
-
 package co.za.carrental.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 
 @Entity
@@ -12,25 +12,43 @@ import java.util.Objects;
 public class Customer {
 
     @Id
+    @Column(name = "customer_id")
     private String customerId;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    @JsonIgnore  // Don't send password to frontend
     private String password;
+
+    @Column(name = "phone")
     private String phone;
+
+    @Column(name = "license")
     private String license;
+
+    @Column(name = "role")
+    private String role = "CUSTOMER"; // Default role
 
     // Default constructor for JPA
     public Customer() {}
 
     private Customer(Builder builder) {
         this.customerId = builder.customerId;
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
+        this.firstName = builder.firstName != null ? builder.firstName : "";
+        this.lastName = builder.lastName != null ? builder.lastName : "";
         this.email = builder.email;
         this.password = builder.password;
-        this.phone = builder.phone;
-        this.license = builder.license;
+        this.phone = builder.phone != null ? builder.phone : "";
+        this.license = builder.license != null ? builder.license : "";
+        this.role = builder.role != null ? builder.role : "CUSTOMER";
     }
 
     // Getters
@@ -62,6 +80,14 @@ public class Customer {
         return license;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,9 +108,9 @@ public class Customer {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", license='" + license + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 
@@ -96,6 +122,7 @@ public class Customer {
         private String password;
         private String phone;
         private String license;
+        private String role = "CUSTOMER";
 
         public Builder setCustomerId(String customerId) {
             this.customerId = customerId;
@@ -132,7 +159,21 @@ public class Customer {
             return this;
         }
 
+        public Builder setRole(String role) {
+            this.role = role;
+            return this;
+        }
+
         public Customer build() {
+            if (customerId == null || customerId.trim().isEmpty()) {
+                throw new IllegalStateException("Customer ID is required");
+            }
+            if (email == null || email.trim().isEmpty()) {
+                throw new IllegalStateException("Email is required");
+            }
+            if (password == null || password.trim().isEmpty()) {
+                throw new IllegalStateException("Password is required");
+            }
             return new Customer(this);
         }
     }
