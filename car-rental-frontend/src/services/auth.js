@@ -1,46 +1,70 @@
 import axios from 'axios';
 
-export class AuthService {
-    constructor() {
-        this.storageKey = 'car_rental_user';
-        this.apiUrl = 'http://localhost:8082/api/auth';
-    }
+const API_URL = 'http://localhost:8082/api/auth/';
 
-    async login(credentials) {
-        try {
-            const response = await axios.post(`${this.apiUrl}/login`, credentials);
-            const { token, user } = response.data;
-
-            const userSession = { ...user, token, isAuthenticated: true };
-            localStorage.setItem(this.storageKey, JSON.stringify(userSession));
-            return userSession;
-        } catch (error) {
-            console.error('Login failed:', error);
-            throw error;
-        }
-    }
-
+class AuthService {
     async signup(userData) {
+        const headers = {
+            'Content-Type': 'application/json'
+        };
         try {
-            const response = await axios.post(`${this.apiUrl}/signup`, userData);
-            return response.data; // return new user from backend
+            const response = await axios.post(API_URL + 'signup', userData, { headers });
+            if (response.data && response.data.token) {
+                const userSession = {
+                    ...response.data.user,
+                    token: response.data.token
+                };
+                localStorage.setItem('user', JSON.stringify(userSession));
+            }
+            return response.data;
         } catch (error) {
-            console.error('Signup failed:', error);
+            console.error("Signup failed:", error);
             throw error;
         }
     }
 
-    getCurrentUser() {
-        const userSession = localStorage.getItem(this.storageKey);
-        return userSession ? JSON.parse(userSession) : null;
+    async login(userData) {
+        const headers = {
+            'Content-Type': 'application/json'
+        };
+        try {
+            const response = await axios.post(API_URL + 'login', userData, { headers });
+            if (response.data.token) {
+                // Store both user and token
+                const userSession = {
+                    ...response.data.user,
+                    token: response.data.token
+                };
+                localStorage.setItem('user', JSON.stringify(userSession));
+                console.log('User stored in localStorage:', userSession);
+            }
+            return response.data;
+        } catch (error) {
+            console.error("Login failed:", error);
+            throw error;
+        }
     }
 
     logout() {
-        localStorage.removeItem(this.storageKey);
+        localStorage.removeItem('user');
+        console.log('User removed from localStorage');
     }
 
-    getAuthToken() {
-        const user = this.getCurrentUser();
-        return user ? user.token : null;
+    getCurrentUser() {
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+            try {
+                const user = JSON.parse(userStr);
+                console.log('getCurrentUser returned:', user);
+                return user;
+            } catch (e) {
+                console.error('Error parsing user from localStorage:', e);
+                return null;
+            }
+        }
+        console.log('No user in localStorage');
+        return null;
     }
 }
+
+export default new AuthService();

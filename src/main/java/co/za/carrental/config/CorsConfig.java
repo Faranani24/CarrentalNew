@@ -1,4 +1,4 @@
-package co.za.carrental.config;
+/*package co.za.carrental.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -57,3 +57,4 @@ public class CorsConfig implements WebMvcConfigurer {
         return StringUtils.commaDelimitedListToStringArray(csv.trim());
     }
 }
+*/

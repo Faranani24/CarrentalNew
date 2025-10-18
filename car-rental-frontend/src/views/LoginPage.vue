@@ -58,14 +58,15 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { AuthService } from '@/services/auth.js';
+import AuthService from '@/services/auth.js';
 
 const email = ref('');
 const password = ref('');
 const loading = ref(false);
 const error = ref('');
 const router = useRouter();
-const authService = new AuthService();
+
+const authService = AuthService;
 
 const handleLogin = async () => {
   loading.value = true;
@@ -78,7 +79,10 @@ const handleLogin = async () => {
     });
 
     console.log('Login successful:', userSession);
-    router.push({ name: 'home' });
+
+    await router.push({ name: 'home' });
+
+    window.location.reload();
 
   } catch (err) {
     console.error('Login failed:', err);

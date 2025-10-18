@@ -4,29 +4,48 @@ import AdminPanel from '@/views/AdminPanel.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import SignupPage from '@/views/SignupPage.vue';
 import BookingPage from '@/views/BookingPage.vue';
+import AuthService from '@/services/auth.js';
 
 const routes = [
-  { path: '/', name: 'home', component: HomePage },
-  { path: '/admin', name: 'admin', component: AdminPanel },
-  { path: '/login', name: 'login', component: LoginPage },
-  { path: '/signup', name: 'signup', component: SignupPage },
+    { path: '/', name: 'home', component: HomePage },
 
-  // My Bookings (no param)
-  { path: '/booking', name: 'my-bookings', component: BookingPage },
+    { path: '/admin', name: 'admin', component: AdminPanel, meta: { requiresAdmin: true }},
+    { path: '/login', name: 'login', component: LoginPage },
+    { path: '/signup', name: 'signup', component: SignupPage },
 
-  // Booking a specific car
-  { path: '/booking/:carId', name: 'booking', component: BookingPage, props: true },
+    { path: '/booking', name: 'my-bookings', component: BookingPage },
 
-  // Redirect /cars to home since cars display there
-  { path: '/cars', redirect: '/' },
+    { path: '/booking/:carId', name: 'booking', component: BookingPage, props: true },
 
-  // Catch-all fallback (optional, prevents other 404s)
-  { path: '/:catchAll(.*)', redirect: '/' }
+    { path: '/cars', redirect: '/' },
+
+    { path: '/:catchAll(.*)', redirect: '/' }
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+    history: createWebHistory(),
+    routes
+});
+
+router.beforeEach((to, from, next) => {
+
+    if (to.matched.some(record => record.meta.requiresAdmin)) {
+        const currentUser = AuthService.getCurrentUser();
+
+        if (!currentUser) {
+            next({
+                name: 'login',
+                query: { redirect: to.fullPath }
+            });
+        } else if (currentUser.role !== 'ADMIN') {
+            alert('Access denied. Admin privileges required.');
+            next({ name: 'home' });
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 });
 
 export default router;

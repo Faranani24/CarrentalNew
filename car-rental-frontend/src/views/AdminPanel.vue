@@ -7,7 +7,6 @@
     <p v-if="error" class="error">{{ error }}</p>
 
     <form @submit.prevent="submitForm">
-      <!-- ...form fields unchanged... -->
       <div class="form-group">
         <label>Car ID</label>
         <input v-model="car.carId" placeholder="e.g. BMW123" />

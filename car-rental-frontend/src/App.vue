@@ -1,15 +1,32 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, RouterLink, RouterView } from 'vue-router'
-import { AuthService } from '@/services/auth.js'
+import AuthService from './services/auth.js'
 
-const authService = new AuthService()
+const authService = AuthService
 const currentUser = ref(null)
-const isAuthenticated = computed(() => currentUser.value && currentUser.value.isAuthenticated)
+const isAuthenticated = computed(() => {
+  console.log('[App.vue] isAuthenticated check:', currentUser.value !== null)
+  return currentUser.value !== null
+})
+const isAdmin = computed(() => {
+  const result = currentUser.value && currentUser.value.role === 'ADMIN'
+  console.log('[App.vue] isAdmin check:', {
+    user: currentUser.value,
+    role: currentUser.value?.role,
+    isAdmin: result
+  })
+  return result
+})
 const router = useRouter()
 
 const initAuth = () => {
-  currentUser.value = authService.getCurrentUser()
+  // Get the current user from localStorage
+  const user = authService.getCurrentUser()
+  currentUser.value = user
+  console.log('[App.vue] initAuth - User loaded:', user)
+  console.log('[App.vue] initAuth - User role:', user?.role)
+  console.log('[App.vue] initAuth - isAdmin computed:', isAdmin.value)
 }
 
 const handleLogout = () => {
@@ -19,9 +36,19 @@ const handleLogout = () => {
   router.push('/login')
 }
 
+// Initialize auth on mount
 onMounted(() => {
   initAuth()
 })
+
+// Watch for storage changes (in case user logs in/out in another tab)
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'user') {
+      initAuth()
+    }
+  })
+}
 </script>
 
 <template>
@@ -45,12 +72,12 @@ onMounted(() => {
           <template v-if="isAuthenticated">
             <!-- Authenticated Navigation -->
             <span class="text-neutral-700 text-sm">
-              Welcome, {{ currentUser.firstName || currentUser.username }}!
+              Welcome, {{ currentUser.firstName || currentUser.username || 'User' }}!
             </span>
             <router-link to="/cars" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
               Browse Cars
             </router-link>
-            <router-link to="/admin" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
+            <router-link v-if="isAdmin" to="/admin" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
               Admin Panel
             </router-link>
             <router-link to="/booking" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
@@ -70,7 +97,7 @@ onMounted(() => {
       </div>
     </nav>
     <main class="flex-1">
-      <router-view />
+      <router-view @login="initAuth" />
     </main>
     <!-- FOOTER -->
     <footer class="relative z-10 border-t border-amber-200/70 bg-white/80 backdrop-blur text-center py-6 text-sm text-neutral-600">
@@ -118,10 +145,6 @@ onMounted(() => {
   text-decoration: none;
 }
 .card-view-details:hover { transform:scale(1.03); border-color:#fb923c; box-shadow:0 4px 16px rgba(251,146,60,0.18);}
-
-
-
-
 
 .card-view-details-guest {
   display:block; width:100%; text-align:center;

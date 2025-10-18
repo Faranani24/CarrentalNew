@@ -2,13 +2,11 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:8082/api/cars'
 
-// Fetch all cars (used for admin panel)
 export async function fetchCars() {
     try {
         const response = await axios.get(API_URL)
         return response.data.map(car => ({
             ...car,
-            // Now the image URL is based on the new backend endpoint
             imageUrl: `${API_URL}/${car.carId}/image`
         }))
     } catch (error) {
@@ -17,7 +15,6 @@ export async function fetchCars() {
     }
 }
 
-// Fetch cars available for specific date range
 export async function fetchAvailableCars(startDate, endDate) {
     try {
         const response = await axios.get(`${API_URL}/available`, {
@@ -34,14 +31,12 @@ export async function fetchAvailableCars(startDate, endDate) {
 }
 
 
-// Fetch a single car by ID
 export async function fetchCarById(carId) {
     try {
         const response = await axios.get(`${API_URL}/${carId}`)
         const car = response.data
         return {
             ...car,
-            // You already updated this one, so it's correct
             imageUrl: `${API_URL}/${car.carId}/image`
         }
     } catch (error) {
@@ -50,7 +45,6 @@ export async function fetchCarById(carId) {
     }
 }
 
-// Delete a car by carId
 export async function deleteCar(carId) {
     try {
         await axios.delete(`${API_URL}/${carId}`)
@@ -59,17 +53,3 @@ export async function deleteCar(carId) {
         throw error
     }
 }
-
-// REMOVE THIS HELPER FUNCTION - IT'S NO LONGER NEEDED AND IS CAUSING THE ERROR
-// function arrayBufferToBase64(buffer) {
-//     if (!buffer) return ''
-//     if (typeof buffer === 'string') return buffer
-//     if (buffer.data && Array.isArray(buffer.data)) {
-//         buffer = Uint8Array.from(buffer.data).buffer
-//     }
-//     let binary = ''
-//     const bytes = new Uint8Array(buffer)
-//     for (let i = 0; i < bytes.byteLength; i++)
-//         binary += String.fromCharCode(bytes[i])
-//     return window.btoa(binary)
-// }
