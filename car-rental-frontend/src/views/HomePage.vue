@@ -155,11 +155,17 @@ function arrayBufferToBase64(buffer) {
                   {{ car.status.toUpperCase() }}
                 </div>
               </div>
+
               <div class="p-5 flex flex-col flex-1">
                 <h3 class="font-semibold text-lg tracking-tight mb-1 text-neutral-900">
                   {{ car.make }} {{ car.model }} ({{ car.year }})
                 </h3>
-                <p class="text-xs text-neutral-500 mb-4">{{ car.description || '' }}</p>
+
+                <!-- Description with ellipsis for long text -->
+                <p class="text-xs text-neutral-500 mb-4 line-clamp-2 min-h-[2.5rem]">
+                  {{ car.description || 'No description available' }}
+                </p>
+
                 <div class="mt-auto mb-4">
                   <p class="mb-4 text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
                     {{ formatRate(car.dailyRate) }}
@@ -350,6 +356,15 @@ function arrayBufferToBase64(buffer) {
 .car-card:nth-child(4) { animation-delay: 0.2s; }
 .car-card:nth-child(5) { animation-delay: 0.25s; }
 .car-card:nth-child(6) { animation-delay: 0.3s; }
+
+/* Line clamp utility for description truncation */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 @media (max-width: 640px) {
   .hero { min-height: 68vh; }

@@ -4,6 +4,7 @@ import co.za.carrental.api.dto.BookingRequest;
 import co.za.carrental.api.dto.BookingResponse;
 import co.za.carrental.domain.Booking;
 import co.za.carrental.service.IBookingService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,6 +69,7 @@ public class BookingController {
 
     @GetMapping
     public ResponseEntity<List<Booking>> getAll() {
+        // This will now return bookings with car details because we removed @JsonIgnore
         return ResponseEntity.ok(bookingService.getAll());
     }
 }

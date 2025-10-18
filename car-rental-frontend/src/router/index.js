@@ -4,21 +4,27 @@ import AdminPanel from '@/views/AdminPanel.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import SignupPage from '@/views/SignupPage.vue';
 import BookingPage from '@/views/BookingPage.vue';
+import MyBookingsPage from '@/views/MyBookingsPage.vue';
 import AuthService from '@/services/auth.js';
 
 const routes = [
     { path: '/', name: 'home', component: HomePage },
-
     { path: '/admin', name: 'admin', component: AdminPanel, meta: { requiresAdmin: true }},
     { path: '/login', name: 'login', component: LoginPage },
     { path: '/signup', name: 'signup', component: SignupPage },
 
-    { path: '/booking', name: 'my-bookings', component: BookingPage },
+    // My Bookings - view all user bookings
+    {
+        path: '/bookings',
+        name: 'my-bookings',
+        component: () => import('@/views/MyBookingsPage.vue'),
+        meta: { requiresAuth: true }
+    },
 
-    { path: '/booking/:carId', name: 'booking', component: BookingPage, props: true },
+    // Create new booking for a specific car
+    { path: '/booking/:carId', name: 'booking', component: BookingPage, props: true, meta: { requiresAuth: true } },
 
     { path: '/cars', redirect: '/' },
-
     { path: '/:catchAll(.*)', redirect: '/' }
 ];
 
@@ -28,10 +34,21 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    const currentUser = AuthService.getCurrentUser();
 
+    // Check if route requires authentication
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!currentUser) {
+            next({
+                name: 'login',
+                query: { redirect: to.fullPath }
+            });
+            return;
+        }
+    }
+
+    // Check if route requires admin privileges
     if (to.matched.some(record => record.meta.requiresAdmin)) {
-        const currentUser = AuthService.getCurrentUser();
-
         if (!currentUser) {
             next({
                 name: 'login',

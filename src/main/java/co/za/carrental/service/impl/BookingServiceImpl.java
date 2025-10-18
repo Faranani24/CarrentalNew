@@ -66,6 +66,11 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
+    public List<Booking> getBookingsByCustomerEmail(String email) {
+        return List.of();
+    }
+
+    @Override
     public Booking createFromRequest(BookingRequest request) {
         // Use LocalDate.parse to directly convert the String dates
         LocalDate start = LocalDate.parse(request.getFrom());

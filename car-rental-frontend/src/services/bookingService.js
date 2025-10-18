@@ -4,7 +4,7 @@ export const createBooking = async (bookingData) => {
     try {
         const response = await fetch(`${API_BASE_URL}/bookings`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json',},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(bookingData)
         });
 
@@ -18,6 +18,48 @@ export const createBooking = async (bookingData) => {
 
     } catch (error) {
         console.error('Error creating booking:', error);
+        throw error;
+    }
+};
+
+export const getAllBookings = async (userEmail = null) => {
+    try {
+        // Build URL with optional email parameter
+        const url = new URL(`${API_BASE_URL}/bookings`);
+        if (userEmail) {
+            url.searchParams.append('email', userEmail);
+        }
+
+        const response = await fetch(url.toString(), {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch bookings');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+        throw error;
+    }
+};
+
+export const getBookingById = async (bookingId) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/bookings/${bookingId}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch booking');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching booking:', error);
         throw error;
     }
 };

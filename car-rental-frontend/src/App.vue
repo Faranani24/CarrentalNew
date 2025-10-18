@@ -80,7 +80,7 @@ if (typeof window !== 'undefined') {
             <router-link v-if="isAdmin" to="/admin" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
               Admin Panel
             </router-link>
-            <router-link to="/booking" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
+            <router-link to="/bookings" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
               My Bookings
             </router-link>
             <button @click="handleLogout" class="px-4 py-2 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-red-400 to-red-500 text-white shadow-lg hover:scale-[1.01] active:scale-[0.98] transition">

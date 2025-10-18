@@ -23,6 +23,9 @@ public interface IBookingService {
     void delete(String bookingId);                 // alias of deleteById
     List<Booking> getAll();
 
+    // Get bookings by customer email
+    List<Booking> getBookingsByCustomerEmail(String email);
+
     // Form/request creation
     Booking createFromRequest(BookingRequest request);
 }

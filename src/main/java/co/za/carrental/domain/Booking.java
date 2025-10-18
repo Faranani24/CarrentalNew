@@ -1,6 +1,7 @@
 package co.za.carrental.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -11,23 +12,23 @@ public class Booking {
     @Id
     private String bookingId;
 
-    private LocalDate startDate; // Updated to LocalDate
+    private LocalDate startDate;
 
-    private LocalDate endDate;   // Updated to LocalDate
+    private LocalDate endDate;
 
     private Float totalCost;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
+    @JsonIgnoreProperties({"password", "bookings"})  // Only ignore sensitive fields
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id", referencedColumnName = "carId")
-    @JsonIgnore
+    @JsonIgnoreProperties({"image", "bookings"})  // Ignore image bytes and circular reference
     private Car car;
 
     public Booking() {}
@@ -46,11 +47,11 @@ public class Booking {
     public String getBookingId() { return bookingId; }
     public void setBookingId(String bookingId) { this.bookingId = bookingId; }
 
-    public LocalDate getStartDate() { return startDate; } // Updated getter
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; } // Updated setter
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
 
-    public LocalDate getEndDate() { return endDate; } // Updated getter
-    public void setEndDate(LocalDate endDate) { this.endDate = endDate; } // Updated setter
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 
     public Float getTotalCost() { return totalCost; }
     public void setTotalCost(Float totalCost) { this.totalCost = totalCost; }
@@ -64,12 +65,10 @@ public class Booking {
     public Car getCar() { return car; }
     public void setCar(Car car) { this.car = car; }
 
-    // Removed old Date getters and LocalDate conversions as they are now redundant.
-
     public static class Builder {
         private String bookingId;
-        private LocalDate startDate; // Updated to LocalDate
-        private LocalDate endDate;   // Updated to LocalDate
+        private LocalDate startDate;
+        private LocalDate endDate;
         private Float totalCost;
         private BookingStatus status;
         private Customer customer;

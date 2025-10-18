@@ -7,17 +7,14 @@
     <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final commit">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/services/bookingService.js" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/services/bookingService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/HomePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/LoginPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/SignupPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/SignupPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/BookingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Booking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/IBookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/IBookingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/BookingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/BookingServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,11 +24,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Composition API Component" />
         <option value="Interface" />
         <option value="JUnit5 Test Class" />
         <option value="JavaScript File" />
         <option value="Class" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -44,12 +41,12 @@
     &quot;assignee&quot;: &quot;Lance1103&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/InamJim/CarrentalNew.git",
-    "accountId": "654a81f9-8e9b-4d36-9595-8a132b323f9d"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/InamJim/CarrentalNew.git&quot;,
+    &quot;accountId&quot;: &quot;654a81f9-8e9b-4d36-9595-8a132b323f9d&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -92,7 +89,6 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.Main.executor": "Run",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
@@ -100,7 +96,6 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/lance/IdeaProjects/carrental 3/carrental/pom.xml",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -111,7 +106,7 @@
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "settings.qodana",
     "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Users\\InamJ\\AppData\\Roaming\\JetBrains\\IntelliJIdea2025.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2025.1.1.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -227,8 +222,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.28293.39" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.28293.39" />
       </set>
     </attachedChunks>
   </component>
@@ -250,6 +245,7 @@
       <workItem from="1760383683360" duration="3627000" />
       <workItem from="1760448265427" duration="51000" />
       <workItem from="1760465802526" duration="228000" />
+      <workItem from="1760466244873" duration="3280000" />
       <workItem from="1760466244873" duration="480000" />
       <workItem from="1760472081606" duration="9062000" />
     </task>
