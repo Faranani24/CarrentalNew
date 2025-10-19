@@ -1,5 +1,6 @@
 package co.za.carrental.config;
 
+import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,10 +23,17 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
+ main
+    private JwtRequestFilter JwtRequestFilter;
+
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+        this.JwtRequestFilter = jwtRequestFilter;
+
     private final JwtRequestFilter jwtRequestFilter;
 
     public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
+ main
     }
 
     @Bean
@@ -45,6 +53,7 @@ public class SecurityConfig {
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(List.of("Authorization"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -55,6 +64,19 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
+ main
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/cars/*/image").permitAll()
+                        .requestMatchers("/api/cars/**").authenticated()
+                        .requestMatchers("/api/bookings/**").authenticated()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(JwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints - no authentication required
@@ -77,6 +99,7 @@ public class SecurityConfig {
                 )
                 // Add JWT filter before Spring Security's authentication filter
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+ main
 
         return http.build();
     }
