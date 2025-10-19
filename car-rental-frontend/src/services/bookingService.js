@@ -110,3 +110,34 @@ export const getBookingById = async (bookingId) => {
         throw error
     }
 }
+
+export const cancelBooking = async (bookingId) => {
+    try {
+        console.log('[bookingService] Cancelling booking:', bookingId)
+
+        const response = await fetch(`${API_BASE_URL}/bookings/${bookingId}/cancel`, {
+            method: 'POST',
+            headers: getAuthHeaders()
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}))
+            console.error('[bookingService] Cancel error:', errorData)
+
+            if (response.status === 404) {
+                throw new Error('Booking not found')
+            } else if (response.status === 400) {
+                throw new Error(errorData.message || 'Cannot cancel this booking')
+            }
+            throw new Error(errorData.message || `Failed to cancel booking (${response.status})`)
+        }
+
+        const result = await response.json()
+        console.log('[bookingService] Booking cancelled successfully:', result)
+        return result
+
+    } catch (error) {
+        console.error('[bookingService] Error cancelling booking:', error.message)
+        throw error
+    }
+}

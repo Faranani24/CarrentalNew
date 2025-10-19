@@ -1,6 +1,7 @@
 package co.za.carrental.service.impl;
 
 import co.za.carrental.domain.Booking;
+import co.za.carrental.domain.BookingStatus;
 import co.za.carrental.domain.Car;
 import co.za.carrental.repository.BookingRepository;
 import co.za.carrental.repository.CarRepository;
@@ -62,12 +63,25 @@ public class CarServiceImpl implements ICarService {
         return allCars.stream()
                 .filter(car -> {
                     List<Booking> bookings = bookingRepository.findByCar(car);
+
                     if (bookings == null || bookings.isEmpty()) {
                         return true; // No bookings, so car is available
                     }
 
-                    return bookings.stream().noneMatch(b -> {
-                        // This is the critical null check.
+                    // Filter out CANCELLED and REJECTED bookings - only count ACTIVE bookings
+                    List<Booking> activeBookings = bookings.stream()
+                            .filter(b -> b.getStatus() != BookingStatus.CANCELLED
+                                    && b.getStatus() != BookingStatus.REJECTED
+                                    && b.getStatus() != BookingStatus.COMPLETED)
+                            .collect(Collectors.toList());
+
+                    if (activeBookings.isEmpty()) {
+                        return true; // No active bookings, car is available
+                    }
+
+                    // Check if any active booking overlaps with requested dates
+                    return activeBookings.stream().noneMatch(b -> {
+                        // This is the critical null check
                         if (b == null || b.getStartDate() == null || b.getEndDate() == null) {
                             System.err.println("Skipping invalid booking with null dates for car: " + car.getCarId());
                             return false; // This invalid booking doesn't make the car unavailable
@@ -78,7 +92,17 @@ public class CarServiceImpl implements ICarService {
                         LocalDate bookingEnd = b.getEndDate();
 
                         // Check for date overlap
-                        return !(bookingEnd.isBefore(startDate) || bookingStart.isAfter(endDate));
+                        // Overlap occurs if: NOT (booking ends before request starts OR booking starts after request ends)
+                        boolean hasOverlap = !(bookingEnd.isBefore(startDate) || bookingStart.isAfter(endDate));
+
+                        if (hasOverlap) {
+                            System.out.println("[CarService] Booking " + b.getBookingId()
+                                    + " overlaps with requested dates for car " + car.getCarId()
+                                    + " - Booking: " + bookingStart + " to " + bookingEnd
+                                    + " | Requested: " + startDate + " to " + endDate);
+                        }
+
+                        return hasOverlap;
                     });
                 })
                 .collect(Collectors.toList());

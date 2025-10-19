@@ -1,11 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { getAllBookings } from '@/services/bookingService';
+import { cancelBooking } from '@/services/bookingService';
 import { formatDate, formatRate } from '@/utils/format.js';
 
 const bookings = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const cancelling = ref(null); // Track which booking is being cancelled
 
 const fetchBookings = async () => {
   loading.value = true;
@@ -29,6 +31,30 @@ const fetchBookings = async () => {
   }
 };
 
+const handleCancelBooking = async (bookingId) => {
+  if (!confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
+    return;
+  }
+
+  cancelling.value = bookingId;
+  try {
+    await cancelBooking(bookingId);
+
+    // Update the booking in the list
+    const booking = bookings.value.find(b => b.bookingId === bookingId);
+    if (booking) {
+      booking.status = 'CANCELLED';
+    }
+
+    alert('Booking cancelled successfully! The car is now available for other users.');
+  } catch (e) {
+    alert('Error cancelling booking: ' + e.message);
+    console.error('Error:', e);
+  } finally {
+    cancelling.value = null;
+  }
+};
+
 const getStatusClass = (status) => {
   const statusMap = {
     'CONFIRMED': 'bg-green-100 text-green-800 border-green-300',
@@ -45,6 +71,10 @@ const handleImageError = (event) => {
   event.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
 };
 
+const canCancelBooking = (status) => {
+  return status !== 'CANCELLED' && status !== 'COMPLETED';
+};
+
 onMounted(() => {
   fetchBookings();
 });
@@ -58,7 +88,7 @@ onMounted(() => {
           <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-4">
             My Bookings
           </h2>
-          <p class="text-center text-neutral-600">View your car rental history</p>
+          <p class="text-center text-neutral-600">View and manage your car rental bookings</p>
         </div>
 
         <!-- Loading State -->
@@ -159,13 +189,39 @@ onMounted(() => {
               </div>
 
               <!-- Price -->
-              <div class="border-t border-neutral-200 pt-4">
+              <div class="border-t border-neutral-200 pt-4 mb-4">
                 <div class="flex items-center justify-between">
                   <span class="text-sm text-neutral-600 font-medium">Total Cost</span>
                   <span class="text-2xl font-bold text-orange-600">
                     {{ formatRate(booking.totalCost) }}
                   </span>
                 </div>
+              </div>
+
+              <!-- Cancel Button -->
+              <div v-if="canCancelBooking(booking.status)" class="border-t border-neutral-200 pt-4">
+                <button
+                    @click="handleCancelBooking(booking.bookingId)"
+                    :disabled="cancelling === booking.bookingId"
+                    class="w-full px-4 py-2 rounded-lg font-semibold text-white bg-rose-500 hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                >
+                  <span v-if="cancelling === booking.bookingId" class="flex items-center justify-center gap-2">
+                    <span class="loader spinner size-4"></span>
+                    Cancelling...
+                  </span>
+                  <span v-else>Cancel Booking</span>
+                </button>
+                <p class="text-xs text-neutral-500 mt-2 text-center">Car will become available for other users</p>
+              </div>
+
+              <!-- Cancelled Info -->
+              <div v-else-if="booking.status === 'CANCELLED'" class="border-t border-neutral-200 pt-4">
+                <p class="text-sm text-rose-600 text-center font-medium">This booking has been cancelled</p>
+              </div>
+
+              <!-- Completed Info -->
+              <div v-else-if="booking.status === 'COMPLETED'" class="border-t border-neutral-200 pt-4">
+                <p class="text-sm text-green-600 text-center font-medium">This booking has been completed</p>
               </div>
             </div>
           </div>
@@ -187,5 +243,14 @@ onMounted(() => {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.loader.spinner {
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  animation: spin .8s linear infinite;
 }
 </style>
