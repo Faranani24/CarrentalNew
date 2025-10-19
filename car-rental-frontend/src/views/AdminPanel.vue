@@ -2,7 +2,7 @@
   <div class="admin-panel">
     <h2 class="main-title">Add New Car</h2>
 
-    <!-- Success & Error Messages -->
+
     <p v-if="successMessage" class="success">{{ successMessage }}</p>
     <p v-if="error" class="error">{{ error }}</p>
 

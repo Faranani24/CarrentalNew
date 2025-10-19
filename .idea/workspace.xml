@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final commits" />
+    <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final commits">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -109,6 +111,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lance\IdeaProjects\carrental 3\carrental\car-rental-frontend\public" />
       <recent name="$PROJECT_DIR$/car-rental-frontend/src/components" />
       <recent name="$PROJECT_DIR$/car-rental-frontend/src/views" />
     </key>
@@ -237,7 +240,8 @@
       <workItem from="1760466244873" duration="3280000" />
       <workItem from="1760466244873" duration="480000" />
       <workItem from="1760472081606" duration="9062000" />
-      <workItem from="1760862392700" duration="1473000" />
+      <workItem from="1760862392700" duration="2706000" />
+      <workItem from="1760896813320" duration="7476000" />
     </task>
     <task id="LOCAL-00001" summary="Final Customer and Booking Front end commite">
       <option name="closed" value="true" />
@@ -311,7 +315,47 @@
       <option name="project" value="LOCAL" />
       <updated>1760863289131</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Final commits">
+      <option name="closed" value="true" />
+      <created>1760864176448</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1760864176448</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Final commits">
+      <option name="closed" value="true" />
+      <created>1760889613293</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1760889613293</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Final commits">
+      <option name="closed" value="true" />
+      <created>1760889994356</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1760889994356</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Final commits">
+      <option name="closed" value="true" />
+      <created>1760898945026</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1760898945026</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Final commits">
+      <option name="closed" value="true" />
+      <created>1760903289431</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1760903289431</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

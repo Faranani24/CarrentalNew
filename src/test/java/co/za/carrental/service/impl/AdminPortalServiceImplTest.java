@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest // spins up Spring context
+@SpringBootTest
 class AdminPortalServiceImplTest {
 
     @Autowired
@@ -28,7 +28,7 @@ class AdminPortalServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        repository.deleteAll(); // clean DB before each test
+        repository.deleteAll();
         testPortal = portalService.create(
                 AdminPortalFactory.createPortal("Dashboard", "Handles overall admin tasks")
         );
@@ -39,7 +39,7 @@ class AdminPortalServiceImplTest {
         AdminPortal portal = AdminPortalFactory.createPortal("User Management", "Handles users");
         AdminPortal saved = portalService.create(portal);
 
-        assertNotNull(saved.getPortalId()); // ID must be generated
+        assertNotNull(saved.getPortalId());
         assertEquals("User Management", saved.getPortalName());
     }
 
@@ -67,6 +67,6 @@ class AdminPortalServiceImplTest {
     @Test
     void getAll_shouldReturnList() {
         List<AdminPortal> portals = portalService.getAll();
-        assertFalse(portals.isEmpty()); // list shouldn’t be empty
+        assertFalse(portals.isEmpty());
     }
 }

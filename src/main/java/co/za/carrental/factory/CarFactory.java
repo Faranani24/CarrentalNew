@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class CarFactory {
 
     public static Car createCar(String carId, String make, String model, int year, Status status, CarType carType, BigDecimal dailyRate, String description) {
-        // If licensePlate is not provided, derive from carId
+
         String licensePlate = carId != null ? carId : "UNKNOWN";
 
         return Car.builder()
@@ -25,7 +25,7 @@ public class CarFactory {
                 .build();
     }
 
-    // Optional: simple builder for default car
+
     public static Car buildCar(String carId, String make, String model, int year, String licensePlate, CarType carType, BigDecimal dailyRate, String description) {
         return Car.builder()
                 .carId(carId)
@@ -40,12 +40,12 @@ public class CarFactory {
                 .build();
     }
 
-    // Overloaded method for backward compatibility (without description)
+
     public static Car createCar(String carId, String make, String model, int year, Status status, CarType carType, BigDecimal dailyRate) {
         return createCar(carId, make, model, year, status, carType, dailyRate, null);
     }
 
-    // Overloaded method for backward compatibility (without description)
+
     public static Car buildCar(String carId, String make, String model, int year, String licensePlate, CarType carType, BigDecimal dailyRate) {
         return buildCar(carId, make, model, year, licensePlate, carType, dailyRate, null);
     }

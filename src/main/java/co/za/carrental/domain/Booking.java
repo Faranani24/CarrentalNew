@@ -23,12 +23,12 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
-    @JsonIgnoreProperties({"password", "bookings"})  // Only ignore sensitive fields
+    @JsonIgnoreProperties({"password", "bookings"})
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id", referencedColumnName = "carId")
-    @JsonIgnoreProperties({"image", "bookings"})  // Ignore image bytes and circular reference
+    @JsonIgnoreProperties({"image", "bookings"})
     private Car car;
 
     public Booking() {}
@@ -43,7 +43,7 @@ public class Booking {
         this.car = b.car;
     }
 
-    // Getters/setters
+
     public String getBookingId() { return bookingId; }
     public void setBookingId(String bookingId) { this.bookingId = bookingId; }
 

@@ -52,7 +52,7 @@ public class CustomerServiceImpl implements ICustomerService {
         return repo.existsByEmail(email);
     }
 
-    // NEW: Find customer by email and password (for login)
+
     @Override
     public Optional<Customer> findByEmailAndPassword(String email, String password) {
         return Optional.ofNullable(repo.findByEmailAndPassword(email, password));

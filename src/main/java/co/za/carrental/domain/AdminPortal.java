@@ -5,17 +5,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
-@Entity // Marks this as a DB entity
+@Entity
 public class AdminPortal {
 
-    @Id // Primary key
-    @GeneratedValue(strategy = GenerationType.UUID) // Auto-generate unique IDs
-    private String portalId; // Unique ID for each portal
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String portalId;
 
-    private String portalName;   // Name of the portal section
-    private String description;  // What this portal section does
+    private String portalName;
+    private String description;
 
-    protected AdminPortal() {} // Default constructor for JPA
+    protected AdminPortal() {}
 
     public AdminPortal(String portalId, String portalName, String description) {
         this.portalId = portalId;
@@ -23,7 +23,7 @@ public class AdminPortal {
         this.description = description;
     }
 
-    // Getters
+
     public String getPortalId() { return portalId; }
     public String getPortalName() { return portalName; }
     public String getDescription() { return description; }

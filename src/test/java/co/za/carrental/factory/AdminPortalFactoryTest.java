@@ -8,17 +8,17 @@ class AdminPortalFactoryTest {
 
     @Test
     void createPortal_success() {
-        // create portal with valid data
+
         AdminPortal portal = AdminPortalFactory.createPortal("Main Admin Portal", "Manages system resources");
 
-        assertNotNull(portal); // not null
-        assertEquals("Main Admin Portal", portal.getPortalName()); // name matches
-        assertEquals("Manages system resources", portal.getDescription()); // desc matches
+        assertNotNull(portal);
+        assertEquals("Main Admin Portal", portal.getPortalName());
+        assertEquals("Manages system resources", portal.getDescription());
     }
 
     @Test
     void createPortal_fail_whenNameIsBlank() {
-        // expect exception if portal name is blank
+
         Exception exception = assertThrows(IllegalArgumentException.class,
                 () -> AdminPortalFactory.createPortal("", "Invalid Portal"));
 

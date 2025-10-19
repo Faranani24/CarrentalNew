@@ -16,7 +16,7 @@ public class BookingFactory {
             float totalCost,
             BookingStatus status,
             Customer customer,
-            Car car) { // Added Car parameter
+            Car car) {
 
         if (startDate == null) throw new IllegalArgumentException("Start date required");
         if (endDate == null) throw new IllegalArgumentException("End date required");
@@ -24,7 +24,7 @@ public class BookingFactory {
         if (totalCost <= 0f) throw new IllegalArgumentException("Total cost must be > 0");
         if (status == null) throw new IllegalArgumentException("Status required");
         if (customer == null) throw new IllegalArgumentException("Customer required");
-        if (car == null) throw new IllegalArgumentException("Car required"); // Added check for Car
+        if (car == null) throw new IllegalArgumentException("Car required");
 
         return new Booking.Builder()
                 .setBookingId("BOOK-" + UUID.randomUUID())
@@ -33,7 +33,7 @@ public class BookingFactory {
                 .setTotalCost(totalCost)
                 .setStatus(status)
                 .setCustomer(customer)
-                .setCar(car) // Added car to the builder
+                .setCar(car)
                 .build();
     }
 }

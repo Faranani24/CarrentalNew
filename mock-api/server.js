@@ -5,24 +5,22 @@ const cors = require('cors');
 const app = express();
 const port = 8082;
 
-// In a real application, you would use a database.
-// For this mock, we'll store cars in an in-memory array.
+
 const cars = [];
 
-// Middleware setup
-app.use(cors()); // Allow cross-origin requests from your Vue app
-app.use(express.json()); // For parsing application/json
+
+app.use(cors());
+app.use(express.json());
 
 
 
 
 
 
-// Configure Multer for file uploads
 const upload = multer();
 
-// Middleware to simulate authentication
-// This checks for the mock token from AuthService
+
+
 const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer your-mock-auth-token')) {
@@ -32,13 +30,13 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-// GET endpoint to fetch all cars
+
 app.get('/api/cars', authMiddleware, (req, res) => {
     console.log('GET request received for /api/cars. Returning all cars.');
     res.json(cars);
 });
 
-// POST endpoint to add a new car
+
 app.post('/api/cars', authMiddleware, upload.single('image'), (req, res) => {
     console.log('POST request received for /api/cars.');
 
@@ -62,7 +60,7 @@ app.post('/api/cars', authMiddleware, upload.single('image'), (req, res) => {
     }
 });
 
-// Start the server
+
 app.listen(port, () => {
     console.log(`Mock Car API listening at http://localhost:${port}`);
 });

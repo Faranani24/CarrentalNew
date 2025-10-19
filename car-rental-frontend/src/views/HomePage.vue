@@ -17,8 +17,32 @@ const startDate = ref('')
 const endDate = ref('')
 const filtered = ref(false)
 
-// Track which car's description is expanded
 const expandedDescriptions = ref(new Set())
+
+// Get today's date in YYYY-MM-DD format
+const today = computed(() => {
+  const date = new Date()
+  return date.toISOString().split('T')[0]
+})
+
+// Validation computed properties
+const isStartDateValid = computed(() => {
+  if (!startDate.value) return true
+  return startDate.value >= today.value
+})
+
+const isEndDateValid = computed(() => {
+  if (!endDate.value) return true
+  if (!startDate.value) return endDate.value >= today.value
+  return endDate.value >= startDate.value && endDate.value >= today.value
+})
+
+const canSearch = computed(() => {
+  return startDate.value &&
+      endDate.value &&
+      isStartDateValid.value &&
+      isEndDateValid.value
+})
 
 const initAuth = () => {
   currentUser.value = authService.getCurrentUser()
@@ -27,8 +51,23 @@ const initAuth = () => {
 }
 
 const filterCars = async () => {
+  // Validate dates before searching
   if (!startDate.value || !endDate.value) {
-    alert('Please select both start and end dates.')
+    error.value = 'Please select both start and end dates.'
+    return
+  }
+
+  if (!isStartDateValid.value) {
+    error.value = 'Start date cannot be in the past. Please select a date from today onwards.'
+    cars.value = []
+    filtered.value = true
+    return
+  }
+
+  if (!isEndDateValid.value) {
+    error.value = 'End date must be after or equal to the start date and cannot be in the past.'
+    cars.value = []
+    filtered.value = true
     return
   }
 
@@ -49,6 +88,15 @@ const filterCars = async () => {
     error.value = 'Failed to fetch cars for the selected dates.'
   } finally {
     loading.value = false
+  }
+}
+
+// Clear error when dates change
+const handleDateChange = () => {
+  if (filtered.value) {
+    error.value = null
+    cars.value = []
+    filtered.value = false
   }
 }
 
@@ -76,7 +124,6 @@ const toggleDescription = (carId) => {
   } else {
     expandedDescriptions.value.add(carId)
   }
-  // Force reactivity
   expandedDescriptions.value = new Set(expandedDescriptions.value)
 }
 
@@ -94,7 +141,7 @@ onMounted(() => {
 
 function formatRate(val) {
   if (val == null) return ''
-  return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
+  return Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
 }
 
 function arrayBufferToBase64(buffer) {
@@ -109,8 +156,7 @@ function arrayBufferToBase64(buffer) {
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
-    <!-- HERO / SEARCH -->
+  <div class="min-h-screen flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
     <section class="relative flex items-center min-h-[70vh] overflow-hidden">
       <div class="absolute inset-0">
         <img
@@ -126,20 +172,45 @@ function arrayBufferToBase64(buffer) {
           Find Your Perfect Ride
         </h1>
 
-        <!-- Search Card -->
         <div class="inline-block backdrop-blur-md bg-white/70 rounded-xl p-4 shadow-lg border border-white/30 animate-fade-in">
           <div class="flex flex-col md:flex-row items-center gap-4">
-            <input type="date" v-model="startDate" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
-            <input type="date" v-model="endDate" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
-            <button @click="filterCars" class="px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-md hover:scale-[1.01] active:scale-[0.98] transition">
-              Search
+            <input
+                type="date"
+                v-model="startDate"
+                @change="handleDateChange"
+                :min="today"
+                :class="{'border-red-500': !isStartDateValid && startDate}"
+                class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
+            >
+            <input
+                type="date"
+                v-model="endDate"
+                @change="handleDateChange"
+                :min="startDate || today"
+                :class="{'border-red-500': !isEndDateValid && endDate}"
+                class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition"
+            >
+            <button
+                @click="filterCars"
+                :disabled="!canSearch || loading"
+                :class="{'opacity-50 cursor-not-allowed': !canSearch}"
+                class="px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-md hover:scale-[1.01] active:scale-[0.98] transition disabled:hover:scale-100"
+            >
+              {{ loading ? 'Searching...' : 'Search' }}
             </button>
+          </div>
+
+          <!-- Date validation warnings -->
+          <div v-if="startDate && !isStartDateValid" class="mt-2 text-sm text-red-600 font-medium">
+            ⚠️ Start date must be today or later
+          </div>
+          <div v-if="endDate && !isEndDateValid" class="mt-2 text-sm text-red-600 font-medium">
+            ⚠️ End date must be after start date and not in the past
           </div>
         </div>
       </div>
     </section>
 
-    <!-- AVAILABLE CARS -->
     <main class="relative z-10 flex-1 w-full py-12">
       <div class="mx-auto max-w-6xl px-6">
         <section class="mt-16">
@@ -153,7 +224,9 @@ function arrayBufferToBase64(buffer) {
             Loading cars...
           </div>
 
-          <div v-else-if="error" class="text-center text-rose-600">{{ error }}</div>
+          <div v-else-if="error" class="text-center p-6 bg-red-50 border border-red-200 rounded-lg">
+            <p class="text-rose-600 font-medium">{{ error }}</p>
+          </div>
 
           <div v-else-if="cars.length === 0" class="text-center text-neutral-500">
             No cars available for the selected dates.
@@ -182,7 +255,6 @@ function arrayBufferToBase64(buffer) {
                   {{ car.make }} {{ car.model }} ({{ car.year }})
                 </h3>
 
-                <!-- Description with expand/collapse -->
                 <div class="relative mb-4">
                   <p
                       :class="[
@@ -193,7 +265,6 @@ function arrayBufferToBase64(buffer) {
                     {{ car.description || 'No description available' }}
                   </p>
 
-                  <!-- Show "Read More/Less" button only if description is long -->
                   <button
                       v-if="isDescriptionLong(car.description)"
                       @click="toggleDescription(car.carId)"
@@ -208,7 +279,6 @@ function arrayBufferToBase64(buffer) {
                     {{ formatRate(car.dailyRate) }}
                   </p>
 
-                  <!-- Show Book Now button if authenticated, otherwise show Login prompt -->
                   <button
                       v-if="isAuthenticated"
                       @click="goToBooking(car.carId)"
@@ -227,7 +297,6 @@ function arrayBufferToBase64(buffer) {
               </div>
             </div>
           </div>
-
         </section>
       </div>
     </main>
@@ -235,125 +304,18 @@ function arrayBufferToBase64(buffer) {
 </template>
 
 <style scoped>
-.hero {
-  min-height: 72vh;
-}
-
-.hero-title-gradient {
-  background: linear-gradient(90deg, #fde68a, #fbbf24, #fb923c, #f59e0b, #fbbf24);
-  -webkit-background-clip: text;
-  color: transparent;
-  position: relative;
-}
-
-.shine {
-  background-size: 200% 100%;
-  animation: shine 8s linear infinite;
-}
-
-@keyframes shine {
-  0% { background-position: 0% 50%; }
-  100% { background-position: -200% 50%; }
-}
-
-.animate-pan {
-  animation: pan 40s linear infinite;
-}
-
-@keyframes pan {
-  0% { transform: scale(1.15) translate(0, 0); }
-  50% { transform: scale(1.18) translate(-2%, -2%); }
-  100% { transform: scale(1.15) translate(0, 0); }
-}
-
-.animated-grid {
-  background: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-  linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
-  animation: grid-move 25s linear infinite;
-}
-
-@keyframes grid-move {
-  0% { background-position: 0 0, 0 0; }
-  100% { background-position: 0 40px, 40px 0; }
-}
-
-.card-enter-from,
-.card-leave-to {
-  opacity: 0;
-  transform: translateY(18px) scale(0.96);
-}
-
-.card-enter-active {
-  transition: all 0.6s cubic-bezier(0.16, 0.8, 0.43, 1.01);
-}
-
-.card-leave-active {
-  transition: all 0.35s ease;
-}
-
-.card-enter-to {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.animate-fade-down {
-  animation: fadeDown 0.9s cubic-bezier(0.16, 0.8, 0.43, 1) both;
-}
-
-.animate-fade-up {
-  animation: fadeUp 1s cubic-bezier(0.16, 0.8, 0.43, 1) both;
-}
-
-@keyframes fadeDown {
-  0% { opacity: 0; transform: translateY(-24px) scale(0.97); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes fadeUp {
-  0% { opacity: 0; transform: translateY(30px) scale(0.96); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.animate-pop {
-  animation: pop 0.8s 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes pop {
-  0% { opacity: 0; transform: scale(0.4) rotate(-8deg); }
-  100% { opacity: 1; transform: scale(1) rotate(0); }
-}
-
-.animate-shake {
-  animation: shake 0.5s ease;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-3px); }
-}
-
-.loader.spinner {
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #fbbf24;
-  border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gradient-text-light {
   background: linear-gradient(90deg, #fbbf24, #fb923c, #f59e0b, #fbbf24);
   -webkit-background-clip: text;
   color: transparent;
-  animation: hue 10s linear infinite;
   background-size: 300% 100%;
   animation: gradientShift 8s ease infinite;
 }
@@ -364,46 +326,22 @@ function arrayBufferToBase64(buffer) {
   100% { background-position: 0% 50%; }
 }
 
-.car-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.5s;
-  pointer-events: none;
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out both;
 }
 
-.car-card:hover::after {
-  opacity: 1;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.car-card {
-  animation: cardAppear 0.9s cubic-bezier(0.16, 0.8, 0.43, 1) both;
+.animate-pan {
+  animation: pan 40s linear infinite;
 }
 
-@keyframes cardAppear {
-  0% { opacity: 0; transform: translateY(24px) scale(0.95); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.car-card:nth-child(1) { animation-delay: 0.05s; }
-.car-card:nth-child(2) { animation-delay: 0.1s; }
-.car-card:nth-child(3) { animation-delay: 0.15s; }
-.car-card:nth-child(4) { animation-delay: 0.2s; }
-.car-card:nth-child(5) { animation-delay: 0.25s; }
-.car-card:nth-child(6) { animation-delay: 0.3s; }
-
-/* Line clamp utility for description truncation */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-@media (max-width: 640px) {
-  .hero { min-height: 68vh; }
+@keyframes pan {
+  0% { transform: scale(1.15) translate(0); }
+  50% { transform: scale(1.18) translate(-2%, -2%); }
+  100% { transform: scale(1.15) translate(0); }
 }
 </style>

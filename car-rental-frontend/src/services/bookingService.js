@@ -1,34 +1,143 @@
-import api from './api';
+import AuthService from './auth.js'
+
+const API_BASE_URL = 'http://localhost:8082/api'
+
+
+function getAuthHeaders() {
+    const user = AuthService.getCurrentUser()
+    const headers = {
+        'Content-Type': 'application/json',
+    }
+
+    if (user && user.token) {
+        headers['Authorization'] = `Bearer ${user.token}`
+        console.log('[bookingService] Added Authorization header')
+    } else {
+        console.warn('[bookingService] No token found in user object')
+    }
+
+    return headers
+}
 
 export const createBooking = async (bookingData) => {
     try {
-        const response = await api.post('/bookings', bookingData);
-        return response.data;
+        console.log('[bookingService] Creating booking:', bookingData)
+
+        const response = await fetch(`${API_BASE_URL}/bookings`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(bookingData)
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            console.error('[bookingService] Error response:', errorData)
+            throw new Error(errorData.message || `Failed to create booking (${response.status})`)
+        }
+
+        const result = await response.json()
+        console.log('[bookingService] Booking created successfully:', result)
+        return result
+
     } catch (error) {
-        console.error('Error creating booking:', error);
-        const message = error.response?.data?.message || 'Failed to create booking on the server.';
-        throw new Error(message);
+        console.error('[bookingService] Error creating booking:', error.message)
+        throw error
     }
-};
+}
 
 export const getAllBookings = async (userEmail = null) => {
     try {
-        const response = await api.get('/bookings', {
-            params: userEmail ? { email: userEmail } : {}
-        });
-        return response.data;
+        console.log('[bookingService] Fetching all bookings')
+
+
+        const url = new URL(`${API_BASE_URL}/bookings`)
+        if (userEmail) {
+            url.searchParams.append('email', userEmail)
+        }
+
+        console.log('[bookingService] Request URL:', url.toString())
+        console.log('[bookingService] Request headers:', getAuthHeaders())
+
+        const response = await fetch(url.toString(), {
+            method: 'GET',
+            headers: getAuthHeaders()
+        })
+
+        if (!response.ok) {
+            const errorData = await response.text()
+            console.error('[bookingService] Error response status:', response.status)
+            console.error('[bookingService] Error response body:', errorData)
+
+            if (response.status === 403) {
+                throw new Error('Unauthorized: Invalid or missing authentication token')
+            } else if (response.status === 401) {
+                throw new Error('Authentication required: Please log in again')
+            }
+            throw new Error(`Failed to fetch bookings (${response.status})`)
+        }
+
+        const bookings = await response.json()
+        console.log('[bookingService] Bookings fetched successfully:', bookings)
+        return bookings
+
     } catch (error) {
-        console.error('Error fetching bookings:', error);
-        throw new Error('Failed to fetch bookings');
+        console.error('[bookingService] Error fetching bookings:', error.message)
+        throw error
     }
-};
+}
 
 export const getBookingById = async (bookingId) => {
     try {
-        const response = await api.get(`/bookings/${bookingId}`);
-        return response.data;
+        console.log('[bookingService] Fetching booking:', bookingId)
+
+        const response = await fetch(`${API_BASE_URL}/bookings/${bookingId}`, {
+            method: 'GET',
+            headers: getAuthHeaders()
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            console.error('[bookingService] Error response:', errorData)
+            throw new Error(errorData.message || `Failed to fetch booking (${response.status})`)
+        }
+
+        const booking = await response.json()
+        console.log('[bookingService] Booking fetched successfully:', booking)
+        return booking
+
     } catch (error) {
-        console.error('Error fetching booking:', error);
-        throw new Error('Failed to fetch booking');
+        console.error('[bookingService] Error fetching booking:', error.message)
+        throw error
     }
-};
+}
+
+export const cancelBooking = async (bookingId) => {
+    try {
+        console.log('[bookingService] Cancelling booking:', bookingId)
+
+        const response = await fetch(`${API_BASE_URL}/bookings/${bookingId}/cancel`, {
+            method: 'POST',
+            headers: getAuthHeaders()
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}))
+            console.error('[bookingService] Cancel error:', errorData)
+
+            if (response.status === 404) {
+                throw new Error('Booking not found')
+            } else if (response.status === 400) {
+                throw new Error(errorData.message || 'Cannot cancel this booking')
+            }
+            throw new Error(errorData.message || `Failed to cancel booking (${response.status})`)
+        }
+
+        const result = await response.json()
+        console.log('[bookingService] Booking cancelled successfully:', result)
+        return result
+
+    } catch (error) {
+        console.error('[bookingService] Error cancelling booking:', error.message)
+        throw error
+    }
+}

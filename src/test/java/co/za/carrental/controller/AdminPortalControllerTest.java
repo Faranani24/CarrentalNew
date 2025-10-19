@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest // starts Spring for testing controllers
+@SpringBootTest
 class AdminPortalControllerTest {
 
     @Autowired

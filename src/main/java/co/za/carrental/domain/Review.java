@@ -4,7 +4,7 @@
  * Date: 11 May 2025
  * ??
  */
-//
+
 package co.za.carrental.domain;
 
 import jakarta.persistence.*;
@@ -28,18 +28,18 @@ public class Review {
     private final UUID customerId;
 
     @Column(name = "rating", nullable = false)
-    private int rating; // Changed to mutable
+    private int rating;
 
     @Column(name = "comment")
-    private String comment; // Changed to mutable
+    private String comment;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private final LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt; // Changed to mutable
+    private LocalDateTime updatedAt;
 
-    // Private constructor for the Builder pattern
+
     private Review(Builder builder) {
         this.reviewId = builder.reviewId;
         this.bookingId = builder.bookingId;
@@ -99,7 +99,7 @@ public class Review {
         }
     }
 
-    // Standard Object methods (remain unchanged as they rely on the final reviewId)
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

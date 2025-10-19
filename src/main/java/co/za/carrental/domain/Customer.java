@@ -25,7 +25,7 @@ public class Customer {
     private String email;
 
     @Column(name = "password", nullable = false)
-    @JsonIgnore  // Don't send password to frontend
+    @JsonIgnore
     private String password;
 
     @Column(name = "phone")
@@ -35,9 +35,8 @@ public class Customer {
     private String license;
 
     @Column(name = "role")
-    private String role = "CUSTOMER"; // Default role
+    private String role = "CUSTOMER";
 
-    // Default constructor for JPA
     public Customer() {}
 
     private Customer(Builder builder) {
@@ -51,7 +50,7 @@ public class Customer {
         this.role = builder.role != null ? builder.role : "CUSTOMER";
     }
 
-    // Getters
+
     public String getCustomerId() {
         return customerId;
     }
