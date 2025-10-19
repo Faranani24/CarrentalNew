@@ -4,22 +4,27 @@ import co.za.carrental.api.dto.BookingRequest;
 import co.za.carrental.api.dto.BookingResponse;
 import co.za.carrental.domain.Booking;
 import co.za.carrental.domain.BookingStatus;
+import co.za.carrental.domain.Customer;
 import co.za.carrental.service.IBookingService;
-import com.fasterxml.jackson.annotation.JsonView;
+import co.za.carrental.service.ICustomerService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
 
     private final IBookingService bookingService;
+    private final ICustomerService customerService;
 
-    public BookingController(IBookingService bookingService) {
+    public BookingController(IBookingService bookingService, ICustomerService customerService) {
         this.bookingService = bookingService;
+        this.customerService = customerService;
     }
 
     @PostMapping
@@ -38,39 +43,89 @@ public class BookingController {
     }
 
     @GetMapping("/{bookingId}")
-    public ResponseEntity<Booking> read(@PathVariable String bookingId) {
-        return bookingService.read(bookingId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Booking> read(@PathVariable String bookingId, Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer customer = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Booking> bookingOpt = bookingService.read(bookingId);
+
+        if (bookingOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Booking booking = bookingOpt.get();
+
+        // Admins can view any booking, users can only view their own
+        if (!"ADMIN".equals(customer.getRole()) &&
+                !booking.getCustomer().getEmail().equals(userEmail)) {
+            return ResponseEntity.status(403).build(); // Forbidden
+        }
+
+        return ResponseEntity.ok(booking);
     }
 
     @PutMapping("/{bookingId}")
     public ResponseEntity<Booking> update(@PathVariable String bookingId,
-                                          @RequestBody Booking incoming) {
+                                          @RequestBody Booking incoming,
+                                          Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer customer = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         if (incoming.getBookingId() == null) {
             incoming.setBookingId(bookingId);
         } else if (!bookingId.equals(incoming.getBookingId())) {
             return ResponseEntity.badRequest().build();
         }
-        if (bookingService.read(bookingId).isEmpty()) {
+
+        Optional<Booking> existingOpt = bookingService.read(bookingId);
+        if (existingOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        Booking existing = existingOpt.get();
+
+        // Only admins or the booking owner can update
+        if (!"ADMIN".equals(customer.getRole()) &&
+                !existing.getCustomer().getEmail().equals(userEmail)) {
+            return ResponseEntity.status(403).build();
+        }
+
         Booking saved = bookingService.update(incoming);
         return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{bookingId}")
-    public ResponseEntity<Void> delete(@PathVariable String bookingId) {
-        if (bookingService.read(bookingId).isEmpty()) {
+    public ResponseEntity<Void> delete(@PathVariable String bookingId, Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer customer = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Booking> bookingOpt = bookingService.read(bookingId);
+        if (bookingOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        Booking booking = bookingOpt.get();
+
+        // Only admins or the booking owner can delete
+        if (!"ADMIN".equals(customer.getRole()) &&
+                !booking.getCustomer().getEmail().equals(userEmail)) {
+            return ResponseEntity.status(403).build();
+        }
+
         bookingService.delete(bookingId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{bookingId}/cancel")
-    public ResponseEntity<?> cancelBooking(@PathVariable String bookingId) {
+    public ResponseEntity<?> cancelBooking(@PathVariable String bookingId, Authentication authentication) {
         try {
+            String userEmail = authentication.getName();
+            Customer customer = customerService.findByEmail(userEmail)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
             Optional<Booking> bookingOpt = bookingService.read(bookingId);
 
             if (bookingOpt.isEmpty()) {
@@ -79,6 +134,11 @@ public class BookingController {
 
             Booking booking = bookingOpt.get();
 
+            // Only admins or the booking owner can cancel
+            if (!"ADMIN".equals(customer.getRole()) &&
+                    !booking.getCustomer().getEmail().equals(userEmail)) {
+                return ResponseEntity.status(403).body("You are not authorized to cancel this booking");
+            }
 
             if (booking.getStatus() == BookingStatus.CANCELLED) {
                 return ResponseEntity.badRequest().body("Booking is already cancelled");
@@ -87,7 +147,6 @@ public class BookingController {
             if (booking.getStatus() == BookingStatus.COMPLETED) {
                 return ResponseEntity.badRequest().body("Cannot cancel a completed booking");
             }
-
 
             booking.setStatus(BookingStatus.CANCELLED);
             Booking updatedBooking = bookingService.update(booking);
@@ -106,7 +165,22 @@ public class BookingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Booking>> getAll() {
-        return ResponseEntity.ok(bookingService.getAll());
+    public ResponseEntity<List<Booking>> getAll(Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer customer = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Admins can view all bookings
+        if ("ADMIN".equals(customer.getRole())) {
+            return ResponseEntity.ok(bookingService.getAll());
+        }
+
+        // Regular users only see their own bookings
+        List<Booking> userBookings = bookingService.getAll().stream()
+                .filter(b -> b.getCustomer() != null &&
+                        b.getCustomer().getEmail().equals(userEmail))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(userBookings);
     }
 }
