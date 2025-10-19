@@ -29,23 +29,7 @@ const features = [
 
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100">
-    <!-- Navigation -->
-    <nav class="relative z-30 backdrop-blur-md/40 bg-white/70 border-b border-amber-200/60 shadow-sm">
-      <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-        <router-link to="/">
-          <div class="flex items-center gap-3">
-            <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg flex items-center justify-center font-black text-gray-900 tracking-tighter">CR</div>
-            <h1 class="text-2xl font-bold tracking-tight">
-              <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-400 bg-clip-text text-transparent drop-shadow-sm">CarRental</span>
-            </h1>
-          </div>
-        </router-link>
-        <div class="flex items-center gap-4">
-          <router-link to="/" class="text-neutral-900 font-semibold hover:text-orange-500 transition">Home</router-link>
-          <router-link to="/about" class="text-neutral-900 font-semibold hover:text-orange-500 transition">About</router-link>
-        </div>
-      </div>
-    </nav>
+
 
     <!-- Main Content -->
     <main class="flex-1 py-20 px-6">
