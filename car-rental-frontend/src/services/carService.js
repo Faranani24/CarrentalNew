@@ -1,10 +1,10 @@
-import axios from 'axios'
+import api from './api'
 
 const API_URL = 'http://localhost:8082/api/cars'
 
 export async function fetchCars() {
     try {
-        const response = await axios.get(API_URL)
+        const response = await api.get('/cars')
         return response.data.map(car => ({
             ...car,
             imageUrl: `${API_URL}/${car.carId}/image`
@@ -17,7 +17,7 @@ export async function fetchCars() {
 
 export async function fetchAvailableCars(startDate, endDate) {
     try {
-        const response = await axios.get(`${API_URL}/available`, {
+        const response = await api.get('/cars/available', {
             params: { startDate, endDate }
         })
         return response.data.map(car => ({
@@ -33,7 +33,7 @@ export async function fetchAvailableCars(startDate, endDate) {
 
 export async function fetchCarById(carId) {
     try {
-        const response = await axios.get(`${API_URL}/${carId}`)
+        const response = await api.get(`/cars/${carId}`)
         const car = response.data
         return {
             ...car,
@@ -47,9 +47,10 @@ export async function fetchCarById(carId) {
 
 export async function deleteCar(carId) {
     try {
-        await axios.delete(`${API_URL}/${carId}`)
+        await api.delete(`/cars/${carId}`)
     } catch (error) {
         console.error(`Error deleting car with ID ${carId}:`, error)
         throw error
     }
 }
+
