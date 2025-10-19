@@ -74,8 +74,11 @@ if (typeof window !== 'undefined') {
             <span class="text-neutral-700 text-sm">
               Welcome, {{ currentUser.firstName || currentUser.username || 'User' }}!
             </span>
+            <router-link to="/about" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
+            About
+            </router-link>
             <router-link to="/cars" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
-              Browse Cars
+              Browse Car
             </router-link>
             <router-link v-if="isAdmin" to="/admin" class="text-neutral-900 font-semibold hover:text-orange-500 transition">
               Admin Panel

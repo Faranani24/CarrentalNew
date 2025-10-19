@@ -17,7 +17,6 @@ const startDate = ref('')
 const endDate = ref('')
 const filtered = ref(false)
 
-
 const expandedDescriptions = ref(new Set())
 
 const initAuth = () => {
@@ -94,7 +93,7 @@ onMounted(() => {
 
 function formatRate(val) {
   if (val == null) return ''
-  return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
+  return Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' }).format(val)
 }
 
 function arrayBufferToBase64(buffer) {
@@ -111,6 +110,8 @@ function arrayBufferToBase64(buffer) {
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
 
+
+
     <section class="relative flex items-center min-h-[70vh] overflow-hidden">
       <div class="absolute inset-0">
         <img
@@ -126,7 +127,6 @@ function arrayBufferToBase64(buffer) {
           Find Your Perfect Ride
         </h1>
 
-
         <div class="inline-block backdrop-blur-md bg-white/70 rounded-xl p-4 shadow-lg border border-white/30 animate-fade-in">
           <div class="flex flex-col md:flex-row items-center gap-4">
             <input type="date" v-model="startDate" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
@@ -138,7 +138,6 @@ function arrayBufferToBase64(buffer) {
         </div>
       </div>
     </section>
-
 
     <main class="relative z-10 flex-1 w-full py-12">
       <div class="mx-auto max-w-6xl px-6">
@@ -193,7 +192,6 @@ function arrayBufferToBase64(buffer) {
                     {{ car.description || 'No description available' }}
                   </p>
 
-
                   <button
                       v-if="isDescriptionLong(car.description)"
                       @click="toggleDescription(car.carId)"
@@ -207,7 +205,6 @@ function arrayBufferToBase64(buffer) {
                   <p class="mb-4 text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
                     {{ formatRate(car.dailyRate) }}
                   </p>
-
 
                   <button
                       v-if="isAuthenticated"
@@ -231,6 +228,8 @@ function arrayBufferToBase64(buffer) {
         </section>
       </div>
     </main>
+
+
   </div>
 </template>
 
@@ -393,7 +392,6 @@ function arrayBufferToBase64(buffer) {
 .car-card:nth-child(4) { animation-delay: 0.2s; }
 .car-card:nth-child(5) { animation-delay: 0.25s; }
 .car-card:nth-child(6) { animation-delay: 0.3s; }
-
 
 .line-clamp-2 {
   display: -webkit-box;
