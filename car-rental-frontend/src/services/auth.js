@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8082/api/auth/';
-const NAMESPACE = 'auth1_';
 
 class AuthService {
     async signup(userData) {
@@ -11,14 +10,11 @@ class AuthService {
         try {
             const response = await axios.post(API_URL + 'signup', userData, { headers });
             if (response.data && response.data.token) {
-                localStorage.setItem('token', response.data.token);
-
                 const userSession = {
                     ...response.data.user,
                     token: response.data.token
                 };
-                localStorage.setItem(NAMESPACE + 'user', JSON.stringify(userSession));
-                console.log('auth.js - Token stored:', response.data.token.substring(0, 20) + '...');
+                localStorage.setItem('user', JSON.stringify(userSession));
             }
             return response.data;
         } catch (error) {
@@ -34,15 +30,13 @@ class AuthService {
         try {
             const response = await axios.post(API_URL + 'login', userData, { headers });
             if (response.data.token) {
-                localStorage.setItem('token', response.data.token); // ✅ Shared key
-
+                // Store both user and token
                 const userSession = {
                     ...response.data.user,
                     token: response.data.token
                 };
-                localStorage.setItem(NAMESPACE + 'user', JSON.stringify(userSession)); // ✅ Namespaced
-                console.log('auth.js - User stored:', userSession);
-                console.log('auth.js - Token stored:', response.data.token.substring(0, 20) + '...');
+                localStorage.setItem('user', JSON.stringify(userSession));
+                console.log('User stored in localStorage:', userSession);
             }
             return response.data;
         } catch (error) {
@@ -52,24 +46,23 @@ class AuthService {
     }
 
     logout() {
-        localStorage.removeItem(NAMESPACE + 'user');
-        localStorage.removeItem('token');
-        console.log('auth.js - User and token removed');
+        localStorage.removeItem('user');
+        console.log('User removed from localStorage');
     }
 
     getCurrentUser() {
-        const userStr = localStorage.getItem(NAMESPACE + 'user');
+        const userStr = localStorage.getItem('user');
         if (userStr) {
             try {
                 const user = JSON.parse(userStr);
-                console.log('auth.js - getCurrentUser returned:', user);
+                console.log('getCurrentUser returned:', user);
                 return user;
             } catch (e) {
                 console.error('Error parsing user from localStorage:', e);
                 return null;
             }
         }
-        console.log('auth.js - No user in localStorage');
+        console.log('No user in localStorage');
         return null;
     }
 }
