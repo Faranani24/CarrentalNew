@@ -1,5 +1,3 @@
-// File: src/main/java/co/za/carrental/controller/CustomerController.java
-
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.Customer;
@@ -7,6 +5,7 @@ import co.za.carrental.factory.CustomerFactory;
 import co.za.carrental.service.ICustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        // Use the factory to create a new customer object with an auto-generated ID
         Customer newCustomer = CustomerFactory.buildCustomer(
                 customer.getFirstName(),
                 customer.getLastName(),
@@ -39,18 +37,53 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getOne(@PathVariable String id) {
-        return customerService.findById(id)
+    public ResponseEntity<Customer> getOne(@PathVariable String id, Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer currentUser = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Customer> customerOpt = customerService.findById(id);
+
+        if (customerOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Customer customer = customerOpt.get();
+
+        // Only admins or the customer themselves can view the profile
+        if (!"ADMIN".equals(currentUser.getRole()) &&
+                !customer.getCustomerId().equals(currentUser.getCustomerId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        return ResponseEntity.ok(customer);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<Customer> getCurrentUser(Authentication authentication) {
+        String userEmail = authentication.getName();
+        return customerService.findByEmail(userEmail)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> update(@PathVariable String id, @RequestBody Customer customer) {
+    public ResponseEntity<Customer> update(@PathVariable String id,
+                                           @RequestBody Customer customer,
+                                           Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer currentUser = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Optional<Customer> existing = customerService.findById(id);
         if (existing.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
+
+        // Only admins or the customer themselves can update the profile
+        if (!"ADMIN".equals(currentUser.getRole()) &&
+                !existing.get().getCustomerId().equals(currentUser.getCustomerId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         Customer updatedCustomer = new Customer.Builder()
@@ -61,6 +94,7 @@ public class CustomerController {
                 .setPassword(customer.getPassword())
                 .setPhone(customer.getPhone())
                 .setLicense(customer.getLicense())
+                .setRole(existing.get().getRole()) // Preserve existing role
                 .build();
 
         Customer updated = customerService.update(updatedCustomer);
@@ -68,16 +102,37 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        if (customerService.findById(id).isEmpty()) {
+    public ResponseEntity<Void> delete(@PathVariable String id, Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer currentUser = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Customer> customerOpt = customerService.findById(id);
+        if (customerOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        // Only admins or the customer themselves can delete the account
+        if (!"ADMIN".equals(currentUser.getRole()) &&
+                !customerOpt.get().getCustomerId().equals(currentUser.getCustomerId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         customerService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAll() {
+    public ResponseEntity<List<Customer>> getAll(Authentication authentication) {
+        String userEmail = authentication.getName();
+        Customer currentUser = customerService.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Only admins can view all customers
+        if (!"ADMIN".equals(currentUser.getRole())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         return ResponseEntity.ok(customerService.getAll());
     }
 }
