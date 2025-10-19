@@ -9,38 +9,38 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service // Marks this as a Spring service
+@Service
 public class AdminPortalServiceImpl implements IAdminPortalService {
 
-    private final AdminPortalRepository repository; // Dependency on repository
+    private final AdminPortalRepository repository;
 
-    // Constructor injection (Spring will auto-wire this)
+
     public AdminPortalServiceImpl(AdminPortalRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public AdminPortal create(AdminPortal portal) {
-        return repository.save(portal); // Save to DB
+        return repository.save(portal);
     }
 
     @Override
     public Optional<AdminPortal> read(String id) {
-        return repository.findById(id); // Lookup portal by ID
+        return repository.findById(id);
     }
 
     @Override
     public AdminPortal update(AdminPortal portal) {
-        return repository.save(portal); // Save replaces old record
+        return repository.save(portal);
     }
 
     @Override
     public void delete(String id) {
-        repository.deleteById(id); // Delete record by ID
+        repository.deleteById(id);
     }
 
     @Override
     public List<AdminPortal> getAll() {
-        return repository.findAll(); // Get all records
+        return repository.findAll();
     }
 }

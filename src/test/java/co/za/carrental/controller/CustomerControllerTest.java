@@ -1,4 +1,3 @@
-// File: src/test/java/co/za/carrental/controller/CustomerControllerTest.java
 
 package co.za.carrental.controller;
 

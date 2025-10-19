@@ -222,7 +222,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Custom styles for the loader and input fields */
+
 .loader-spinner {
   border: 4px solid rgba(0,0,0,0.1);
   border-top-color: #f97316;

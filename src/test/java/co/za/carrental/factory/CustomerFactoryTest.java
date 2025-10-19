@@ -15,10 +15,10 @@ class CustomerFactoryTest {
 
     @Test
     void createCustomer() {
-        // Updated the method call from createCustomer to buildCustomer
+
         Customer customer = CustomerFactory.buildCustomer(
                 "John", "Adams", "adamsjohn@gmail.com", "password123",
-                "0823456789", "CF54321" // The license number is the last parameter
+                "0823456789", "CF54321"
         );
 
         assertNotNull(customer);

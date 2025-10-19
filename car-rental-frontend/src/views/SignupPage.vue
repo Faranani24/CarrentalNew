@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center min-h-screen bg-gradient-to-b from-amber-50 via-white to-neutral-100">
     <div class="w-full max-w-md p-8 space-y-8 bg-white rounded-xl shadow-lg">
-      <!-- Logo and Brand -->
+
       <div class="flex flex-col items-center space-y-4">
         <router-link to="/">
           <div class="flex items-center gap-3">
@@ -58,12 +58,12 @@
           />
         </div>
 
-        <!-- Error message -->
+
         <div v-if="error" class="text-center text-red-600 text-sm">
           {{ error }}
         </div>
 
-        <!-- Success message -->
+
         <div v-if="success" class="text-center text-green-600 text-sm">
           {{ success }}
         </div>

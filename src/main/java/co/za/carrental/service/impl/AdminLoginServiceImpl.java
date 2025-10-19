@@ -1,4 +1,4 @@
-package co.za.carrental.service.impl; // impl package for concrete implementations
+package co.za.carrental.service.impl;
 
 import co.za.carrental.domain.AdminLogin; // import entity
 import co.za.carrental.repository.AdminLoginRepository; // import repository
@@ -12,53 +12,53 @@ import java.nio.charset.StandardCharsets; // encoding
 import java.util.List; // return list of admins
 import java.util.Optional; // optional wrapper
 
-@Service // Spring will detect and register this as a service
+@Service
 public class AdminLoginServiceImpl implements IAdminLoginService {
 
-    private final AdminLoginRepository repository; // repository dependency
+    private final AdminLoginRepository repository;
 
-    @Autowired // Spring injects AdminLoginRepository bean
+    @Autowired
     public AdminLoginServiceImpl(AdminLoginRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public AdminLogin create(AdminLogin adminLogin) {
-        return repository.save(adminLogin); // save new admin to DB
+        return repository.save(adminLogin);
     }
 
     @Override
     public Optional<AdminLogin> read(String adminId) {
-        return repository.findById(adminId); // find by primary key
+        return repository.findById(adminId);
     }
 
     @Override
     public AdminLogin update(AdminLogin adminLogin) {
-        // save() will update if entity exists (same ID)
+
         return repository.save(adminLogin);
     }
 
     @Override
     public void delete(String adminId) {
-        repository.deleteById(adminId); // delete by primary key
+        repository.deleteById(adminId);
     }
 
     @Override
     public List<AdminLogin> getAll() {
-        return repository.findAll(); // return all rows
+        return repository.findAll();
     }
 
     @Override
     public Optional<AdminLogin> authenticate(String username, String rawPassword) {
-        // look up user by username
+
         Optional<AdminLogin> adminOpt = repository.findByUsername(username);
 
-        // check password match if user exists
+
         return adminOpt.filter(admin ->
                 admin.getPasswordHash().equals(hashPassword(rawPassword)));
     }
 
-    // Re-use same hashing as Factory
+
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

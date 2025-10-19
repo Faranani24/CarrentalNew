@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate; // Import the modern LocalDate
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -72,7 +72,7 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public Booking createFromRequest(BookingRequest request) {
-        // Use LocalDate.parse to directly convert the String dates
+
         LocalDate start = LocalDate.parse(request.getFrom());
         LocalDate end = LocalDate.parse(request.getTo());
 

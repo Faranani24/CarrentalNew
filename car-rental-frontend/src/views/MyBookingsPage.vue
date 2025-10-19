@@ -7,7 +7,7 @@ import { formatDate, formatRate } from '@/utils/format.js';
 const bookings = ref([]);
 const loading = ref(true);
 const error = ref(null);
-const cancelling = ref(null); // Track which booking is being cancelled
+const cancelling = ref(null);
 
 const fetchBookings = async () => {
   loading.value = true;
@@ -15,7 +15,7 @@ const fetchBookings = async () => {
 
   try {
     const data = await getAllBookings();
-    // Add image URLs to each booking's car
+
     bookings.value = (data || []).map(booking => ({
       ...booking,
       car: booking.car ? {
@@ -40,7 +40,7 @@ const handleCancelBooking = async (bookingId) => {
   try {
     await cancelBooking(bookingId);
 
-    // Update the booking in the list
+
     const booking = bookings.value.find(b => b.bookingId === bookingId);
     if (booking) {
       booking.status = 'CANCELLED';
@@ -91,13 +91,13 @@ onMounted(() => {
           <p class="text-center text-neutral-600">View and manage your car rental bookings</p>
         </div>
 
-        <!-- Loading State -->
+
         <div v-if="loading" class="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-lg">
           <div class="loader-spinner mb-4"></div>
           <p class="text-neutral-500">Loading your bookings...</p>
         </div>
 
-        <!-- Error State -->
+
         <div v-else-if="error" class="bg-rose-50 border border-rose-200 rounded-lg p-6 text-center shadow-md">
           <p class="text-rose-600 font-medium">{{ error }}</p>
           <button @click="fetchBookings" class="mt-4 px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition">
@@ -105,7 +105,7 @@ onMounted(() => {
           </button>
         </div>
 
-        <!-- Empty State -->
+
         <div v-else-if="bookings.length === 0" class="bg-white rounded-2xl shadow-xl p-12 text-center">
           <svg class="mx-auto h-24 w-24 text-neutral-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -117,16 +117,16 @@ onMounted(() => {
           </router-link>
         </div>
 
-        <!-- Bookings List -->
+
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
               v-for="booking in bookings"
               :key="booking.bookingId"
               class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
           >
-            <!-- Status Badge - Absolute positioned over image -->
+
             <div class="relative">
-              <!-- Car Image -->
+
               <div class="h-48 bg-gradient-to-br from-amber-100 to-orange-100 overflow-hidden">
                 <img
                     v-if="booking.car?.imageUrl"
@@ -142,7 +142,7 @@ onMounted(() => {
                 </div>
               </div>
 
-              <!-- Status Badge Overlay -->
+
               <div class="absolute top-3 right-3">
                 <span
                     :class="getStatusClass(booking.status)"
@@ -152,7 +152,7 @@ onMounted(() => {
                 </span>
               </div>
 
-              <!-- Booking ID -->
+
               <div class="absolute top-3 left-3">
                 <span class="px-3 py-1 rounded-full text-xs font-mono bg-black/50 text-white backdrop-blur-sm">
                   #{{ booking.bookingId }}
@@ -160,7 +160,7 @@ onMounted(() => {
               </div>
             </div>
 
-            <!-- Card Content -->
+
             <div class="p-6">
               <!-- Car Details -->
               <div class="mb-4">
@@ -172,7 +172,7 @@ onMounted(() => {
                 </p>
               </div>
 
-              <!-- Booking Dates -->
+
               <div class="border-t border-neutral-200 pt-4 mb-4">
                 <div class="flex items-center gap-2 text-sm text-neutral-600 mb-2">
                   <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -188,7 +188,7 @@ onMounted(() => {
                 </p>
               </div>
 
-              <!-- Price -->
+
               <div class="border-t border-neutral-200 pt-4 mb-4">
                 <div class="flex items-center justify-between">
                   <span class="text-sm text-neutral-600 font-medium">Total Cost</span>
@@ -198,7 +198,7 @@ onMounted(() => {
                 </div>
               </div>
 
-              <!-- Cancel Button -->
+
               <div v-if="canCancelBooking(booking.status)" class="border-t border-neutral-200 pt-4">
                 <button
                     @click="handleCancelBooking(booking.bookingId)"
@@ -214,12 +214,12 @@ onMounted(() => {
                 <p class="text-xs text-neutral-500 mt-2 text-center">Car will become available for other users</p>
               </div>
 
-              <!-- Cancelled Info -->
+
               <div v-else-if="booking.status === 'CANCELLED'" class="border-t border-neutral-200 pt-4">
                 <p class="text-sm text-rose-600 text-center font-medium">This booking has been cancelled</p>
               </div>
 
-              <!-- Completed Info -->
+
               <div v-else-if="booking.status === 'COMPLETED'" class="border-t border-neutral-200 pt-4">
                 <p class="text-sm text-green-600 text-center font-medium">This booking has been completed</p>
               </div>

@@ -24,7 +24,7 @@ public class Car {
     private int year;
     private String licensePlate;
 
-    // ADD THIS FIELD
+
     @Column(length = 1000)
     private String description;
 
@@ -69,7 +69,7 @@ public class Car {
         private String model;
         private int year;
         private String licensePlate;
-        private String description;  // ADD THIS
+        private String description;
         private Status status;
         private CarType carType;
         private BigDecimal dailyRate;
@@ -88,7 +88,7 @@ public class Car {
         public Car build() { return new Car(this); }
     }
 
-    // Getters / Setters
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -107,7 +107,7 @@ public class Car {
     public String getLicensePlate() { return licensePlate; }
     public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
 
-    // ADD GETTER AND SETTER FOR DESCRIPTION
+
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 

@@ -37,7 +37,7 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // ------------------- SIGNUP -------------------
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String, String> request) {
         try {
@@ -93,7 +93,7 @@ public class AuthController {
         }
     }
 
-    // ------------------- LOGIN -------------------
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> request) {
         String email = request.get("email");

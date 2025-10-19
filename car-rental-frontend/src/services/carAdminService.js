@@ -5,7 +5,7 @@ const api = axios.create({
     baseURL: 'http://localhost:8082/api',
 })
 
-// Add request interceptor to include JWT token
+
 api.interceptors.request.use(
     config => {
         const user = AuthService.getCurrentUser()
@@ -21,7 +21,7 @@ api.interceptors.request.use(
     }
 )
 
-// Add response interceptor for error handling
+
 api.interceptors.response.use(
     response => {
         console.log('[carAdminService] Response received:', response.status)

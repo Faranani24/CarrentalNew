@@ -2,7 +2,7 @@ import AuthService from './auth.js'
 
 const API_BASE_URL = 'http://localhost:8082/api'
 
-// Helper function to get auth headers
+
 function getAuthHeaders() {
     const user = AuthService.getCurrentUser()
     const headers = {
@@ -49,7 +49,7 @@ export const getAllBookings = async (userEmail = null) => {
     try {
         console.log('[bookingService] Fetching all bookings')
 
-        // Build URL with optional email parameter
+
         const url = new URL(`${API_BASE_URL}/bookings`)
         if (userEmail) {
             url.searchParams.append('email', userEmail)

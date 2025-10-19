@@ -25,7 +25,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         Customer customer = customerRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
 
-        // Convert role to Spring Security authority format (ROLE_ADMIN, ROLE_CUSTOMER)
+
         String role = customer.getRole() != null ? customer.getRole() : "CUSTOMER";
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
 

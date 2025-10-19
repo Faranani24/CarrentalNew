@@ -79,7 +79,7 @@ public class BookingController {
 
             Booking booking = bookingOpt.get();
 
-            // Check if booking can be cancelled
+
             if (booking.getStatus() == BookingStatus.CANCELLED) {
                 return ResponseEntity.badRequest().body("Booking is already cancelled");
             }
@@ -88,7 +88,7 @@ public class BookingController {
                 return ResponseEntity.badRequest().body("Cannot cancel a completed booking");
             }
 
-            // Update booking status to CANCELLED
+
             booking.setStatus(BookingStatus.CANCELLED);
             Booking updatedBooking = bookingService.update(booking);
 

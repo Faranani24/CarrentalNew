@@ -1,4 +1,4 @@
-package co.za.carrental.factory; // package for factories — they create domain objects in a controlled way
+package co.za.carrental.factory;
 
 import co.za.carrental.domain.AdminLogin; // import the entity we're building
 import java.util.UUID; // used to generate unique IDs
@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets; // character encoding for hashing
 
 public class AdminLoginFactory { // Factory class for creating AdminLogin instances
 
-    // Private constructor to prevent instantiation of this factory (static methods only)
+
     private AdminLoginFactory() {
     }
 
@@ -23,11 +23,11 @@ public class AdminLoginFactory { // Factory class for creating AdminLogin instan
      * @return AdminLogin instance with UUID and hashed password
      */
     public static AdminLogin createAdminLogin(String username, String email, String rawPassword, String role) {
-        String adminId = UUID.randomUUID().toString(); // generate unique ID
+        String adminId = UUID.randomUUID().toString();
 
-        String passwordHash = hashPassword(rawPassword); // hash raw password before storing
+        String passwordHash = hashPassword(rawPassword);
 
-        // return a new AdminLogin entity with populated fields
+
         return new AdminLogin(adminId, username, email, passwordHash, role);
     }
 
@@ -55,12 +55,12 @@ public class AdminLoginFactory { // Factory class for creating AdminLogin instan
      * @return hex string
      */
     private static String bytesToHex(byte[] hash) {
-        StringBuilder hexString = new StringBuilder(); // builder for efficiency
-        for (byte b : hash) { // loop through bytes
-            String hex = Integer.toHexString(0xff & b); // convert to hex
-            if (hex.length() == 1) hexString.append('0'); // pad if needed
-            hexString.append(hex); // append to result
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
         }
-        return hexString.toString(); // return final string
+        return hexString.toString();
     }
 }

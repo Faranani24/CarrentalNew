@@ -8,10 +8,10 @@ public class BookingResponse {
     private Float totalCost;
     private String status;
 
-    // Default constructor (needed by Jackson)
+
     public BookingResponse() {}
 
-    // Convenience constructor
+
     public BookingResponse(String bookingId, String startDate, String endDate, Float totalCost, String status) {
         this.bookingId = bookingId;
         this.startDate = startDate;
@@ -20,7 +20,7 @@ public class BookingResponse {
         this.status = status;
     }
 
-    // Getters and setters
+
     public String getBookingId() { return bookingId; }
     public void setBookingId(String bookingId) { this.bookingId = bookingId; }
 

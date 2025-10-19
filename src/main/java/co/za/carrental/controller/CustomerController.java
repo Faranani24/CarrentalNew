@@ -1,5 +1,3 @@
-// File: src/main/java/co/za/carrental/controller/CustomerController.java
-
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.Customer;
@@ -24,7 +22,7 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        // Use the factory to create a new customer object with an auto-generated ID
+
         Customer newCustomer = CustomerFactory.buildCustomer(
                 customer.getFirstName(),
                 customer.getLastName(),

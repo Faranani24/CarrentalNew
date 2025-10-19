@@ -17,7 +17,7 @@ const startDate = ref('')
 const endDate = ref('')
 const filtered = ref(false)
 
-// Track which car's description is expanded
+
 const expandedDescriptions = ref(new Set())
 
 const initAuth = () => {
@@ -110,7 +110,7 @@ function arrayBufferToBase64(buffer) {
 
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
-    <!-- HERO / SEARCH -->
+
     <section class="relative flex items-center min-h-[70vh] overflow-hidden">
       <div class="absolute inset-0">
         <img
@@ -126,7 +126,7 @@ function arrayBufferToBase64(buffer) {
           Find Your Perfect Ride
         </h1>
 
-        <!-- Search Card -->
+
         <div class="inline-block backdrop-blur-md bg-white/70 rounded-xl p-4 shadow-lg border border-white/30 animate-fade-in">
           <div class="flex flex-col md:flex-row items-center gap-4">
             <input type="date" v-model="startDate" class="px-4 py-2 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
@@ -139,7 +139,7 @@ function arrayBufferToBase64(buffer) {
       </div>
     </section>
 
-    <!-- AVAILABLE CARS -->
+
     <main class="relative z-10 flex-1 w-full py-12">
       <div class="mx-auto max-w-6xl px-6">
         <section class="mt-16">
@@ -193,7 +193,7 @@ function arrayBufferToBase64(buffer) {
                     {{ car.description || 'No description available' }}
                   </p>
 
-                  <!-- Show "Read More/Less" button only if description is long -->
+
                   <button
                       v-if="isDescriptionLong(car.description)"
                       @click="toggleDescription(car.carId)"
@@ -208,7 +208,7 @@ function arrayBufferToBase64(buffer) {
                     {{ formatRate(car.dailyRate) }}
                   </p>
 
-                  <!-- Show Book Now button if authenticated, otherwise show Login prompt -->
+
                   <button
                       v-if="isAuthenticated"
                       @click="goToBooking(car.carId)"
@@ -394,7 +394,7 @@ function arrayBufferToBase64(buffer) {
 .car-card:nth-child(5) { animation-delay: 0.25s; }
 .car-card:nth-child(6) { animation-delay: 0.3s; }
 
-/* Line clamp utility for description truncation */
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

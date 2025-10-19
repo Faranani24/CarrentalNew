@@ -150,10 +150,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-/*
-  Remember to copy the shared Tailwind CSS animations/utilities
-  from your other files here.
-*/
+
 .loader.spinner {
   border: 3px solid rgba(0,0,0,0.15);
   border-top-color: #f59e0b;

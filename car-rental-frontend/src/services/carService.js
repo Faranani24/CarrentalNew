@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:8082/api/cars'
 
-// Create axios instance with CORS configuration
+
 const axiosInstance = axios.create({
     baseURL: API_URL,
     headers: {
@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
     withCredentials: false // Important for CORS
 })
 
-// Add request interceptor for debugging
+
 axiosInstance.interceptors.request.use(
     config => {
         console.log('[carService] Request:', config.method.toUpperCase(), config.url)
@@ -23,7 +23,7 @@ axiosInstance.interceptors.request.use(
     }
 )
 
-// Add response interceptor for debugging
+
 axiosInstance.interceptors.response.use(
     response => {
         console.log('[carService] Response status:', response.status)
@@ -73,13 +73,13 @@ export async function fetchAvailableCars(startDate, endDate) {
         console.error('Error fetching available cars:', error.message)
 
         if (error.response) {
-            // Server responded with error status
+
             throw new Error(error.response.data?.message || `Server error: ${error.response.status}`)
         } else if (error.request) {
-            // Request was made but no response received
+
             throw new Error('No response from server. Check if backend is running on port 8082')
         } else {
-            // Error in request setup
+
             throw new Error(error.message)
         }
     }

@@ -13,7 +13,7 @@ const routes = [
     { path: '/login', name: 'login', component: LoginPage },
     { path: '/signup', name: 'signup', component: SignupPage },
 
-    // My Bookings - view all user bookings
+
     {
         path: '/bookings',
         name: 'my-bookings',
@@ -21,7 +21,7 @@ const routes = [
         meta: { requiresAuth: true }
     },
 
-    // Create new booking for a specific car
+
     { path: '/booking/:carId', name: 'booking', component: BookingPage, props: true, meta: { requiresAuth: true } },
 
     { path: '/cars', redirect: '/' },
@@ -36,7 +36,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const currentUser = AuthService.getCurrentUser();
 
-    // Check if route requires authentication
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!currentUser) {
             next({
@@ -47,7 +47,7 @@ router.beforeEach((to, from, next) => {
         }
     }
 
-    // Check if route requires admin privileges
+
     if (to.matched.some(record => record.meta.requiresAdmin)) {
         if (!currentUser) {
             next({

@@ -21,7 +21,7 @@ const isAdmin = computed(() => {
 const router = useRouter()
 
 const initAuth = () => {
-  // Get the current user from localStorage
+
   const user = authService.getCurrentUser()
   currentUser.value = user
   console.log('[App.vue] initAuth - User loaded:', user)
@@ -36,12 +36,12 @@ const handleLogout = () => {
   router.push('/login')
 }
 
-// Initialize auth on mount
+
 onMounted(() => {
   initAuth()
 })
 
-// Watch for storage changes (in case user logs in/out in another tab)
+
 if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => {
     if (e.key === 'user') {
@@ -53,7 +53,7 @@ if (typeof window !== 'undefined') {
 
 <template>
   <div class="min-h-screen flex flex-col bg-gradient-to-b from-amber-50 via-white to-neutral-100 text-neutral-900">
-    <!-- NAV -->
+
     <nav class="relative z-30 backdrop-blur-md/40 bg-white/70 border-b border-amber-200/60 shadow-sm">
       <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
         <router-link to="/">
@@ -67,10 +67,10 @@ if (typeof window !== 'undefined') {
           </div>
         </router-link>
 
-        <!-- Navigation Menu -->
+
         <div class="flex items-center gap-4">
           <template v-if="isAuthenticated">
-            <!-- Authenticated Navigation -->
+
             <span class="text-neutral-700 text-sm">
               Welcome, {{ currentUser.firstName || currentUser.username || 'User' }}!
             </span>
@@ -89,7 +89,7 @@ if (typeof window !== 'undefined') {
           </template>
 
           <template v-else>
-            <!-- Guest Navigation -->
+
             <router-link to="/login" class="text-neutral-900 font-semibold hover:text-orange-500 transition">Login</router-link>
             <router-link to="/signup" class="px-4 py-2 rounded-lg font-semibold tracking-wide bg-gradient-to-r from-amber-400 to-orange-500 text-gray-900 shadow-lg hover:scale-[1.01] active:scale-[0.98] transition">Sign Up</router-link>
           </template>
@@ -99,7 +99,7 @@ if (typeof window !== 'undefined') {
     <main class="flex-1">
       <router-view @login="initAuth" />
     </main>
-    <!-- FOOTER -->
+
     <footer class="relative z-10 border-t border-amber-200/70 bg-white/80 backdrop-blur text-center py-6 text-sm text-neutral-600">
       <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <span>© 2025 CarRental</span>
@@ -110,7 +110,7 @@ if (typeof window !== 'undefined') {
 </template>
 
 <style>
-/* You may need to define these styles elsewhere */
+
 .animate-fade-in { animation: fadeIn 0.8s ease-in-out both; }
 @keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 

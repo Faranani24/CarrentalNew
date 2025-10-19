@@ -1,4 +1,4 @@
-//
+
 package co.za.carrental.controller;
 
 import co.za.carrental.domain.Review;
@@ -71,7 +71,7 @@ class ReviewControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Updated comment", response.getBody().getComment());
 
-        // Verify the change in the database
+
         assertEquals("Updated comment", reviewRepository.findById(testReview.getReviewId()).get().getComment());
     }
 
@@ -79,7 +79,7 @@ class ReviewControllerTest {
     void delete_shouldDeleteReview() {
         reviewController.deleteReview(testReview.getReviewId());
 
-        // Verify the review is deleted from the database
+
         assertEquals(0, reviewRepository.count());
     }
 

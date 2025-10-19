@@ -24,11 +24,11 @@ public class BookingRequest {
 
     private String phone;
 
-    // ADDED: The totalCost field to match the frontend
+
     @NotNull(message = "Total cost is required")
     private double totalCost;
 
-    // Constructors
+
     public BookingRequest() {}
 
     public BookingRequest(String carId, String from, String to, String fullName, String email, String phone, double totalCost) {
@@ -41,7 +41,7 @@ public class BookingRequest {
         this.totalCost = totalCost;
     }
 
-    // Getters and Setters
+
     public String getCarId() {
         return carId;
     }
@@ -90,7 +90,7 @@ public class BookingRequest {
         this.phone = phone;
     }
 
-    // ADDED: Getter and Setter for totalCost
+
     public double getTotalCost() {
         return totalCost;
     }

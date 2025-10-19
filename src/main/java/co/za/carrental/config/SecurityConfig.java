@@ -63,25 +63,25 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints - no authentication required
+
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/health").permitAll()
                         .requestMatchers("/api/cars/**").permitAll()
                         .requestMatchers("/api/cartypes/**").permitAll()
 
-                        // Admin-only endpoints
+
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/admin-login/**").hasRole("ADMIN")
                         .requestMatchers("/api/adminportal/**").hasRole("ADMIN")
 
-                        // Protected endpoints - require authentication
+
                         .requestMatchers("/api/bookings/**").authenticated()
                         .requestMatchers("/api/customers/**").authenticated()
 
-                        // All other requests require authentication
+
                         .anyRequest().authenticated()
                 )
-                // Add JWT filter before Spring Security's authentication filter
+
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

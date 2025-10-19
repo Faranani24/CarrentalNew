@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // Tells Spring this handles REST endpoints
-@RequestMapping("/api/adminportal") // Base URL for all endpoints here
+@RestController
+@RequestMapping("/api/adminportal")
 public class AdminPortalController {
 
     private final IAdminPortalService portalService;
@@ -17,30 +17,30 @@ public class AdminPortalController {
         this.portalService = portalService;
     }
 
-    @PostMapping // POST /api/adminportal
+    @PostMapping
     public ResponseEntity<AdminPortal> create(@RequestBody AdminPortal portal) {
         return ResponseEntity.ok(portalService.create(portal));
     }
 
-    @GetMapping("/{id}") // GET /api/adminportal/{id}
+    @GetMapping("/{id}")
     public ResponseEntity<AdminPortal> read(@PathVariable String id) {
         return portalService.read(id)
-                .map(ResponseEntity::ok) // if present, return 200
-                .orElse(ResponseEntity.notFound().build()); // if not found, 404
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}") // PUT /api/adminportal/{id}
+    @PutMapping("/{id}")
     public ResponseEntity<AdminPortal> update(@PathVariable String id, @RequestBody AdminPortal portal) {
         return ResponseEntity.ok(portalService.update(portal));
     }
 
-    @DeleteMapping("/{id}") // DELETE /api/adminportal/{id}
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         portalService.delete(id);
-        return ResponseEntity.noContent().build(); // Return 204
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping // GET /api/adminportal
+    @GetMapping
     public ResponseEntity<List<AdminPortal>> getAll() {
         return ResponseEntity.ok(portalService.getAll());
     }

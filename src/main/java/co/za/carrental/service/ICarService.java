@@ -12,6 +12,6 @@ public interface ICarService {
     void deleteByCarId(String carId);
     List<Car> getAll();
 
-    // Use LocalDate instead of String
+
     List<Car> getAvailableCars(LocalDate startDate, LocalDate endDate);
 }
