@@ -17,6 +17,9 @@ const startDate = ref('')
 const endDate = ref('')
 const filtered = ref(false)
 
+// Track which car's description is expanded
+const expandedDescriptions = ref(new Set())
+
 const initAuth = () => {
   currentUser.value = authService.getCurrentUser()
   console.log('HomePage - Current user:', currentUser.value)
@@ -65,6 +68,24 @@ const handleLogout = () => {
   authService.logout()
   currentUser.value = null
   console.log('User logged out')
+}
+
+const toggleDescription = (carId) => {
+  if (expandedDescriptions.value.has(carId)) {
+    expandedDescriptions.value.delete(carId)
+  } else {
+    expandedDescriptions.value.add(carId)
+  }
+  // Force reactivity
+  expandedDescriptions.value = new Set(expandedDescriptions.value)
+}
+
+const isDescriptionExpanded = (carId) => {
+  return expandedDescriptions.value.has(carId)
+}
+
+const isDescriptionLong = (description) => {
+  return description && description.length > 100
 }
 
 onMounted(() => {
@@ -161,10 +182,26 @@ function arrayBufferToBase64(buffer) {
                   {{ car.make }} {{ car.model }} ({{ car.year }})
                 </h3>
 
-                <!-- Description with ellipsis for long text -->
-                <p class="text-xs text-neutral-500 mb-4 line-clamp-2 min-h-[2.5rem]">
-                  {{ car.description || 'No description available' }}
-                </p>
+                <!-- Description with expand/collapse -->
+                <div class="relative mb-4">
+                  <p
+                      :class="[
+                      'text-xs text-neutral-500 transition-all duration-300',
+                      isDescriptionExpanded(car.carId) ? '' : 'line-clamp-2 min-h-[2.5rem]'
+                    ]"
+                  >
+                    {{ car.description || 'No description available' }}
+                  </p>
+
+                  <!-- Show "Read More/Less" button only if description is long -->
+                  <button
+                      v-if="isDescriptionLong(car.description)"
+                      @click="toggleDescription(car.carId)"
+                      class="text-xs text-amber-600 hover:text-amber-700 font-medium mt-1 focus:outline-none"
+                  >
+                    {{ isDescriptionExpanded(car.carId) ? 'Show Less' : 'Read More' }}
+                  </button>
+                </div>
 
                 <div class="mt-auto mb-4">
                   <p class="mb-4 text-2xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
