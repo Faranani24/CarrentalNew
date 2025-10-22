@@ -23,13 +23,13 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+        // FIX: Added "USER" as the default role argument, aligning with the updated CustomerFactory
         Customer newCustomer = CustomerFactory.buildCustomer(
                 customer.getFirstName(),
                 customer.getLastName(),
                 customer.getEmail(),
                 customer.getPassword(),
-                customer.getPhone(),
-                customer.getLicense()
+                "USER"
         );
 
         Customer saved = customerService.save(newCustomer);
@@ -92,8 +92,6 @@ public class CustomerController {
                 .setLastName(customer.getLastName())
                 .setEmail(customer.getEmail())
                 .setPassword(customer.getPassword())
-                .setPhone(customer.getPhone())
-                .setLicense(customer.getLicense())
                 .setRole(existing.get().getRole()) // Preserve existing role
                 .build();
 

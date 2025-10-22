@@ -10,12 +10,11 @@ public class CustomerFactory {
             String lastName,
             String email,
             String password,
-            String phone,
-            String licenseNumber
+            String role // Added 'role' parameter to support the CustomerController logic
     ) {
 
-        if (firstName == null || lastName == null || email == null || password == null ||
-                phone == null || licenseNumber == null) {
+        // Validate all required fields, including the new 'role'
+        if (firstName == null || lastName == null || email == null || password == null || role == null) {
             throw new IllegalArgumentException("One or more required fields are null or empty");
         }
 
@@ -28,8 +27,7 @@ public class CustomerFactory {
                 .setLastName(lastName)
                 .setEmail(email)
                 .setPassword(password)
-                .setPhone(phone)
-                .setLicense(licenseNumber)
+                .setRole(role) // Set the role
                 .build();
     }
 }

@@ -6,6 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="5e8b45f6-1c23-478d-b8ea-de82eaad98f1" name="Changes" comment="Final commits">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car-rental-frontend/src/views/SignupPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/car-rental-frontend/src/views/SignupPage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/domain/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/CustomerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/factory/CustomerFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/BookingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/za/carrental/service/impl/BookingServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +248,11 @@
       <workItem from="1760466244873" duration="480000" />
       <workItem from="1760472081606" duration="9062000" />
       <workItem from="1760862392700" duration="2706000" />
-      <workItem from="1760896813320" duration="7476000" />
+      <workItem from="1760896813320" duration="9731000" />
+      <workItem from="1760972171267" duration="762000" />
+      <workItem from="1761046865024" duration="5000" />
+      <workItem from="1761078787420" duration="717000" />
+      <workItem from="1761145927826" duration="4343000" />
     </task>
     <task id="LOCAL-00001" summary="Final Customer and Booking Front end commite">
       <option name="closed" value="true" />
@@ -355,7 +366,23 @@
       <option name="project" value="LOCAL" />
       <updated>1760903289431</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Final commits">
+      <option name="closed" value="true" />
+      <created>1760904981751</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1760904981751</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Final commits">
+      <option name="closed" value="true" />
+      <created>1760912278223</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1760912278223</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

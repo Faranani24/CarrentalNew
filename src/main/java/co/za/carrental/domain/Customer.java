@@ -28,11 +28,6 @@ public class Customer {
     @JsonIgnore
     private String password;
 
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "license")
-    private String license;
 
     @Column(name = "role")
     private String role = "CUSTOMER";
@@ -45,8 +40,6 @@ public class Customer {
         this.lastName = builder.lastName != null ? builder.lastName : "";
         this.email = builder.email;
         this.password = builder.password;
-        this.phone = builder.phone != null ? builder.phone : "";
-        this.license = builder.license != null ? builder.license : "";
         this.role = builder.role != null ? builder.role : "CUSTOMER";
     }
 
@@ -69,14 +62,6 @@ public class Customer {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getLicense() {
-        return license;
     }
 
     public String getRole() {
@@ -107,8 +92,6 @@ public class Customer {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", license='" + license + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }
@@ -148,15 +131,6 @@ public class Customer {
             return this;
         }
 
-        public Builder setPhone(String phone) {
-            this.phone = phone;
-            return this;
-        }
-
-        public Builder setLicense(String license) {
-            this.license = license;
-            return this;
-        }
 
         public Builder setRole(String role) {
             this.role = role;

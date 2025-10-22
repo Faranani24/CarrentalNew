@@ -110,7 +110,6 @@ public class BookingServiceImpl implements IBookingService {
                     .setFirstName(first)
                     .setLastName(last)
                     .setEmail(email)
-                    .setPhone(phone)
                     .build();
             return customerRepository.save(c);
         });

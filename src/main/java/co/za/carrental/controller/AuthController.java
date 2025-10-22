@@ -71,8 +71,6 @@ public class AuthController {
                     .setLastName(request.getOrDefault("lastName", ""))
                     .setEmail(email)
                     .setPassword(passwordEncoder.encode(plainPassword))
-                    .setPhone(request.getOrDefault("phone", ""))
-                    .setLicense(request.getOrDefault("license", ""))
                     .setRole(role)
                     .build();
 
